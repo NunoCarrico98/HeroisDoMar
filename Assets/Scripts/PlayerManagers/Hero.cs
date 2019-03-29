@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Hero : MonoBehaviour
 {
-    private float health;
+    [SerializeField] private float maximumHealth;
+
+    private HealthBar healthBar;
+
+    private float currentHealth;
 
     [Header("0 = Melee | 1 = Range")]
     [SerializeField] private Collider[] attackWeapon;
@@ -12,7 +16,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = 100f;
+        healthBar = GetComponent<HealthBar>();
+        healthBar.MaximumHealth = maximumHealth;
     }
 
     private void Update()
@@ -41,11 +46,21 @@ public class Player : MonoBehaviour
         foreach (Collider c in enemyCols)
         {
             // Ignore our own body
-            if (c.transform.root == transform)
+            if (c.transform == transform)
                 continue;
             // Attack
             else
-                Debug.Log($"I've hit the {c.name}");
+                ApplyDamage(c);
         }
+    }
+
+    private void ApplyDamage(Collider col)
+    {
+        Debug.Log($"I've hit the {col.name}");
+        //Hero enemy = col.gameObject.GetComponent<Hero>();
+        //enemy.currentHealth -= 10f;
+        //enemy.healthBar.SetHealthbarSize(10f);
+
+        col.SendMessageUpwards("SetHealthbarSize", 10f);
     }
 }
