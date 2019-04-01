@@ -11,10 +11,10 @@ public abstract class Hero : MonoBehaviour
     private float currentHealth;
 
     // Input
-    private bool isL1InUse;
-    private bool isL2InUse;
-    private bool isR1InUse;
-    private bool isR2InUse;
+    protected bool isL1InUse;
+    protected bool isL2InUse;
+    protected bool isR1InUse;
+    protected bool isR2InUse;
 
     [Header("Weapons")]
     [SerializeField] protected Collider meleeWeapon;
@@ -39,34 +39,34 @@ public abstract class Hero : MonoBehaviour
 
     private void Update()
     {
-        LaunchAttack();
+        GetInput();
     }
 
-    private void LaunchAttack()
+    private void FixedUpdate()
+    {
+        if (isR1InUse) MeleeAttack();
+        else if (isL1InUse) RangeAttack();
+    }
+
+    private void GetInput()
     {
         if (Input.GetAxis("Melee") != 0)
         {
             if (!isR1InUse)
             {
                 Debug.Log("Melee");
-                MeleeAttack();
                 isR1InUse = true;
             }
         }
-        else
-            isR1InUse = false;
 
         if (Input.GetAxis("Range") != 0)
         {
             if (!isL1InUse)
             {
                 Debug.Log("Range");
-                RangeAttack();
                 isL1InUse = true;
             }
         }
-        else
-            isL1InUse = false;
     }
 
     protected void Attack(Collider col)

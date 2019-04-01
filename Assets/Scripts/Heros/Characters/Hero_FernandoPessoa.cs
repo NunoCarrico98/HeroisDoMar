@@ -11,39 +11,54 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float maxRangeDistance;
     [SerializeField] private float rangedAttackSpeed;
 
+    private float timeElapsed;
+
+    private void Start()
+    {
+        timeElapsed = 0;
+    }
+
     protected override void MeleeAttack()
     {
-        Attack(meleeWeapon);
-        StartCoroutine(SwingSword
-            (meleeWeapon.transform.position + new Vector3(0, 0, maxMeleeDistance)));
+        Vector3 startingPos = meleeWeapon.transform.localPosition;
+
+        meleeWeapon.transform.localPosition 
+            = Vector3.Lerp(startingPos, startingPos += new Vector3(0, 0, maxMeleeDistance), meleeAttackSpeed * Time.deltaTime);
+
+        timeElapsed += Time.deltaTime;
+        if (timeElapsed >= meleeAttackSpeed)
+        {
+            isR1InUse = false;
+            timeElapsed = 0;
+        }
+
+        //StartCoroutine(SwingSword());
     }
 
     protected override void RangeAttack()
     {
-        Attack(rangeWeapon);
     }
 
     protected override void RegularAbility()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void UltimateAbility()
     {
-        throw new System.NotImplementedException();
     }
 
     // NEED TO FIX DIS SHIT
-    IEnumerator SwingSword(Vector3 endPos)
+    IEnumerator SwingSword()
     {
         float elapsedTime = 0;
-        Vector3 startingPos = meleeWeapon.transform.position;
+        Vector3 startingPos = meleeWeapon.transform.localPosition;
 
         while (elapsedTime < meleeAttackSpeed)
         {
             elapsedTime += Time.deltaTime;
-            meleeWeapon.transform.position = Vector3.Lerp(startingPos, endPos, meleeAttackSpeed);
-            yield return null;
+            //meleeWeapon.transform.Translate(new Vector3(0, 0, maxMeleeDistance) * meleeAttackSpeed * Time.deltaTime);
+            meleeWeapon.transform.localPosition = Vector3.Lerp(startingPos, startingPos += new Vector3(0, 0, maxMeleeDistance), meleeAttackSpeed);
+            yield return new WaitForEndOfFrame();
         }
     }
 }
