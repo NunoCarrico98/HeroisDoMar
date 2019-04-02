@@ -9,7 +9,8 @@ public class CharacterMovement : MonoBehaviour
 
     private float angle;
     private Quaternion targetRotation;
-    private Vector2 input;
+    private Vector2 positionInput;
+    private Vector2 rotationInput;
     private Vector3 movement;
     private CharacterController charController;
     private Animator charAnimator;
@@ -29,41 +30,54 @@ public class CharacterMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        GetInput();
+        GetPositionInput();
+        GetRotationInput();
 
-        if (input.x != 0 || input.y != 0)
+        if (positionInput.x != 0 || positionInput.y != 0)
         {
+            Debug.Log("am here 1");
             isRunning = true;
-            CalculateRotationAngle();
-            UpdateRotation();
-            UpdatePosition();
+            UpdatePosition(new Vector3(positionInput.x, 0, positionInput.y));
         }
         else
         {
             isRunning = false;
         }
+
+        if (rotationInput.x != 0 || rotationInput.y != 0)
+        {
+            Debug.Log("am here");
+            CalculateRotationAngle();
+            UpdateRotation(new Vector3(rotationInput.x, 0, rotationInput.y));
+        }
     }
 
-    private void GetInput()
+    private void GetPositionInput()
     {
-        input.x = Input.GetAxisRaw("Horizontal");
-        input.y = Input.GetAxisRaw("Vertical");
+        positionInput.x = Input.GetAxisRaw("Horizontal");
+        positionInput.y = Input.GetAxisRaw("Vertical");
+    }
+
+    private void GetRotationInput()
+    {
+        rotationInput.x = Input.GetAxisRaw("RightHorizontal");
+        rotationInput.y = Input.GetAxisRaw("RightVertical");
     }
 
     private void CalculateRotationAngle()
     {
-        angle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg;
+        angle = Mathf.Atan2(rotationInput.x, rotationInput.y) * Mathf.Rad2Deg;
     }
 
-    private void UpdateRotation()
+    private void UpdateRotation(Vector3 lookDirectionInput)
     {
         targetRotation = Quaternion.Euler(0, angle, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.fixedDeltaTime);
     }
 
-    private void UpdatePosition()
+    private void UpdatePosition(Vector3 moveInput)
     {
-        charController.Move(transform.forward * movementSpeed * Time.fixedDeltaTime);
+        charController.Move(moveInput * movementSpeed * Time.fixedDeltaTime);
     }
 
     private void PlayAnimation(string name, bool condition)
