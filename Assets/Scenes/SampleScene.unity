@@ -301,10 +301,10 @@ MonoBehaviour:
   maximumHealth: 100
   meleeWeapon: {fileID: 1695919806}
   rangeWeapon: {fileID: 1183167007}
-  maxMeleeDistance: 1
-  meleeAttackSpeed: 3
-  maxRangeDistance: 0
-  rangedAttackSpeed: 0
+  maxMeleeDistance: 0.7
+  meleeAttackSpeed: 0.15
+  maxRangeDistance: 5
+  rangedAttackSpeed: 0.2
 --- !u!114 &123712519
 MonoBehaviour:
   m_ObjectHideFlags: 0
