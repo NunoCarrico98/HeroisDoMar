@@ -26,10 +26,12 @@ public abstract class Hero : MonoBehaviour
     protected abstract void UltimateAbility();
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
+        Debug.Log($"oi {maximumHealth}");
         healthBar = GetComponent<HealthBar>();
         healthBar.MaximumHealth = maximumHealth;
+        healthBar.Health = maximumHealth;
 
         isL1InUse = false;
         isL2InUse = false;
@@ -44,8 +46,16 @@ public abstract class Hero : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isR1InUse) MeleeAttack();
-        else if (isL1InUse) RangeAttack();
+        if (isR1InUse)
+        {
+            MeleeAttack();
+            DetectAttackCollision(meleeWeapon);
+        }
+        else if (isL1InUse)
+        {
+            RangeAttack();
+            DetectAttackCollision(rangeWeapon);
+        }
     }
 
     private void GetInput()
@@ -69,7 +79,7 @@ public abstract class Hero : MonoBehaviour
         }
     }
 
-    protected void Attack(Collider col)
+    protected void DetectAttackCollision(Collider col)
     {
         /* Return all colliders that are overlapping our attacking collider
          * and have a HitBox layer mask */

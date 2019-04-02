@@ -6,14 +6,17 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour
 {
     public float MaximumHealth { get; set; }
+    public float Health { get; set; }
 
     [SerializeField] private Image healthBar;
 
-    private float maximumHealth;
-
     public void SetHealthbarSize(float damage)
     {
-        float ratio = healthBar.rectTransform.localScale.x - damage / MaximumHealth;
+        Health -= damage;
+        Debug.Log(MaximumHealth);
+        Debug.Log(Health);
+        float ratio = Health / MaximumHealth;
         healthBar.rectTransform.localScale = new Vector3(ratio, 1, 1);
+        Debug.Log(ratio);
     }
 }

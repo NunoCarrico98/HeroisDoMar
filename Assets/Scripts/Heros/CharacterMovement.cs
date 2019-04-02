@@ -35,7 +35,6 @@ public class CharacterMovement : MonoBehaviour
 
         if (positionInput.x != 0 || positionInput.y != 0)
         {
-            Debug.Log("am here 1");
             isRunning = true;
             UpdatePosition(new Vector3(positionInput.x, 0, positionInput.y));
         }
@@ -46,7 +45,6 @@ public class CharacterMovement : MonoBehaviour
 
         if (rotationInput.x != 0 || rotationInput.y != 0)
         {
-            Debug.Log("am here");
             CalculateRotationAngle();
             UpdateRotation(new Vector3(rotationInput.x, 0, rotationInput.y));
         }

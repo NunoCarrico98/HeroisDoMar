@@ -17,8 +17,9 @@ public class Hero_FernandoPessoa : Hero
     private float timeElapsed;
     private bool attackDistanceFlag;
 
-    private void Start()
+    private new void Start()
     {
+        base.Start();
         timeElapsed = 0;
         attackDistanceFlag = false;
     }
