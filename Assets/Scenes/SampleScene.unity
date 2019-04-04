@@ -267,6 +267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25d6daf56af0c84abd5062d764f592d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPositionHorizontal: P1 Position Horizontal
+  playerPositionVertical: P1 Position Vertical
+  playerRotationHorizontal: P1 Rotation Horizontal
+  playerRotationVertical: P1 Rotation Vertical
   movementSpeed: 6
   turnSpeed: 15
 --- !u!143 &123712516
@@ -299,6 +303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5539b58299a57f542977ca62875966ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMelee: P1 Melee
+  playerRanged: P1 Ranged
   maximumHealth: 100
   meleeWeapon: {fileID: 1695919806}
   rangeWeapon: {fileID: 1183167007}
@@ -1390,6 +1396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5539b58299a57f542977ca62875966ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMelee: P2 Melee
+  playerRanged: P2 Ranged
   maximumHealth: 100
   meleeWeapon: {fileID: 334542672}
   rangeWeapon: {fileID: 1440392291}
@@ -1404,11 +1412,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197649097}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e25d6daf56af0c84abd5062d764f592d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPositionHorizontal: P2 Position Horizontal
+  playerPositionVertical: P2 Position Vertical
+  playerRotationHorizontal: P2 Rotation Horizontal
+  playerRotationVertical: P2 Rotation Vertical
   movementSpeed: 6
   turnSpeed: 15
 --- !u!143 &1197649101

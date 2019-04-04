@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    [Header("Player Movement and Rotation Axis")]
+    [Tooltip("Syntax: P(number) Position Horizontal")]
+    [SerializeField] private string playerPositionHorizontal;
+    [Tooltip("Syntax: P(number) Position Vertical")]
+    [SerializeField] private string playerPositionVertical;
+    [Tooltip("Syntax: P(number) Rotation Horizontal")]
+    [SerializeField] private string playerRotationHorizontal;
+    [Tooltip("Syntax: P(number) Rotation Vertical")]
+    [SerializeField] private string playerRotationVertical;
+
+    [Header("Movement values")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private float turnSpeed;
 
@@ -52,14 +63,14 @@ public class CharacterMovement : MonoBehaviour
 
     private void GetPositionInput()
     {
-        positionInput.x = Input.GetAxisRaw("Horizontal");
-        positionInput.y = Input.GetAxisRaw("Vertical");
+        positionInput.x = Input.GetAxisRaw(playerPositionHorizontal);
+        positionInput.y = Input.GetAxisRaw(playerPositionVertical);
     }
 
     private void GetRotationInput()
     {
-        rotationInput.x = Input.GetAxisRaw("RightHorizontal");
-        rotationInput.y = Input.GetAxisRaw("RightVertical");
+        rotationInput.x = Input.GetAxisRaw(playerRotationHorizontal);
+        rotationInput.y = Input.GetAxisRaw(playerRotationVertical);
     }
 
     private void CalculateRotationAngle()

@@ -4,6 +4,13 @@ using UnityEngine;
 
 public abstract class Hero : MonoBehaviour
 {
+    [Header("Player Attack Axis")]
+    [Tooltip("Syntax: P(number) Melee")]
+    [SerializeField] private string playerMelee;
+    [Tooltip("Syntax: P(number) Ranged")]
+    [SerializeField] private string playerRanged;
+
+    [Header("Maximum Health")]
     [SerializeField] private float maximumHealth;
 
     private HealthBar healthBar;
@@ -60,7 +67,8 @@ public abstract class Hero : MonoBehaviour
 
     private void GetInput()
     {
-        if (Input.GetAxis("Melee") != 0)
+        //if (Input.GetAxisRaw(playerMelee) != 0)
+        if (Input.GetButtonDown(playerMelee))
         {
             if (!isR1InUse)
             {
@@ -69,7 +77,8 @@ public abstract class Hero : MonoBehaviour
             }
         }
 
-        if (Input.GetAxis("Range") != 0)
+        //if (Input.GetAxisRaw(playerRanged) != 0)
+        if (Input.GetButtonDown(playerRanged))
         {
             if (!isL1InUse)
             {
