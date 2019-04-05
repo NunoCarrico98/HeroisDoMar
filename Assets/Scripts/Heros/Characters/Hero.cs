@@ -35,7 +35,6 @@ public abstract class Hero : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-        Debug.Log($"oi {maximumHealth}");
         healthBar = GetComponent<HealthBar>();
         healthBar.MaximumHealth = maximumHealth;
         healthBar.Health = maximumHealth;
@@ -56,12 +55,12 @@ public abstract class Hero : MonoBehaviour
         if (isR1InUse)
         {
             MeleeAttack();
-            DetectAttackCollision(meleeWeapon);
+            //DetectAttackCollision(meleeWeapon);
         }
         else if (isL1InUse)
         {
             RangeAttack();
-            DetectAttackCollision(rangeWeapon);
+            //DetectAttackCollision(rangeWeapon);
         }
     }
 
@@ -88,31 +87,9 @@ public abstract class Hero : MonoBehaviour
         }
     }
 
-    protected void DetectAttackCollision(Collider col)
+    private void TakeDamage(float damage)
     {
-        /* Return all colliders that are overlapping our attacking collider
-         * and have a HitBox layer mask */
-        Collider[] enemyCols =
-            Physics.OverlapBox(col.bounds.center, col.bounds.extents,
-            col.transform.rotation, LayerMask.GetMask("Hitbox"));
-
-        foreach (Collider c in enemyCols)
-        {
-            // Ignore our own body
-            if (c.transform == transform)
-            {
-                Debug.Log("ATAKEIII");
-                continue;
-            }
-            // Attack
-            else
-                ApplyDamage(c);
-        }
-    }
-
-    private void ApplyDamage(Collider col)
-    {
-        Debug.Log($"I've hit the {col.name}");
-        col.SendMessageUpwards("SetHealthbarSize", 10f);
+        currentHealth -= damage;
+        healthBar.SetHealthbarSize(damage);
     }
 }
