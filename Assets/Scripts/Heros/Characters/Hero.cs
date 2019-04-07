@@ -13,9 +13,22 @@ public abstract class Hero : MonoBehaviour
     [Header("Maximum Health")]
     [SerializeField] private float maximumHealth;
 
+    [Header("Cooldowns")]
+    [SerializeField] private int meleeCooldown;
+    [SerializeField] private int rangedCooldown;
+    [SerializeField] private int regularAbilityCooldown;
+    [SerializeField] private int ultimateAbilityCooldown;
+
     private HealthBar healthBar;
 
     private float currentHealth;
+
+    // Cooldowns
+    private bool meleeIsCoolingDown;
+    private bool rangedIsCoolingDown;
+    private bool regularAbilityIsCoolingDown;
+    private bool ultimateAbilityIsCoolingDown;
+
 
     // Input
     protected bool isL1InUse;
@@ -43,6 +56,11 @@ public abstract class Hero : MonoBehaviour
         isL2InUse = false;
         isR1InUse = false;
         isR2InUse = false;
+
+        meleeIsCoolingDown = false;
+        rangedIsCoolingDown = false;
+        regularAbilityIsCoolingDown = false;
+        ultimateAbilityIsCoolingDown = false;
     }
 
     private void Update()
@@ -55,41 +73,67 @@ public abstract class Hero : MonoBehaviour
         if (isR1InUse)
         {
             MeleeAttack();
-            //DetectAttackCollision(meleeWeapon);
         }
         else if (isL1InUse)
         {
             RangeAttack();
-            //DetectAttackCollision(rangeWeapon);
         }
     }
 
     private void GetInput()
     {
-        //if (Input.GetAxisRaw(playerMelee) != 0)
-        if (Input.GetButtonDown(playerMelee))
+        if (Input.GetButtonDown(playerMelee) && AreAllAttacksDeactivated() && !meleeIsCoolingDown)
         {
-            if (!isR1InUse)
-            {
-                Debug.Log("Melee");
-                isR1InUse = true;
-            }
+            Debug.Log("Melee");
+            isR1InUse = true;
+            meleeIsCoolingDown = true;
+            StartCoroutine(AbilityCooldown("melee", meleeCooldown));
         }
 
-        //if (Input.GetAxisRaw(playerRanged) != 0)
-        if (Input.GetButtonDown(playerRanged))
+        else if (Input.GetButtonDown(playerRanged) && AreAllAttacksDeactivated() && !rangedIsCoolingDown)
         {
-            if (!isL1InUse)
-            {
-                Debug.Log("Range");
-                isL1InUse = true;
-            }
+            Debug.Log("Ranged");
+            isL1InUse = true;
+            rangedIsCoolingDown = true;
+            StartCoroutine(AbilityCooldown("ranged", rangedCooldown));
         }
+    }
+
+    private bool AreAllAttacksDeactivated()
+    {
+        bool returnVar =
+            (!isL1InUse && !isL2InUse && !isR1InUse && !isR2InUse) ? true : false;
+
+        return returnVar;
     }
 
     private void TakeDamage(float damage)
     {
         currentHealth -= damage;
         healthBar.SetHealthbarSize(damage);
+    }
+
+    private IEnumerator AbilityCooldown(string ability, int cooldown)
+    {
+        for (int i = cooldown; i > 0; i--)
+        {
+            yield return new WaitForSecondsRealtime(1);
+        }
+
+        switch (ability)
+        {
+            case "melee":
+                meleeIsCoolingDown = false;
+                break;
+            case "ranged":
+                rangedIsCoolingDown = false;
+                break;
+            case "regular":
+                regularAbilityIsCoolingDown = false;
+                break;
+            case "ultimate":
+                ultimateAbilityIsCoolingDown = false;
+                break;
+        }
     }
 }
