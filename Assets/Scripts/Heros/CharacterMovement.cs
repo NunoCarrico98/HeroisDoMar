@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [Header("Player Movement and Rotation Axis")]
+    [Header("Player Movement and Rotation Axes")]
     [Tooltip("Syntax: P(number) Position Horizontal")]
     [SerializeField] private string playerPositionHorizontal;
     [Tooltip("Syntax: P(number) Position Vertical")]

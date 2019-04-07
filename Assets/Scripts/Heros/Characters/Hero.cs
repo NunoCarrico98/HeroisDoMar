@@ -1,14 +1,22 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class Hero : MonoBehaviour
 {
-    [Header("Player Attack Axis")]
+    [Header("Player Attack Inputs")]
     [Tooltip("Syntax: P(number) Melee")]
     [SerializeField] private string playerMelee;
     [Tooltip("Syntax: P(number) Ranged")]
     [SerializeField] private string playerRanged;
+    [Tooltip("Syntax: P(number) Regular Ability")]
+    [SerializeField] private string playerRegularAbility;
+
+    [Header("Abilities UI")]
+    [SerializeField] private TextMeshProUGUI meleeUIText;
+    [SerializeField] private TextMeshProUGUI rangedUIText;
+    [SerializeField] private TextMeshProUGUI regularAbilityUIText;
+    [SerializeField] private TextMeshProUGUI ultimateUIText;
 
     [Header("Maximum Health")]
     [SerializeField] private float maximumHealth;
@@ -28,7 +36,6 @@ public abstract class Hero : MonoBehaviour
     private bool rangedIsCoolingDown;
     private bool regularAbilityIsCoolingDown;
     private bool ultimateAbilityIsCoolingDown;
-
 
     // Input
     protected bool isL1InUse;
@@ -78,6 +85,10 @@ public abstract class Hero : MonoBehaviour
         {
             RangeAttack();
         }
+        else if (isL2InUse)
+        {
+            RegularAbility();
+        }
     }
 
     private void GetInput()
@@ -87,7 +98,7 @@ public abstract class Hero : MonoBehaviour
             Debug.Log("Melee");
             isR1InUse = true;
             meleeIsCoolingDown = true;
-            StartCoroutine(AbilityCooldown("melee", meleeCooldown));
+            StartCoroutine(AbilityCooldown("melee", meleeCooldown, meleeUIText));
         }
 
         else if (Input.GetButtonDown(playerRanged) && AreAllAttacksDeactivated() && !rangedIsCoolingDown)
@@ -95,7 +106,15 @@ public abstract class Hero : MonoBehaviour
             Debug.Log("Ranged");
             isL1InUse = true;
             rangedIsCoolingDown = true;
-            StartCoroutine(AbilityCooldown("ranged", rangedCooldown));
+            StartCoroutine(AbilityCooldown("ranged", rangedCooldown, rangedUIText));
+        }
+
+        else if (Input.GetButtonDown(playerRegularAbility) && AreAllAttacksDeactivated() && !regularAbilityIsCoolingDown)
+        {
+            Debug.Log("Regular Ability");
+            isL2InUse = true;
+            regularAbilityIsCoolingDown = true;
+            StartCoroutine(AbilityCooldown("regular", regularAbilityCooldown, regularAbilityUIText));
         }
     }
 
@@ -107,32 +126,39 @@ public abstract class Hero : MonoBehaviour
         return returnVar;
     }
 
-    private void TakeDamage(float damage)
+    protected virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
         healthBar.SetHealthbarSize(damage);
     }
 
-    private IEnumerator AbilityCooldown(string ability, int cooldown)
+    private IEnumerator AbilityCooldown(string abilityName, int cooldown, TextMeshProUGUI abilityUI)
     {
+        string temp = abilityUI.text;
+
         for (int i = cooldown; i > 0; i--)
         {
+            abilityUI.text = $"{i}";
             yield return new WaitForSecondsRealtime(1);
         }
 
-        switch (ability)
+        switch (abilityName)
         {
             case "melee":
                 meleeIsCoolingDown = false;
+                abilityUI.text = temp;
                 break;
             case "ranged":
                 rangedIsCoolingDown = false;
+                abilityUI.text = temp;
                 break;
             case "regular":
                 regularAbilityIsCoolingDown = false;
+                abilityUI.text = temp;
                 break;
             case "ultimate":
                 ultimateAbilityIsCoolingDown = false;
+                abilityUI.text = temp;
                 break;
         }
     }
