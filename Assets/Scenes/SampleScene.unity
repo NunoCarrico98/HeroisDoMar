@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 0
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -249,10 +249,10 @@ Transform:
   m_LocalPosition: {x: -10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1111723136}
   - {fileID: 1628817581}
   - {fileID: 232319320}
   - {fileID: 1515006760}
+  - {fileID: 1111723136}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -285,8 +285,8 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 3
+  m_Radius: 0.7
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
@@ -312,16 +312,16 @@ MonoBehaviour:
   regularAbilityUIText: {fileID: 1267713143}
   ultimateUIText: {fileID: 875304233}
   maximumHealth: 100
-  meleeCooldown: 1
+  meleeCooldown: 0.6
   rangedCooldown: 3
   regularAbilityCooldown: 20
   ultimateAbilityCooldown: 0
   meleeWeapon: {fileID: 1695919806}
   rangeWeapon: {fileID: 1183167007}
-  maxMeleeDistance: 1.2
-  meleeAttackSpeed: 0.15
-  maxRangeDistance: 5
-  rangedAttackSpeed: 0.2
+  maxMeleeDistance: 2.5
+  meleeAttackSpeed: 0.6
+  maxRangeDistance: 10
+  rangedAttackSpeed: 0.4
   damageReductionTime: 10
   damageReductionValue: 2
   shield: {fileID: 232319316}
@@ -522,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -691,7 +691,7 @@ Transform:
   m_LocalScale: {x: 1.6575495, y: 2.6710477, z: 1.6575495}
   m_Children: []
   m_Father: {fileID: 123712514}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &265434828
 GameObject:
@@ -1149,16 +1149,16 @@ MonoBehaviour:
   regularAbilityUIText: {fileID: 740050718}
   ultimateUIText: {fileID: 506894739}
   maximumHealth: 100
-  meleeCooldown: 1
+  meleeCooldown: 0.6
   rangedCooldown: 3
   regularAbilityCooldown: 20
   ultimateAbilityCooldown: 0
   meleeWeapon: {fileID: 868064570}
   rangeWeapon: {fileID: 1173230597}
-  maxMeleeDistance: 1.2
-  meleeAttackSpeed: 0.15
-  maxRangeDistance: 5
-  rangedAttackSpeed: 0.2
+  maxMeleeDistance: 2.5
+  meleeAttackSpeed: 0.6
+  maxRangeDistance: 10
+  rangedAttackSpeed: 0.4
   damageReductionTime: 10
   damageReductionValue: 2
   shield: {fileID: 1432326909}
@@ -1191,8 +1191,8 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 3
+  m_Radius: 0.7
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
@@ -1209,10 +1209,10 @@ Transform:
   m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1907623066}
-  - {fileID: 887221829}
   - {fileID: 1432326913}
+  - {fileID: 887221829}
   - {fileID: 794962519}
+  - {fileID: 1907623066}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -1358,7 +1358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400138, guid: 9982463acd9e6804b881a5713d5f4a0b, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400138, guid: 9982463acd9e6804b881a5713d5f4a0b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1905,7 +1905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1944,9 +1944,10 @@ GameObject:
   - component: {fileID: 868064568}
   - component: {fileID: 868064570}
   - component: {fileID: 868064567}
+  - component: {fileID: 868064571}
   m_Layer: 0
   m_Name: Pen
-  m_TagString: Untagged
+  m_TagString: MeleeWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2031,11 +2032,27 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868064565}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &868064571
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868064565}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &875304231
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,7 +2547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1111723136}
   m_Layer: 0
-  m_Name: Weapons
+  m_Name: Weapons P1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2543,14 +2560,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111723135}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1695919805}
   - {fileID: 1183167005}
   m_Father: {fileID: 123712514}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1173230596
 GameObject:
@@ -2565,9 +2582,10 @@ GameObject:
   - component: {fileID: 1173230599}
   - component: {fileID: 1173230597}
   - component: {fileID: 1173230598}
+  - component: {fileID: 1173230602}
   m_Layer: 0
   m_Name: Hat
-  m_TagString: Untagged
+  m_TagString: RangedWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2580,7 +2598,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173230596}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
@@ -2658,6 +2676,22 @@ Transform:
   m_Father: {fileID: 1907623066}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1173230602
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173230596}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &1183167004
 GameObject:
   m_ObjectHideFlags: 0
@@ -2671,9 +2705,10 @@ GameObject:
   - component: {fileID: 1183167008}
   - component: {fileID: 1183167007}
   - component: {fileID: 1183167006}
+  - component: {fileID: 1183167010}
   m_Layer: 0
   m_Name: Hat
-  m_TagString: Untagged
+  m_TagString: RangedWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2713,7 +2748,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183167004}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
@@ -2764,6 +2799,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183167004}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1183167010
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183167004}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &1267713141
 GameObject:
   m_ObjectHideFlags: 0
@@ -3452,7 +3503,7 @@ Transform:
   m_LocalScale: {x: 1.6575495, y: 2.6710477, z: 1.6575495}
   m_Children: []
   m_Father: {fileID: 529654574}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1515006760 stripped
 Transform:
@@ -3472,7 +3523,7 @@ GameObject:
   - component: {fileID: 1534943136}
   - component: {fileID: 1534943135}
   - component: {fileID: 1534943134}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3831,9 +3882,10 @@ GameObject:
   - component: {fileID: 1695919807}
   - component: {fileID: 1695919806}
   - component: {fileID: 1695919809}
+  - component: {fileID: 1695919810}
   m_Layer: 0
   m_Name: Pen
-  m_TagString: Untagged
+  m_TagString: MeleeWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3860,7 +3912,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695919804}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -3923,6 +3975,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
+--- !u!54 &1695919810
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695919804}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &1804756343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4244,7 +4312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1907623066}
   m_Layer: 0
-  m_Name: Weapons
+  m_Name: Weapons P2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4257,14 +4325,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907623065}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 868064566}
   - {fileID: 1173230601}
   m_Father: {fileID: 529654574}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1910609602
 GameObject:

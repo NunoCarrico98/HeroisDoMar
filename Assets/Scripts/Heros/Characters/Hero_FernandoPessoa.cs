@@ -11,13 +11,15 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float maxRangeDistance;
     [SerializeField] private float rangedAttackSpeed;
     [Header("Regular Ability")]
-    [SerializeField] private int damageReductionTime;
+    [SerializeField] private float damageReductionTime;
     [SerializeField] private float damageReductionValue;
     [SerializeField] private GameObject shield;
 
     private bool dmgReduction;
 
-    private Vector3 startingPos;
+    private Quaternion localRotation;
+    private Vector3 localStartingPosition;
+    private Vector3 startingPosition;
     private Vector3 targetPos;
 
     private float timeElapsed;
@@ -35,20 +37,17 @@ public class Hero_FernandoPessoa : Hero
     {
         if (!attackFlag)
         {
-            startingPos = meleeWeapon.transform.localPosition;
+            localStartingPosition = meleeWeapon.transform.localPosition;
             targetPos = meleeWeapon.transform.localPosition + new Vector3(0, 0, maxMeleeDistance);
             attackFlag = true;
         }
 
-        meleeWeapon.transform.localPosition = Vector3.Lerp(startingPos, targetPos, Mathf.InverseLerp(0, meleeAttackSpeed, timeElapsed));
+        meleeWeapon.transform.localPosition = Vector3.Lerp(localStartingPosition, targetPos, Mathf.InverseLerp(0, meleeAttackSpeed, timeElapsed));
         timeElapsed += Time.deltaTime;
 
         if (timeElapsed >= meleeAttackSpeed)
         {
-            isR1InUse = false;
-            timeElapsed = 0;
-            attackFlag = false;
-            meleeWeapon.transform.localPosition = startingPos;
+            ResetMeleeWeapon();
         }
     }
 
@@ -56,20 +55,20 @@ public class Hero_FernandoPessoa : Hero
     {
         if (!attackFlag)
         {
-            startingPos = rangeWeapon.transform.localPosition;
-            targetPos = rangeWeapon.transform.localPosition + new Vector3(0, 0, maxRangeDistance);
+            localRotation = rangeWeapon.transform.localRotation;
+            localStartingPosition = rangeWeapon.transform.localPosition;
+            startingPosition = rangeWeapon.transform.position;
+            targetPos = rangeWeapon.transform.position + rangeWeapon.transform.forward * maxRangeDistance;
             attackFlag = true;
+            rangeWeapon.transform.SetParent(null);
         }
 
-        rangeWeapon.transform.localPosition = Vector3.Lerp(startingPos, targetPos, Mathf.InverseLerp(0, rangedAttackSpeed, timeElapsed));
+        rangeWeapon.transform.position = Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, rangedAttackSpeed, timeElapsed));
         timeElapsed += Time.deltaTime;
 
         if (timeElapsed >= rangedAttackSpeed)
         {
-            isL1InUse = false;
-            timeElapsed = 0;
-            attackFlag = false;
-            rangeWeapon.transform.localPosition = startingPos;
+            ResetRangedWeapon();
         }
     }
 
@@ -95,11 +94,29 @@ public class Hero_FernandoPessoa : Hero
 
     private IEnumerator DamageReductionTimer()
     {
-        for (int i = damageReductionTime; i > 0; i--)
+        for (float i = damageReductionTime; i > 0; i -= 0.1f)
         {
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
         dmgReduction = false;
         shield.SetActive(false);
+    }
+
+    public override void ResetRangedWeapon()
+    {
+        isL1InUse = false;
+        timeElapsed = 0;
+        attackFlag = false;
+        rangeWeapon.transform.SetParent(transform);
+        rangeWeapon.transform.localPosition = localStartingPosition;
+        rangeWeapon.transform.localRotation = localRotation;
+    }
+
+    public override void ResetMeleeWeapon()
+    {
+        isR1InUse = false;
+        timeElapsed = 0;
+        attackFlag = false;
+        meleeWeapon.transform.localPosition = localStartingPosition;
     }
 }

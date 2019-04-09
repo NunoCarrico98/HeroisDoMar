@@ -15,5 +15,11 @@ public class HealthBar : MonoBehaviour
         Health -= damage;
         float ratio = Health / MaximumHealth;
         healthBar.rectTransform.localScale = new Vector3(ratio, 1, 1);
+
+        if (Health < 0)
+        {
+            Health = 0;
+            healthBar.rectTransform.localScale = new Vector3(0, 1, 1);
+        }
     }
 }

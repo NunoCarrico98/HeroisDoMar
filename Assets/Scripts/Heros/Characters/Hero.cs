@@ -22,10 +22,10 @@ public abstract class Hero : MonoBehaviour
     [SerializeField] private float maximumHealth;
 
     [Header("Cooldowns")]
-    [SerializeField] private int meleeCooldown;
-    [SerializeField] private int rangedCooldown;
-    [SerializeField] private int regularAbilityCooldown;
-    [SerializeField] private int ultimateAbilityCooldown;
+    [SerializeField] private float meleeCooldown;
+    [SerializeField] private float rangedCooldown;
+    [SerializeField] private float regularAbilityCooldown;
+    [SerializeField] private float ultimateAbilityCooldown;
 
     private HealthBar healthBar;
 
@@ -51,6 +51,9 @@ public abstract class Hero : MonoBehaviour
     protected abstract void MeleeAttack();
     protected abstract void RegularAbility();
     protected abstract void UltimateAbility();
+
+    public abstract void ResetMeleeWeapon();
+    public abstract void ResetRangedWeapon();
 
     // Start is called before the first frame update
     protected void Start()
@@ -132,14 +135,14 @@ public abstract class Hero : MonoBehaviour
         healthBar.SetHealthbarSize(damage);
     }
 
-    private IEnumerator AbilityCooldown(string abilityName, int cooldown, TextMeshProUGUI abilityUI)
+    private IEnumerator AbilityCooldown(string abilityName, float cooldown, TextMeshProUGUI abilityUI)
     {
         string temp = abilityUI.text;
 
-        for (int i = cooldown; i > 0; i--)
+        for (float i = cooldown; i > 0; i -= 0.1f)
         {
             abilityUI.text = $"{i}";
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
 
         switch (abilityName)
