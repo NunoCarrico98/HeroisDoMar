@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class Hero_FernandoPessoa : Hero
 {
-    [Header("Melee")]
-    [SerializeField] private float maxMeleeDistance;
-    [SerializeField] private float meleeAttackSpeed;
-    [Header("Ranged")]
-    [SerializeField] private float maxRangeDistance;
-    [SerializeField] private float rangedAttackSpeed;
-    [Header("Regular Ability")]
-    [SerializeField] private float damageReductionTime;
-    [SerializeField] private float damageReductionValue;
-    [SerializeField] private GameObject shield;
-
-    private bool dmgReduction;
+    [Header("Basic Ability")]
+    [SerializeField] private float maxBADistance;
+    [SerializeField] private float durationBA;
+    [Header("Other Ability")]
+    [SerializeField] private float movementSpeedIncrease;
+    [SerializeField] private float durationOA;
+    [SerializeField] private ParticleSystem particlesOA;
 
     private Quaternion localRotation;
     private Vector3 localStartingPosition;
@@ -30,93 +25,102 @@ public class Hero_FernandoPessoa : Hero
         base.Start();
         timeElapsed = 0;
         attackFlag = false;
-        dmgReduction = false;
     }
 
-    protected override void MeleeAttack()
+    // old hat code
+    /*
+    protected override void BasicAbility()
     {
         if (!attackFlag)
         {
-            localStartingPosition = meleeWeapon.transform.localPosition;
-            targetPos = meleeWeapon.transform.localPosition + new Vector3(0, 0, maxMeleeDistance);
+            localRotation = weapon1.transform.localRotation;
+            localStartingPosition = weapon1.transform.localPosition;
+            startingPosition = weapon1.transform.position;
+            targetPos = weapon1.transform.position + weapon1.transform.forward * maxRangeDistance;
             attackFlag = true;
+            weapon1.transform.SetParent(null);
         }
 
-        meleeWeapon.transform.localPosition = Vector3.Lerp(localStartingPosition, targetPos, Mathf.InverseLerp(0, meleeAttackSpeed, timeElapsed));
-        timeElapsed += Time.deltaTime;
-
-        if (timeElapsed >= meleeAttackSpeed)
-        {
-            ResetMeleeWeapon();
-        }
-    }
-
-    protected override void RangeAttack()
-    {
-        if (!attackFlag)
-        {
-            localRotation = rangeWeapon.transform.localRotation;
-            localStartingPosition = rangeWeapon.transform.localPosition;
-            startingPosition = rangeWeapon.transform.position;
-            targetPos = rangeWeapon.transform.position + rangeWeapon.transform.forward * maxRangeDistance;
-            attackFlag = true;
-            rangeWeapon.transform.SetParent(null);
-        }
-
-        rangeWeapon.transform.position = Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, rangedAttackSpeed, timeElapsed));
+        weapon1.transform.position = Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, rangedAttackSpeed, timeElapsed));
         timeElapsed += Time.deltaTime;
 
         if (timeElapsed >= rangedAttackSpeed)
         {
-            ResetRangedWeapon();
+            ResetWeapon();
+        }
+    } */
+
+    protected override void BasicAbility()
+    {
+        if (!attackFlag)
+        {
+            charAnimator.SetBool("Hat Swing", true);
+            attackFlag = true;
+        }
+
+        timeElapsed += Time.deltaTime;
+
+        if (timeElapsed >= durationBA / 3)
+            weapon1.GetComponent<Animator>().Play("Frisbee Flying");
+
+        if (timeElapsed >= durationBA)
+        {
+            charAnimator.SetBool("Hat Swing", false);
+            weapon1.GetComponent<Animator>().Play("Default");
+            attackFlag = false;
+            basicAbility = false;
+            timeElapsed = 0;
         }
     }
 
-    protected override void RegularAbility()
+    protected override void MovementAbility()
     {
-        isL2InUse = false;
-        dmgReduction = true;
-        shield.SetActive(true);
-        StartCoroutine(DamageReductionTimer());
+    }
+
+    protected override void OtherAbility()
+    {
+        otherAbility = false;
+        StartCoroutine(OtherAbilityDurationTimer());
     }
 
     protected override void UltimateAbility()
     {
     }
 
-    protected override void TakeDamage(float damage)
+    private IEnumerator OtherAbilityDurationTimer()
     {
-        if (!dmgReduction)
-            base.TakeDamage(damage);
-        else
-            base.TakeDamage(damage / damageReductionValue);
-    }
+        float temp = charMovement.MovementSpeed;
+        charMovement.MovementSpeed += movementSpeedIncrease;
+        particlesOA.Play();
 
-    private IEnumerator DamageReductionTimer()
-    {
-        for (float i = damageReductionTime; i > 0; i -= 0.1f)
+        for (float i = durationOA; i > 0; i -= 0.1f)
         {
             yield return new WaitForSecondsRealtime(0.1f);
         }
-        dmgReduction = false;
-        shield.SetActive(false);
+
+        charMovement.MovementSpeed = temp;
+        particlesOA.Stop();
     }
 
-    public override void ResetRangedWeapon()
+    // old hat code
+    /*
+    public override void ResetWeapon()
     {
-        isL1InUse = false;
+        basicAbility = false;
         timeElapsed = 0;
         attackFlag = false;
-        rangeWeapon.transform.SetParent(transform);
-        rangeWeapon.transform.localPosition = localStartingPosition;
-        rangeWeapon.transform.localRotation = localRotation;
+        weapon1.transform.SetParent(transform);
+        weapon1.transform.localPosition = localStartingPosition;
+        weapon1.transform.localRotation = localRotation;
     }
+    */
 
-    public override void ResetMeleeWeapon()
+    public override void ResetWeapon()
     {
-        isR1InUse = false;
-        timeElapsed = 0;
+        charAnimator.SetBool("Hat Swing", false);
+        weapon1.GetComponent<Animator>().Play("Default");
         attackFlag = false;
-        meleeWeapon.transform.localPosition = localStartingPosition;
+        basicAbility = false;
+        timeElapsed = 0;
     }
 }

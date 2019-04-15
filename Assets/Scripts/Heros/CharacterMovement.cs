@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [Header("Player Movement and Rotation Axes")]
-    [Tooltip("Syntax: P(number) Position Horizontal")]
-    [SerializeField] private string playerPositionHorizontal;
-    [Tooltip("Syntax: P(number) Position Vertical")]
-    [SerializeField] private string playerPositionVertical;
-    [Tooltip("Syntax: P(number) Rotation Horizontal")]
-    [SerializeField] private string playerRotationHorizontal;
-    [Tooltip("Syntax: P(number) Rotation Vertical")]
-    [SerializeField] private string playerRotationVertical;
-
     [Header("Movement values")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private float turnSpeed;
@@ -27,24 +17,37 @@ public class CharacterMovement : MonoBehaviour
     private Animator charAnimator;
 
     private bool isRunning;
+    private string pNumber;
+
+    public bool IsMovementAllowed { get; set; }
+    public float MovementSpeed
+    {
+        get => movementSpeed;
+        set { movementSpeed = value; }
+    }
 
     private void Awake()
     {
         isRunning = false;
         charController = GetComponent<CharacterController>();
         charAnimator = GetComponentInChildren<Animator>();
+        pNumber = GetComponent<Hero>().PlayerNumber;
+        IsMovementAllowed = true;
     }
 
     private void Update()
     {
         PlayAnimation("Run", isRunning);
     }
+
     private void FixedUpdate()
     {
-        GetPositionInput();
-        GetRotationInput();
+        positionInput.x = InputManager.PositionHorizontal(pNumber);
+        positionInput.y = InputManager.PositionVertical(pNumber);
+        rotationInput.x = InputManager.RotationHorizontal(pNumber);
+        rotationInput.y = InputManager.RotationVertical(pNumber);
 
-        if (positionInput.x != 0 || positionInput.y != 0)
+        if (positionInput.x != 0 || positionInput.y != 0 && IsMovementAllowed)
         {
             isRunning = true;
             UpdatePosition(new Vector3(positionInput.x, 0, positionInput.y));
@@ -59,18 +62,6 @@ public class CharacterMovement : MonoBehaviour
             CalculateRotationAngle();
             UpdateRotation(new Vector3(rotationInput.x, 0, rotationInput.y));
         }
-    }
-
-    private void GetPositionInput()
-    {
-        positionInput.x = Input.GetAxisRaw(playerPositionHorizontal);
-        positionInput.y = Input.GetAxisRaw(playerPositionVertical);
-    }
-
-    private void GetRotationInput()
-    {
-        rotationInput.x = Input.GetAxisRaw(playerRotationHorizontal);
-        rotationInput.y = Input.GetAxisRaw(playerRotationVertical);
     }
 
     private void CalculateRotationAngle()

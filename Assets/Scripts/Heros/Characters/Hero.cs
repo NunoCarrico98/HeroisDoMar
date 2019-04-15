@@ -4,13 +4,8 @@ using UnityEngine;
 
 public abstract class Hero : MonoBehaviour
 {
-    [Header("Player Attack Inputs")]
-    [Tooltip("Syntax: P(number) Melee")]
-    [SerializeField] private string playerMelee;
-    [Tooltip("Syntax: P(number) Ranged")]
-    [SerializeField] private string playerRanged;
-    [Tooltip("Syntax: P(number) Regular Ability")]
-    [SerializeField] private string playerRegularAbility;
+    [Header("Player number")]
+    [SerializeField] private string pNumber;
 
     [Header("Abilities UI")]
     [SerializeField] private TextMeshProUGUI meleeUIText;
@@ -18,115 +13,106 @@ public abstract class Hero : MonoBehaviour
     [SerializeField] private TextMeshProUGUI regularAbilityUIText;
     [SerializeField] private TextMeshProUGUI ultimateUIText;
 
-    [Header("Maximum Health")]
+    [Header("Maximum Health and Shield")]
     [SerializeField] private float maximumHealth;
+    [SerializeField] private float maximumShield;
 
     [Header("Cooldowns")]
-    [SerializeField] private float meleeCooldown;
-    [SerializeField] private float rangedCooldown;
-    [SerializeField] private float regularAbilityCooldown;
+    [SerializeField] private float basicAbilityCooldown;
+    [SerializeField] private float movementAbilityCooldown;
+    [SerializeField] private float otherAbilityCooldown;
     [SerializeField] private float ultimateAbilityCooldown;
+
+    [Header("Weapon(s)")]
+    [SerializeField] protected Collider weapon1;
 
     private HealthBar healthBar;
 
     private float currentHealth;
+    private float currentShield;
 
     // Cooldowns
-    private bool meleeIsCoolingDown;
-    private bool rangedIsCoolingDown;
-    private bool regularAbilityIsCoolingDown;
-    private bool ultimateAbilityIsCoolingDown;
+    private bool lockedBasicAbility;
+    private bool lockedMovementAbility;
+    private bool lockedOtherAbility;
+    private bool lockedUltimateAbility;
 
     // Input
-    protected bool isL1InUse;
-    protected bool isL2InUse;
-    protected bool isR1InUse;
-    protected bool isR2InUse;
+    protected bool basicAbility;
+    protected bool movementAbility;
+    protected bool otherAbility;
+    protected bool ultimateAbility;
 
-    [Header("Weapons")]
-    [SerializeField] protected Collider meleeWeapon;
-    [SerializeField] protected Collider rangeWeapon;
+    protected Animator charAnimator;
+    protected CharacterMovement charMovement;
 
-    protected abstract void RangeAttack();
-    protected abstract void MeleeAttack();
-    protected abstract void RegularAbility();
+    public string PlayerNumber => pNumber;
+
+    protected abstract void MovementAbility();
+    protected abstract void BasicAbility();
+    protected abstract void OtherAbility();
     protected abstract void UltimateAbility();
 
-    public abstract void ResetMeleeWeapon();
-    public abstract void ResetRangedWeapon();
+    public abstract void ResetWeapon();
 
     // Start is called before the first frame update
     protected void Start()
     {
         healthBar = GetComponent<HealthBar>();
+        charMovement = GetComponent<CharacterMovement>();
+        charAnimator = GetComponentInChildren<Animator>();
         healthBar.MaximumHealth = maximumHealth;
         healthBar.Health = maximumHealth;
 
-        isL1InUse = false;
-        isL2InUse = false;
-        isR1InUse = false;
-        isR2InUse = false;
+        basicAbility = false;
+        movementAbility = false;
+        otherAbility = false;
+        ultimateAbility = false;
 
-        meleeIsCoolingDown = false;
-        rangedIsCoolingDown = false;
-        regularAbilityIsCoolingDown = false;
-        ultimateAbilityIsCoolingDown = false;
+        lockedBasicAbility = false;
+        lockedMovementAbility = false;
+        lockedOtherAbility = false;
+        lockedUltimateAbility = false;
     }
 
     private void Update()
     {
-        GetInput();
+        ManageInput();
     }
 
     private void FixedUpdate()
     {
-        if (isR1InUse)
-        {
-            MeleeAttack();
-        }
-        else if (isL1InUse)
-        {
-            RangeAttack();
-        }
-        else if (isL2InUse)
-        {
-            RegularAbility();
-        }
+        if (basicAbility) BasicAbility();
+        if (movementAbility) MovementAbility();
+        if (otherAbility) OtherAbility();
+        if (ultimateAbility) UltimateAbility();
     }
 
-    private void GetInput()
+    private void ManageInput()
     {
-        if (Input.GetButtonDown(playerMelee) && AreAllAttacksDeactivated() && !meleeIsCoolingDown)
+        if (InputManager.GetButtonDown(pNumber, "BA") && !lockedBasicAbility)
         {
-            Debug.Log("Melee");
-            isR1InUse = true;
-            meleeIsCoolingDown = true;
-            StartCoroutine(AbilityCooldown("melee", meleeCooldown, meleeUIText));
+            Debug.Log("Basic");
+            basicAbility = true;
+            lockedBasicAbility = true;
+            StartCoroutine(AbilityCooldown("BA", basicAbilityCooldown, meleeUIText));
         }
 
-        else if (Input.GetButtonDown(playerRanged) && AreAllAttacksDeactivated() && !rangedIsCoolingDown)
+        else if (InputManager.GetButtonDown(pNumber, "MA") && !lockedMovementAbility)
         {
             Debug.Log("Ranged");
-            isL1InUse = true;
-            rangedIsCoolingDown = true;
-            StartCoroutine(AbilityCooldown("ranged", rangedCooldown, rangedUIText));
+            movementAbility = true;
+            lockedMovementAbility = true;
+            StartCoroutine(AbilityCooldown("MA", movementAbilityCooldown, rangedUIText));
         }
 
-        else if (Input.GetButtonDown(playerRegularAbility) && AreAllAttacksDeactivated() && !regularAbilityIsCoolingDown)
+        else if (InputManager.GetButtonDown(pNumber, "OA") && !lockedOtherAbility)
         {
             Debug.Log("Regular Ability");
-            isL2InUse = true;
-            regularAbilityIsCoolingDown = true;
-            StartCoroutine(AbilityCooldown("regular", regularAbilityCooldown, regularAbilityUIText));
+            otherAbility = true;
+            lockedOtherAbility = true;
+            StartCoroutine(AbilityCooldown("OA", otherAbilityCooldown, regularAbilityUIText));
         }
-    }
-
-    private bool AreAllAttacksDeactivated()
-    {
-        bool returnVar =
-            (!isL1InUse && !isL2InUse && !isR1InUse && !isR2InUse) ? true : false;
-
-        return returnVar;
     }
 
     protected virtual void TakeDamage(float damage)
@@ -147,20 +133,20 @@ public abstract class Hero : MonoBehaviour
 
         switch (abilityName)
         {
-            case "melee":
-                meleeIsCoolingDown = false;
+            case "BA":
+                lockedBasicAbility = false;
                 abilityUI.text = temp;
                 break;
-            case "ranged":
-                rangedIsCoolingDown = false;
+            case "MA":
+                lockedMovementAbility = false;
                 abilityUI.text = temp;
                 break;
-            case "regular":
-                regularAbilityIsCoolingDown = false;
+            case "OA":
+                lockedOtherAbility = false;
                 abilityUI.text = temp;
                 break;
-            case "ultimate":
-                ultimateAbilityIsCoolingDown = false;
+            case "UA":
+                lockedUltimateAbility = false;
                 abilityUI.text = temp;
                 break;
         }

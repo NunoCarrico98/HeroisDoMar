@@ -5,10 +5,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float damage;
 
     private Hero weaponHolder;
+    private Animator weaponAnim;
 
     private void Awake()
     {
-        weaponHolder = GetComponentInParent<Hero>();    
+        weaponHolder = GetComponentInParent<Hero>();
+        weaponAnim = GetComponent<Animator>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -18,7 +20,10 @@ public class Weapon : MonoBehaviour
             Debug.Log($"I've hit the {other.gameObject.name}");
 
             if (tag == "RangedWeapon")
-                weaponHolder.ResetRangedWeapon();
+            {
+                weaponAnim.Play("Default");
+                weaponHolder.ResetWeapon();
+            }
 
             if (other.gameObject.tag == "Player")
             {
