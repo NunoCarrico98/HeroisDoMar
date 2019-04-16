@@ -5,72 +5,62 @@ using UnityEngine;
 public class Hero_FernandoPessoa : Hero
 {
     [Header("Basic Ability")]
-    [SerializeField] private float maxBADistance;
-    [SerializeField] private float durationBA;
+    [SerializeField] private float distanceBA;
+    [SerializeField] private float durationForwardBA;
+    [SerializeField] private float durationBackwardBA;
     [Header("Other Ability")]
-    [SerializeField] private float movementSpeedIncrease;
+    [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
     [SerializeField] private ParticleSystem particlesOA;
 
-    private Quaternion localRotation;
-    private Vector3 localStartingPosition;
+    // Basic Ability - Boomerang
+    private Collider boomerang;
     private Vector3 startingPosition;
     private Vector3 targetPos;
-
     private float timeElapsed;
-    private bool attackFlag;
+    private bool attackFlagBA;
+    private bool isComingBack;
 
     private new void Start()
     {
         base.Start();
         timeElapsed = 0;
-        attackFlag = false;
+        attackFlagBA = false;
     }
 
-    // old hat code
-    /*
     protected override void BasicAbility()
     {
-        if (!attackFlag)
+        if (!attackFlagBA)
         {
-            localRotation = weapon1.transform.localRotation;
-            localStartingPosition = weapon1.transform.localPosition;
-            startingPosition = weapon1.transform.position;
-            targetPos = weapon1.transform.position + weapon1.transform.forward * maxRangeDistance;
-            attackFlag = true;
-            weapon1.transform.SetParent(null);
+            isComingBack = false;
+            boomerang = Instantiate(weapon1, weapon1.transform.position, weapon1.transform.rotation, transform);
+            boomerang.transform.SetParent(null);
+            attackFlagBA = true;
+            weapon1.GetComponent<MeshRenderer>().enabled = false;
+            startingPosition = boomerang.transform.position;
+            targetPos = boomerang.transform.position + boomerang.transform.forward * distanceBA;
         }
 
-        weapon1.transform.position = Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, rangedAttackSpeed, timeElapsed));
-        timeElapsed += Time.deltaTime;
+        if (timeElapsed >= durationForwardBA && !isComingBack)
+        {
+            isComingBack = true;
+            timeElapsed = 0;
+            startingPosition = boomerang.transform.position;
+        }
 
-        if (timeElapsed >= rangedAttackSpeed)
+        if (timeElapsed >= durationBackwardBA && isComingBack)
         {
             ResetWeapon();
         }
-    } */
-
-    protected override void BasicAbility()
-    {
-        if (!attackFlag)
-        {
-            charAnimator.SetBool("Hat Swing", true);
-            attackFlag = true;
-        }
 
         timeElapsed += Time.deltaTime;
 
-        if (timeElapsed >= durationBA / 3)
-            weapon1.GetComponent<Animator>().Play("Frisbee Flying");
-
-        if (timeElapsed >= durationBA)
-        {
-            charAnimator.SetBool("Hat Swing", false);
-            weapon1.GetComponent<Animator>().Play("Default");
-            attackFlag = false;
-            basicAbility = false;
-            timeElapsed = 0;
-        }
+        if (!isComingBack)
+            boomerang.transform.position = 
+                Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, durationForwardBA, timeElapsed));
+        else
+            boomerang.transform.position = 
+                Vector3.Lerp(startingPosition, weapon1.transform.position, Mathf.InverseLerp(0, durationBackwardBA, timeElapsed));
     }
 
     protected override void MovementAbility()
@@ -80,17 +70,17 @@ public class Hero_FernandoPessoa : Hero
     protected override void OtherAbility()
     {
         otherAbility = false;
-        StartCoroutine(OtherAbilityDurationTimer());
+        StartCoroutine(TimerOA());
     }
 
     protected override void UltimateAbility()
     {
     }
 
-    private IEnumerator OtherAbilityDurationTimer()
+    private IEnumerator TimerOA()
     {
         float temp = charMovement.MovementSpeed;
-        charMovement.MovementSpeed += movementSpeedIncrease;
+        charMovement.MovementSpeed += moveSpeedIncreaseOA;
         particlesOA.Play();
 
         for (float i = durationOA; i > 0; i -= 0.1f)
@@ -102,25 +92,14 @@ public class Hero_FernandoPessoa : Hero
         particlesOA.Stop();
     }
 
-    // old hat code
-    /*
     public override void ResetWeapon()
     {
-        basicAbility = false;
-        timeElapsed = 0;
-        attackFlag = false;
-        weapon1.transform.SetParent(transform);
-        weapon1.transform.localPosition = localStartingPosition;
-        weapon1.transform.localRotation = localRotation;
-    }
-    */
+        weapon1.GetComponent<MeshRenderer>().enabled = true;
+        Destroy(boomerang.gameObject);
 
-    public override void ResetWeapon()
-    {
-        charAnimator.SetBool("Hat Swing", false);
-        weapon1.GetComponent<Animator>().Play("Default");
-        attackFlag = false;
+        isComingBack = false;
         basicAbility = false;
         timeElapsed = 0;
+        attackFlagBA = false;
     }
 }
