@@ -8,6 +8,11 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float distanceBA;
     [SerializeField] private float durationForwardBA;
     [SerializeField] private float durationBackwardBA;
+    [Header("Movement Ability")]
+    [SerializeField] private GameObject decoyMA;
+    [SerializeField] private float decoyHealthMA;
+    [SerializeField] private float secondsUntilSeekingTargetMA;
+    [SerializeField] private float decoyTurnSpeedMA;
     [Header("Other Ability")]
     [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
@@ -21,11 +26,15 @@ public class Hero_FernandoPessoa : Hero
     private bool attackFlagBA;
     private bool isComingBack;
 
+    // Movement Ability - Decoy
+    private bool attackFlagMA;
+
     private new void Start()
     {
         base.Start();
         timeElapsed = 0;
         attackFlagBA = false;
+        attackFlagMA = false;
     }
 
     protected override void BasicAbility()
@@ -56,15 +65,24 @@ public class Hero_FernandoPessoa : Hero
         timeElapsed += Time.deltaTime;
 
         if (!isComingBack)
-            boomerang.transform.position = 
+            boomerang.transform.position =
                 Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, durationForwardBA, timeElapsed));
         else
-            boomerang.transform.position = 
+            boomerang.transform.position =
                 Vector3.Lerp(startingPosition, weapon1.transform.position, Mathf.InverseLerp(0, durationBackwardBA, timeElapsed));
     }
 
     protected override void MovementAbility()
     {
+        if (!attackFlagMA)
+        {
+            //GameObject decoy = Instantiate(decoyMA, transform.position, transform.rotation);
+            //DecoyController
+            DecoyController decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
+            decoy.Initialize(PlayerNumber, maximumHealth, charMovement.MovementSpeed, decoyTurnSpeedMA, secondsUntilSeekingTargetMA);
+            attackFlagMA = true;
+        }
+
     }
 
     protected override void OtherAbility()
@@ -95,7 +113,8 @@ public class Hero_FernandoPessoa : Hero
     public override void ResetWeapon()
     {
         weapon1.GetComponent<MeshRenderer>().enabled = true;
-        Destroy(boomerang.gameObject);
+        if (boomerang != null)
+            Destroy(boomerang.gameObject);
 
         isComingBack = false;
         basicAbility = false;

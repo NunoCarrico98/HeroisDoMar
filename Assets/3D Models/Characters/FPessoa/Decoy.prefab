@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5976701139815356866}
-  - component: {fileID: 5976701139815356865}
+  - component: {fileID: 3259737709737851487}
+  - component: {fileID: 1566215637977935156}
   m_Layer: 9
   m_Name: Decoy
-  m_TagString: Player
+  m_TagString: Decoy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &5976701139815356865
+--- !u!143 &3259737709737851487
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,6 +52,19 @@ CharacterController:
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1566215637977935156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5976701139815356864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a6a2d0eabf7ad4aa44d5078183d672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeed: 12
 --- !u!1 &5976701139816145332
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +200,7 @@ PrefabInstance:
     - target: {fileID: 9500000, guid: 3e56ca4b73cca9942a3af46122b46ef7, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 4c815a1d15aee524188bffe015ac0001, type: 2}
+      objectReference: {fileID: 9100000, guid: 32d90cf7de52e8842ad313403d271664, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e56ca4b73cca9942a3af46122b46ef7, type: 3}
 --- !u!4 &5976701139082780009 stripped

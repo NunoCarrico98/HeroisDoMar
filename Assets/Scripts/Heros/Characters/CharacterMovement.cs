@@ -17,7 +17,7 @@ public class CharacterMovement : MonoBehaviour
     private Animator charAnimator;
 
     private bool isRunning;
-    private string pNumber;
+    private int pNumber;
 
     public bool IsMovementAllowed { get; set; }
     public float MovementSpeed

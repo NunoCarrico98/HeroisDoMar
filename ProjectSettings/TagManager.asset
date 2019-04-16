@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RangedWeapon
   - MeleeWeapon
+  - Decoy
   layers:
   - Default
   - TransparentFX

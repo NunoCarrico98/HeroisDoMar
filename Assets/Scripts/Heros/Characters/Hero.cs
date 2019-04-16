@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Hero : MonoBehaviour
 {
     [Header("Player number")]
-    [SerializeField] private string pNumber;
+    [SerializeField] private int pNumber;
 
     [Header("Abilities UI")]
     [SerializeField] private TextMeshProUGUI meleeUIText;
@@ -14,7 +14,7 @@ public abstract class Hero : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ultimateUIText;
 
     [Header("Maximum Health and Shield")]
-    [SerializeField] private float maximumHealth;
+    [SerializeField] protected float maximumHealth;
     [SerializeField] private float maximumShield;
 
     [Header("Cooldowns")]
@@ -46,7 +46,7 @@ public abstract class Hero : MonoBehaviour
     protected Animator charAnimator;
     protected CharacterMovement charMovement;
 
-    public string PlayerNumber => pNumber;
+    public int PlayerNumber => pNumber;
 
     protected abstract void MovementAbility();
     protected abstract void BasicAbility();
