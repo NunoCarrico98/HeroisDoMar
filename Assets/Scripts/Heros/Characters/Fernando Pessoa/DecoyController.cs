@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.AI;
 using UnityEngine;
 
 public class DecoyController : MonoBehaviour
@@ -14,11 +15,10 @@ public class DecoyController : MonoBehaviour
     private Vector3 lastPosition;
     private Animator charAnimator;
     private CharacterController charController;
+    private NavMeshAgent agent;
 
-    private float nearestEnemyDistance;
     private List<GameObject> enemiesList;
     private GameObject nearestEnemy;
-    private Vector3 targetDirection;
 
     public void Initialize(int pNumber, float maximumHp, float movementSpeed, float turnSpeed, float secondsForTarget)
     {
@@ -31,13 +31,14 @@ public class DecoyController : MonoBehaviour
         enemiesList =
             GameObject.FindGameObjectsWithTag("Player").Where(p => p.name != $"Player {pNumber}").ToList();
         nearestEnemy = enemiesList[0];
-        nearestEnemyDistance = Vector3.Distance(transform.position, nearestEnemy.transform.position);
+        agent.speed = movementSpeed;
     }
 
     private void Awake()
     {
         charAnimator = GetComponentInChildren<Animator>();
         charController = GetComponent<CharacterController>();
+        agent = GetComponent<NavMeshAgent>();
         timeElapsed = 0;
     }
 
@@ -53,23 +54,18 @@ public class DecoyController : MonoBehaviour
             if (enemiesList.Count > 1)
                 foreach (GameObject go in enemiesList)
                 {
-                    if (Vector3.Distance(transform.position, go.transform.position) 
+                    if (Vector3.Distance(transform.position, go.transform.position)
                         <= Vector3.Distance(transform.position, nearestEnemy.transform.position))
                     {
                         nearestEnemy = go;
                     }
                 }
-
-            targetDirection = nearestEnemy.transform.position - transform.position;
-            targetDirection.y = 0f;
         }
         else
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(targetDirection), Time.fixedDeltaTime * turnSpeed);
-            transform.position = Vector3.MoveTowards(transform.position, nearestEnemy.transform.position, Time.fixedDeltaTime * movementSpeed);
+            agent.SetDestination(nearestEnemy.transform.position);
         }
 
         charAnimator.SetFloat("Velocity", Vector3.Distance(lastPosition, transform.position / Time.fixedDeltaTime));
-        Debug.Log(charAnimator.parameters[0]);
     }
 }
