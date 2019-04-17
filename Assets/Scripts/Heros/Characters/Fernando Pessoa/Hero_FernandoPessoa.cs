@@ -10,9 +10,10 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float durationBackwardBA;
     [Header("Movement Ability")]
     [SerializeField] private GameObject decoyMA;
+    [SerializeField] private float decoyLifetime;
     [SerializeField] private float decoyHealthMA;
+    [SerializeField] private float targetRadius;
     [SerializeField] private float secondsUntilSeekingTargetMA;
-    [SerializeField] private float decoyTurnSpeedMA;
     [Header("Other Ability")]
     [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
@@ -26,7 +27,9 @@ public class Hero_FernandoPessoa : Hero
     private bool attackFlagBA;
     private bool isComingBack;
 
-    // Movement Ability - Decoy
+    // Movement Ability
+    private DecoyController decoy;
+    private CapsuleCollider decoyCollider;
     private bool attackFlagMA;
 
     private new void Start()
@@ -42,12 +45,17 @@ public class Hero_FernandoPessoa : Hero
         if (!attackFlagBA)
         {
             isComingBack = false;
+
             boomerang = Instantiate(weapon1, weapon1.transform.position, weapon1.transform.rotation, transform);
+            boomerang.GetComponent<Weapon>().IsAttacking = true;
             boomerang.transform.SetParent(null);
-            attackFlagBA = true;
+
             weapon1.GetComponent<MeshRenderer>().enabled = false;
+
             startingPosition = boomerang.transform.position;
             targetPos = boomerang.transform.position + boomerang.transform.forward * distanceBA;
+
+            attackFlagBA = true;
         }
 
         if (timeElapsed >= durationForwardBA && !isComingBack)
@@ -76,13 +84,16 @@ public class Hero_FernandoPessoa : Hero
     {
         if (!attackFlagMA)
         {
-            //GameObject decoy = Instantiate(decoyMA, transform.position, transform.rotation);
-            //DecoyController
-            DecoyController decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
-            decoy.Initialize(PlayerNumber, maximumHealth, charMovement.MovementSpeed, decoyTurnSpeedMA, secondsUntilSeekingTargetMA);
+            decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
+            decoyCollider = decoy.GetComponent<CapsuleCollider>();
+            decoy.Initialize(PlayerNumber, decoyLifetime, maximumHealth, charMovement.MovementSpeed, targetRadius, secondsUntilSeekingTargetMA);
             attackFlagMA = true;
         }
-
+        if (Vector3.Distance(transform.position, decoy.transform.position) > decoyCollider.radius * 2)
+        {
+            decoyCollider.enabled = true;
+            movementAbility = false;
+        }
     }
 
     protected override void OtherAbility()

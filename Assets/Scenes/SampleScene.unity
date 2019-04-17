@@ -375,7 +375,7 @@ MonoBehaviour:
   maximumHealth: 100
   maximumShield: 75
   basicAbilityCooldown: 3
-  movementAbilityCooldown: 0
+  movementAbilityCooldown: 15
   otherAbilityCooldown: 20
   ultimateAbilityCooldown: 0
   weapon1: {fileID: 1183167007}
@@ -383,9 +383,10 @@ MonoBehaviour:
   durationForwardBA: 0.5
   durationBackwardBA: 0.6
   decoyMA: {fileID: 5976701139815356864, guid: bfc1fb17fdc7fc94da758dd5ab9158d2, type: 3}
+  decoyLifetime: 20
   decoyHealthMA: 30
-  secondsUntilSeekingTargetMA: 1.5
-  decoyTurnSpeedMA: 12
+  targetRadius: 10
+  secondsUntilSeekingTargetMA: 3
   moveSpeedIncreaseOA: 1.5
   durationOA: 5
   particlesOA: {fileID: 662007692}
@@ -12025,9 +12026,10 @@ MonoBehaviour:
   durationForwardBA: 0.5
   durationBackwardBA: 0.6
   decoyMA: {fileID: 0}
+  decoyLifetime: 0
   decoyHealthMA: 0
+  targetRadius: 0
   secondsUntilSeekingTargetMA: 0
-  decoyTurnSpeedMA: 0
   moveSpeedIncreaseOA: 2.5
   durationOA: 5
   particlesOA: {fileID: 895322071}

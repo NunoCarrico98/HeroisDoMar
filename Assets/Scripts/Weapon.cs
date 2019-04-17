@@ -4,22 +4,23 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private float damage;
 
-    private Hero weaponHolder;
+    public bool IsAttacking { get; set; }
+    public Hero WeaponHolder { get; private set; }
 
     private void Awake()
     {
-        weaponHolder = GetComponentInParent<Hero>();
+        WeaponHolder = GetComponentInParent<Hero>();
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 9 && other.gameObject.transform != weaponHolder.transform)
+        if (other.gameObject.layer == 9 && other.gameObject.transform != WeaponHolder.transform)
         {
             Debug.Log($"I've hit the {other.gameObject.name}");
 
             if (tag == "RangedWeapon")
             {
-                weaponHolder.ResetWeapon();
+                WeaponHolder.ResetWeapon();
             }
 
             if (other.gameObject.tag == "Player")
@@ -27,5 +28,10 @@ public class Weapon : MonoBehaviour
                 other.gameObject.SendMessageUpwards("TakeDamage", damage);
             }
         }
+    }
+
+    public float GetWeaponHolderPlayerNumber()
+    {
+        return WeaponHolder.PlayerNumber;
     }
 }
