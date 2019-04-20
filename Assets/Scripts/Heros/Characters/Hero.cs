@@ -5,26 +5,31 @@ using UnityEngine;
 public abstract class Hero : MonoBehaviour
 {
     [Header("Player number")]
-    [SerializeField] private int pNumber;
+    [SerializeField]
+    private int pNumber;
 
     [Header("Abilities UI")]
-    [SerializeField] private TextMeshProUGUI meleeUIText;
+    [SerializeField]
+    private TextMeshProUGUI meleeUIText;
     [SerializeField] private TextMeshProUGUI rangedUIText;
     [SerializeField] private TextMeshProUGUI regularAbilityUIText;
     [SerializeField] private TextMeshProUGUI ultimateUIText;
 
     [Header("Maximum Health and Shield")]
-    [SerializeField] protected float maximumHealth;
+    [SerializeField]
+    protected float maximumHealth;
     [SerializeField] private float maximumShield;
 
     [Header("Cooldowns")]
-    [SerializeField] private float basicAbilityCooldown;
+    [SerializeField]
+    private float basicAbilityCooldown;
     [SerializeField] private float movementAbilityCooldown;
     [SerializeField] private float otherAbilityCooldown;
     [SerializeField] private float ultimateAbilityCooldown;
 
     [Header("Weapon(s)")]
-    [SerializeField] protected Collider weapon1;
+    [SerializeField]
+    protected Collider weapon1;
 
     private HealthBar healthBar;
 
@@ -77,11 +82,10 @@ public abstract class Hero : MonoBehaviour
 
     private void Update()
     {
-        ManageInput();
-    }
+        charMovement.Move();
 
-    private void FixedUpdate()
-    {
+        ManageInput();
+
         if (basicAbility) BasicAbility();
         if (movementAbility) MovementAbility();
         if (otherAbility) OtherAbility();
@@ -90,35 +94,43 @@ public abstract class Hero : MonoBehaviour
 
     private void ManageInput()
     {
-        if (InputManager.GetButtonDown(pNumber, "BA") && !lockedBasicAbility)
+        if (!lockedBasicAbility)
         {
-            Debug.Log("Basic");
-            basicAbility = true;
-            lockedBasicAbility = true;
-            StartCoroutine(AbilityCooldown("BA", basicAbilityCooldown, meleeUIText));
+            if (InputManager.GetButtonDown(pNumber, "BA"))
+            {
+                Debug.Log("Basic Ability");
+                basicAbility = true;
+                lockedBasicAbility = true;
+                StartCoroutine(AbilityCooldown("BA", basicAbilityCooldown, meleeUIText));
+            }
         }
-
-        else if (InputManager.GetButtonDown(pNumber, "MA") && !lockedMovementAbility)
+        if (!lockedMovementAbility)
         {
-            Debug.Log("Ranged");
-            movementAbility = true;
-            lockedMovementAbility = true;
-            StartCoroutine(AbilityCooldown("MA", movementAbilityCooldown, rangedUIText));
+            if (InputManager.GetButtonDown(pNumber, "MA"))
+            {
+                Debug.Log("Movement Ability");
+                movementAbility = true;
+                lockedMovementAbility = true;
+                StartCoroutine(AbilityCooldown("MA", movementAbilityCooldown, rangedUIText));
+            }
         }
-
-        else if (InputManager.GetButtonDown(pNumber, "OA") && !lockedOtherAbility)
+        if (!lockedOtherAbility)
         {
-            Debug.Log("Regular Ability");
-            otherAbility = true;
-            lockedOtherAbility = true;
-            StartCoroutine(AbilityCooldown("OA", otherAbilityCooldown, regularAbilityUIText));
+            if (InputManager.GetButtonDown(pNumber, "OA") && !lockedOtherAbility)
+            {
+                Debug.Log("Other Ability");
+                otherAbility = true;
+                lockedOtherAbility = true;
+                StartCoroutine(AbilityCooldown("OA", otherAbilityCooldown, regularAbilityUIText));
+            }
         }
-    }
-
-    protected virtual void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-        healthBar.SetHealthbarSize(damage);
+        if (!lockedUltimateAbility)
+        {
+            if (InputManager.GetButtonDown(pNumber, "UA") && !lockedUltimateAbility)
+            {
+                Debug.Log("Ultimate Ability");
+            }
+        }
     }
 
     private IEnumerator AbilityCooldown(string abilityName, float cooldown, TextMeshProUGUI abilityUI)
@@ -150,5 +162,11 @@ public abstract class Hero : MonoBehaviour
                 abilityUI.text = temp;
                 break;
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealthbarSize(damage);
     }
 }

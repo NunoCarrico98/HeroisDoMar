@@ -35,13 +35,10 @@ public class CharacterMovement : MonoBehaviour
         IsMovementAllowed = true;
     }
 
-    private void Update()
+    public void Move()
     {
         PlayAnimation("Run", isRunning);
-    }
 
-    private void FixedUpdate()
-    {
         positionInput.x = InputManager.PositionHorizontal(pNumber);
         positionInput.y = InputManager.PositionVertical(pNumber);
         rotationInput.x = InputManager.RotationHorizontal(pNumber);

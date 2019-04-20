@@ -5,6 +5,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float damage;
 
     public bool IsAttacking { get; set; }
+    public float Damage => damage;
     public Hero WeaponHolder { get; private set; }
 
     private void Awake()
@@ -14,18 +15,21 @@ public class Weapon : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 9 && other.gameObject.transform != WeaponHolder.transform)
+        if (IsAttacking)
         {
-            Debug.Log($"I've hit the {other.gameObject.name}");
-
-            if (tag == "RangedWeapon")
+            if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && other.gameObject.transform != WeaponHolder.transform)
             {
-                WeaponHolder.ResetWeapon();
-            }
+                Debug.Log($"I've hit the {other.gameObject.name}");
 
-            if (other.gameObject.tag == "Player")
-            {
-                other.gameObject.SendMessageUpwards("TakeDamage", damage);
+                if (tag == "RangedWeapon")
+                {
+                    WeaponHolder.ResetWeapon();
+                }
+
+                if (other.gameObject.tag == "Player")
+                    other.gameObject.GetComponent<Hero>().TakeDamage(damage);
+                else if (other.gameObject.tag == "Decoy")
+                    other.gameObject.SendMessage("TakeDamage", new float[] {WeaponHolder.PlayerNumber, damage});
             }
         }
     }

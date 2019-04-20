@@ -6,11 +6,17 @@ using UnityEngine;
 
 public class DecoyController : MonoBehaviour
 {
+
+    [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private GameObject vanishEffect;
+
     private int pNumber;
     private float decoyLifetime;
-    private float maximumHp;
+    private float health;
     private float movementSpeed;
     private float targetRadius;
+    private float explosionRadius;
+    private float explosionDamage;
     private float secondsForTarget;
     private float timeElapsed;
     private Vector3 lastPosition;
@@ -28,13 +34,15 @@ public class DecoyController : MonoBehaviour
         timeElapsed = 0;
     }
 
-    public void Initialize(int pNumber, float decoyLifetime, float maximumHp, float movementSpeed, float targetRadius, float secondsForTarget)
+    public void Initialize(int pNumber, float decoyLifetime, float health, float movementSpeed, float targetRadius, float explosionRadius, float explosionDamage, float secondsForTarget)
     {
         this.pNumber = pNumber;
         this.decoyLifetime = decoyLifetime;
-        this.maximumHp = maximumHp;
+        this.health = health;
         this.movementSpeed = movementSpeed;
         this.targetRadius = targetRadius;
+        this.explosionRadius = explosionRadius;
+        this.explosionDamage = explosionDamage;
         this.secondsForTarget = secondsForTarget;
 
         enemiesList =
@@ -42,7 +50,7 @@ public class DecoyController : MonoBehaviour
         agent.speed = movementSpeed;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         lastPosition = transform.position;
         timeElapsed += Time.deltaTime;
@@ -50,7 +58,7 @@ public class DecoyController : MonoBehaviour
         if (timeElapsed <= secondsForTarget)
         {
             PlayRunningAnimation(true);
-            agent.Move(transform.forward * movementSpeed * Time.fixedDeltaTime);
+            agent.Move(transform.forward * movementSpeed * Time.deltaTime);
         }
         else
         {
@@ -83,6 +91,9 @@ public class DecoyController : MonoBehaviour
         if (nearestEnemy != null &&
             Vector3.Distance(transform.position, nearestEnemy.transform.position) <= agent.stoppingDistance)
             PlayRunningAnimation(false);
+
+        if (timeElapsed >= decoyLifetime)
+            DestroyDecoy(vanishEffect);
     }
 
     private void PlayRunningAnimation(bool isRunning)
@@ -98,6 +109,46 @@ public class DecoyController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float[] weaponProperties)
+    {
+        int weaponHolderNum = (int)weaponProperties[0];
+        float weaponDamage = weaponProperties[1];
+
+        if (weaponHolderNum == pNumber)
+        {
+            ApplyAOEDamage();
+            DestroyDecoy(explosionEffect);
+        }
+        else
+        {
+            health -= weaponDamage;
+
+            if (health <= 0)
+            {
+                DestroyDecoy(vanishEffect);
+            }
+        }
+    }
+
+    private void ApplyAOEDamage()
+    {
+        Collider[] affectedEnemies = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Hitbox"));
+
+        foreach (Collider c in affectedEnemies)
+        {
+            if (c.name != $"Player {pNumber}" && c.transform != transform)
+            {
+                c.SendMessageUpwards("TakeDamage", explosionDamage);
+            }
+        }
+    }
+
+    private void DestroyDecoy(GameObject effect)
+    {
+        Instantiate(effect, transform.position, transform.rotation);
+        Destroy(gameObject);
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         Weapon weapon = other.transform.GetComponent<Weapon>();
@@ -108,11 +159,13 @@ public class DecoyController : MonoBehaviour
             {
                 if (weapon.GetWeaponHolderPlayerNumber() == pNumber)
                 {
-                    Debug.Log("Exploded");
+                    Instantiate(explosionEffect, transform.position, transform.rotation);
+                    Destroy(gameObject);
                 }
                 else
                 {
-                    Debug.Log("Simply vanished!");
+                    Instantiate(vanishEffect, transform.position, transform.rotation);
+                    Destroy(gameObject);
                 }
             }
         }

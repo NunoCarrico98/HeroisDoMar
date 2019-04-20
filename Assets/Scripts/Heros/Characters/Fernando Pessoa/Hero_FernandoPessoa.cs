@@ -5,17 +5,23 @@ using UnityEngine;
 public class Hero_FernandoPessoa : Hero
 {
     [Header("Basic Ability")]
-    [SerializeField] private float distanceBA;
+    [SerializeField]
+    private float distanceBA;
     [SerializeField] private float durationForwardBA;
-    [SerializeField] private float durationBackwardBA;
     [Header("Movement Ability")]
-    [SerializeField] private GameObject decoyMA;
+    [SerializeField]
+    private GameObject decoyMA;
+    [SerializeField] private GameObject switchPositionEffect;
     [SerializeField] private float decoyLifetime;
     [SerializeField] private float decoyHealthMA;
     [SerializeField] private float targetRadius;
+    [SerializeField] private float explosionRadius;
+    [SerializeField] private float explosionDamage;
     [SerializeField] private float secondsUntilSeekingTargetMA;
+    [SerializeField] private float timeForSwitch;
     [Header("Other Ability")]
-    [SerializeField] private float moveSpeedIncreaseOA;
+    [SerializeField]
+    private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
     [SerializeField] private ParticleSystem particlesOA;
 
@@ -23,7 +29,7 @@ public class Hero_FernandoPessoa : Hero
     private Collider boomerang;
     private Vector3 startingPosition;
     private Vector3 targetPos;
-    private float timeElapsed;
+    private float timeElapsedBA;
     private bool attackFlagBA;
     private bool isComingBack;
 
@@ -31,13 +37,19 @@ public class Hero_FernandoPessoa : Hero
     private DecoyController decoy;
     private CapsuleCollider decoyCollider;
     private bool attackFlagMA;
+    private bool positionSwitched;
+    private float timeElapsedMA;
 
     private new void Start()
     {
         base.Start();
-        timeElapsed = 0;
+
+        timeElapsedBA = 0;
         attackFlagBA = false;
+
+        timeElapsedMA = 0;
         attackFlagMA = false;
+        positionSwitched = false;
     }
 
     protected override void BasicAbility()
@@ -58,26 +70,26 @@ public class Hero_FernandoPessoa : Hero
             attackFlagBA = true;
         }
 
-        if (timeElapsed >= durationForwardBA && !isComingBack)
+        if (timeElapsedBA >= durationForwardBA && !isComingBack)
         {
             isComingBack = true;
-            timeElapsed = 0;
+            timeElapsedBA = 0;
             startingPosition = boomerang.transform.position;
         }
 
-        if (timeElapsed >= durationBackwardBA && isComingBack)
+        if (timeElapsedBA >= durationForwardBA * 2 && isComingBack)
         {
             ResetWeapon();
         }
 
-        timeElapsed += Time.deltaTime;
+        timeElapsedBA += Time.deltaTime;
 
         if (!isComingBack)
             boomerang.transform.position =
-                Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, durationForwardBA, timeElapsed));
+                Vector3.Lerp(startingPosition, targetPos, Mathf.InverseLerp(0, durationForwardBA, timeElapsedBA));
         else
             boomerang.transform.position =
-                Vector3.Lerp(startingPosition, weapon1.transform.position, Mathf.InverseLerp(0, durationBackwardBA, timeElapsed));
+                Vector3.MoveTowards(boomerang.transform.position, weapon1.transform.position, (distanceBA / durationForwardBA) * Time.deltaTime);
     }
 
     protected override void MovementAbility()
@@ -86,13 +98,37 @@ public class Hero_FernandoPessoa : Hero
         {
             decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
             decoyCollider = decoy.GetComponent<CapsuleCollider>();
-            decoy.Initialize(PlayerNumber, decoyLifetime, maximumHealth, charMovement.MovementSpeed, targetRadius, secondsUntilSeekingTargetMA);
+            decoy.Initialize(PlayerNumber, decoyLifetime, maximumHealth, charMovement.MovementSpeed, targetRadius, explosionRadius, explosionDamage, secondsUntilSeekingTargetMA);
             attackFlagMA = true;
         }
-        if (Vector3.Distance(transform.position, decoy.transform.position) > decoyCollider.radius * 2)
+        timeElapsedMA += Time.deltaTime;
+
+        if (decoy != null)
+            if (Vector3.Distance(transform.position, decoy.transform.position) > decoyCollider.radius * 2)
+                decoyCollider.enabled = true;
+
+        if (decoy != null)
+            if (InputManager.GetButtonDown(PlayerNumber, "MA") && !positionSwitched && timeElapsedMA > timeForSwitch)
+            {
+                positionSwitched = true;
+                Vector3 tempPos = decoy.transform.position;
+                Quaternion tempRot = decoy.transform.rotation;
+
+                Instantiate(switchPositionEffect, transform.position, transform.rotation);
+                Instantiate(switchPositionEffect, decoy.transform.position, decoy.transform.rotation);
+
+                decoy.transform.position = transform.position;
+                transform.position = tempPos;
+                decoy.transform.rotation = transform.rotation;
+                transform.rotation = tempRot;
+            }
+
+        if (timeElapsedMA >= decoyLifetime)
         {
-            decoyCollider.enabled = true;
             movementAbility = false;
+            attackFlagMA = false;
+            positionSwitched = false;
+            timeElapsedMA = 0;
         }
     }
 
@@ -129,7 +165,7 @@ public class Hero_FernandoPessoa : Hero
 
         isComingBack = false;
         basicAbility = false;
-        timeElapsed = 0;
+        timeElapsedBA = 0;
         attackFlagBA = false;
     }
 }
