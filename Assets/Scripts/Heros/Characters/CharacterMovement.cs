@@ -16,6 +16,10 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController charController;
     private Animator charAnimator;
 
+    private Vector3 verticalMove;
+    private bool isGrounded;
+    private float verticalVelocity;
+
     private bool isRunning;
     private int pNumber;
 
@@ -74,6 +78,20 @@ public class CharacterMovement : MonoBehaviour
 
     private void UpdatePosition(Vector3 moveInput)
     {
+        isGrounded = charController.isGrounded;
+
+        if (isGrounded)
+        {
+            verticalVelocity -= 0;
+        }
+        else
+        {
+            verticalVelocity -= 1;
+        }
+
+        verticalMove = new Vector3(0, verticalVelocity, 0);
+        charController.Move(verticalMove);
+
         charController.Move(moveInput * movementSpeed * Time.fixedDeltaTime);
     }
 

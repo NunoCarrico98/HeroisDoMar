@@ -76,6 +76,6 @@ public class CameraController : MonoBehaviour
             bounds.Encapsulate(player.transform.position);
         }
 
-        return bounds.size.x;
+        return bounds.size.x + bounds.size.z;
     }
 }
