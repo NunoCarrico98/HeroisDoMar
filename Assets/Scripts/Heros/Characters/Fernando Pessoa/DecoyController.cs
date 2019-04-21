@@ -34,7 +34,8 @@ public class DecoyController : MonoBehaviour
         timeElapsed = 0;
     }
 
-    public void Initialize(int pNumber, float decoyLifetime, float health, float movementSpeed, float targetRadius, float explosionRadius, float explosionDamage, float secondsForTarget)
+    public void Initialize(int pNumber, float decoyLifetime, float health, float movementSpeed, 
+        float targetRadius, float explosionRadius, float explosionDamage, float secondsForTarget)
     {
         this.pNumber = pNumber;
         this.decoyLifetime = decoyLifetime;
@@ -101,7 +102,7 @@ public class DecoyController : MonoBehaviour
         switch (isRunning)
         {
             case true:
-                charAnimator.SetFloat("Velocity", Vector3.Distance(lastPosition, transform.position / Time.fixedDeltaTime));
+                charAnimator.SetFloat("Velocity", Vector3.Distance(lastPosition, transform.position / Time.deltaTime));
                 break;
             case false:
                 charAnimator.SetFloat("Velocity", 0);

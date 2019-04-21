@@ -21,15 +21,12 @@ public class Weapon : MonoBehaviour
             {
                 Debug.Log($"I've hit the {other.gameObject.name}");
 
-                if (tag == "RangedWeapon")
-                {
-                    WeaponHolder.ResetWeapon();
-                }
+                WeaponHolder.ResetWeapon();
 
                 if (other.gameObject.tag == "Player")
                     other.gameObject.GetComponent<Hero>().TakeDamage(damage);
                 else if (other.gameObject.tag == "Decoy")
-                    other.gameObject.SendMessage("TakeDamage", new float[] {WeaponHolder.PlayerNumber, damage});
+                    other.gameObject.SendMessage("TakeDamage", new float[] { WeaponHolder.PlayerNumber, damage });
             }
         }
     }

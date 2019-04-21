@@ -15,12 +15,12 @@ public class CharacterMovement : MonoBehaviour
     private Vector3 movement;
     private CharacterController charController;
     private Animator charAnimator;
+    private Vector3 lastPosition;
+    private float velocity;
 
     private Vector3 verticalMove;
-    private bool isGrounded;
     private float verticalVelocity;
 
-    private bool isRunning;
     private int pNumber;
 
     public bool IsMovementAllowed { get; set; }
@@ -32,7 +32,6 @@ public class CharacterMovement : MonoBehaviour
 
     private void Awake()
     {
-        isRunning = false;
         charController = GetComponent<CharacterController>();
         charAnimator = GetComponentInChildren<Animator>();
         pNumber = GetComponent<Hero>().PlayerNumber;
@@ -41,28 +40,32 @@ public class CharacterMovement : MonoBehaviour
 
     public void Move()
     {
-        PlayAnimation("Run", isRunning);
+        lastPosition = transform.position;
 
         positionInput.x = InputManager.PositionHorizontal(pNumber);
         positionInput.y = InputManager.PositionVertical(pNumber);
         rotationInput.x = InputManager.RotationHorizontal(pNumber);
         rotationInput.y = InputManager.RotationVertical(pNumber);
 
-        if (positionInput.x != 0 || positionInput.y != 0 && IsMovementAllowed)
+        if (IsMovementAllowed)
         {
-            isRunning = true;
-            UpdatePosition(new Vector3(positionInput.x, 0, positionInput.y));
-        }
-        else
-        {
-            isRunning = false;
+            if (positionInput.x != 0 || positionInput.y != 0)
+            {
+                UpdatePosition(new Vector3(positionInput.x, 0, positionInput.y));
+            }
+
+            if (rotationInput.x != 0 || rotationInput.y != 0)
+            {
+                CalculateRotationAngle();
+                UpdateRotation(new Vector3(rotationInput.x, 0, rotationInput.y));
+            }
+            UpdateVerticalPosition();
         }
 
-        if (rotationInput.x != 0 || rotationInput.y != 0)
-        {
-            CalculateRotationAngle();
-            UpdateRotation(new Vector3(rotationInput.x, 0, rotationInput.y));
-        }
+        velocity = Vector3.Distance(lastPosition, transform.position) / Time.deltaTime;
+        PlayRunningAnimation();
+
+        //UpdateVerticalPosition();
     }
 
     private void CalculateRotationAngle()
@@ -78,11 +81,15 @@ public class CharacterMovement : MonoBehaviour
 
     private void UpdatePosition(Vector3 moveInput)
     {
-        isGrounded = charController.isGrounded;
+        charController.Move(moveInput * movementSpeed * Time.deltaTime);
+    }
 
-        if (isGrounded)
+    private void UpdateVerticalPosition()
+    {
+
+        if (charController.isGrounded)
         {
-            verticalVelocity -= 0;
+            verticalVelocity = 0;
         }
         else
         {
@@ -90,13 +97,11 @@ public class CharacterMovement : MonoBehaviour
         }
 
         verticalMove = new Vector3(0, verticalVelocity, 0);
-        charController.Move(verticalMove);
-
-        charController.Move(moveInput * movementSpeed * Time.fixedDeltaTime);
+        charController.Move(verticalMove * Time.deltaTime);
     }
 
-    private void PlayAnimation(string name, bool condition)
+    private void PlayRunningAnimation()
     {
-        charAnimator.SetBool(name, condition);
+        charAnimator.SetFloat("Velocity", velocity);
     }
 }

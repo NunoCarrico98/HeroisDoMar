@@ -65,7 +65,7 @@ public abstract class Hero : MonoBehaviour
     {
         healthBar = GetComponent<HealthBar>();
         charMovement = GetComponent<CharacterMovement>();
-        charAnimator = GetComponentInChildren<Animator>();
+        charAnimator = GetComponent<Animator>();
         healthBar.MaximumHealth = maximumHealth;
         healthBar.Health = maximumHealth;
 
@@ -85,7 +85,6 @@ public abstract class Hero : MonoBehaviour
         charMovement.Move();
 
         ManageInput();
-
         if (basicAbility) BasicAbility();
         if (movementAbility) MovementAbility();
         if (otherAbility) OtherAbility();

@@ -5,12 +5,10 @@ using UnityEngine;
 public class Hero_FernandoPessoa : Hero
 {
     [Header("Basic Ability")]
-    [SerializeField]
-    private float distanceBA;
+    [SerializeField] private float distanceBA;
     [SerializeField] private float durationForwardBA;
     [Header("Movement Ability")]
-    [SerializeField]
-    private GameObject decoyMA;
+    [SerializeField] private GameObject decoyMA;
     [SerializeField] private GameObject switchPositionEffect;
     [SerializeField] private float decoyLifetime;
     [SerializeField] private float decoyHealthMA;
@@ -20,8 +18,7 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float secondsUntilSeekingTargetMA;
     [SerializeField] private float timeForSwitch;
     [Header("Other Ability")]
-    [SerializeField]
-    private float moveSpeedIncreaseOA;
+    [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
     [SerializeField] private ParticleSystem particlesOA;
 
@@ -98,7 +95,8 @@ public class Hero_FernandoPessoa : Hero
         {
             decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
             decoyCollider = decoy.GetComponent<CapsuleCollider>();
-            decoy.Initialize(PlayerNumber, decoyLifetime, maximumHealth, charMovement.MovementSpeed, targetRadius, explosionRadius, explosionDamage, secondsUntilSeekingTargetMA);
+            decoy.Initialize(PlayerNumber, decoyLifetime, maximumHealth, charMovement.MovementSpeed, 
+                targetRadius, explosionRadius, explosionDamage, secondsUntilSeekingTargetMA);
             attackFlagMA = true;
         }
         timeElapsedMA += Time.deltaTime;
@@ -146,7 +144,10 @@ public class Hero_FernandoPessoa : Hero
     {
         float temp = charMovement.MovementSpeed;
         charMovement.MovementSpeed += moveSpeedIncreaseOA;
-        particlesOA.Play();
+
+        ParticleSystem speedEffect = Instantiate(particlesOA, transform.position, transform.rotation);
+        speedEffect.transform.SetParent(transform);
+        speedEffect.Play();
 
         for (float i = durationOA; i > 0; i -= 0.1f)
         {
@@ -154,7 +155,8 @@ public class Hero_FernandoPessoa : Hero
         }
 
         charMovement.MovementSpeed = temp;
-        particlesOA.Stop();
+
+        Destroy(speedEffect);
     }
 
     public override void ResetWeapon()
