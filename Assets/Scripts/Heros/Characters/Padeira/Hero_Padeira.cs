@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class Hero_Padeira : Hero
 {
+    [Header("Basic Ability")]
+    [SerializeField] private float chargeTimeRequired;
+    [SerializeField] private float chargeExtraDamage;
     [Header("Movement Ability")]
     [SerializeField] private float jumpDistance;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float gravity;
     [SerializeField] [Range(20f, 70f)] private float angle;
+    [Header("Other Ability")]
+    [SerializeField] private float healValue;
 
+    // Basic Ability
+    private bool attackflagBA;
+    private float timeElapsedBA;
+
+    // Movement Ability
     private bool attackFlagMA;
 
     new void Start()
@@ -21,9 +31,35 @@ public class Hero_Padeira : Hero
 
     protected override void BasicAbility()
     {
-        weapon1.GetComponent<Weapon>().IsAttacking = true;
-        charAnimator.SetBool("Basic Ability", true);
-        basicAbility = false;
+        if (!attackflagBA)
+        {
+            timeElapsedBA = 0;
+            attackflagBA = true;
+        }
+
+        if (Input.GetButton($"P{PlayerNumber} BA"))
+        {
+            Debug.Log("got here");
+            timeElapsedBA += Time.deltaTime;
+
+            if (timeElapsedBA > chargeTimeRequired)
+            {
+                weapon1.GetComponent<Weapon>().IsAttacking = true;
+                weapon1.GetComponent<Weapon>().ExtraDamage = chargeExtraDamage;
+                Debug.Log(weapon1.GetComponent<Weapon>().ExtraDamage);
+                charAnimator.SetBool("Basic Ability", true);
+                basicAbility = false;
+                Debug.Log("CHAARGEEE!");
+                timeElapsedBA = 0;
+            }
+        }
+        else
+        {
+            weapon1.GetComponent<Weapon>().IsAttacking = true;
+            charAnimator.SetBool("Basic Ability", true);
+            basicAbility = false;
+            Debug.Log("BASIC");
+        }
     }
 
     protected override void MovementAbility()
@@ -38,7 +74,12 @@ public class Hero_Padeira : Hero
 
     protected override void OtherAbility()
     {
-        throw new System.NotImplementedException();
+        otherAbility = false;
+
+        currentHealth += healValue;
+        if (currentHealth > maximumHealth) currentHealth = maximumHealth;
+
+        healthBar.SetHealthBarSize(currentHealth);
     }
 
     protected override void UltimateAbility()

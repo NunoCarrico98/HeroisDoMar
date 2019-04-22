@@ -8523,10 +8523,13 @@ MonoBehaviour:
   otherAbilityCooldown: 0
   ultimateAbilityCooldown: 0
   weapon1: {fileID: 1910070256}
+  chargeTimeRequired: 3
+  chargeExtraDamage: 50
   jumpDistance: 15
   jumpSpeed: 4
   gravity: 30
   angle: 34.1
+  healValue: 15
 --- !u!143 &1538009787
 CharacterController:
   m_ObjectHideFlags: 0

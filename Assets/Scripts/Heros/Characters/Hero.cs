@@ -31,10 +31,10 @@ public abstract class Hero : MonoBehaviour
     [SerializeField]
     protected Collider weapon1;
 
-    private HealthBar healthBar;
+    protected HealthBar healthBar;
 
-    private float currentHealth;
-    private float currentShield;
+    protected float currentHealth;
+    protected float currentShield;
 
     // Cooldowns
     private bool lockedBasicAbility;
@@ -64,10 +64,11 @@ public abstract class Hero : MonoBehaviour
     protected void Start()
     {
         healthBar = GetComponent<HealthBar>();
+        healthBar.MaximumHealth = maximumHealth;
+        currentHealth = maximumHealth;
+
         charMovement = GetComponent<CharacterMovement>();
         charAnimator = GetComponent<Animator>();
-        healthBar.MaximumHealth = maximumHealth;
-        healthBar.Health = maximumHealth;
 
         basicAbility = false;
         movementAbility = false;
@@ -163,9 +164,21 @@ public abstract class Hero : MonoBehaviour
         }
     }
 
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        healthBar.SetHealthbarSize(damage);
+
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+            Die();
+        }
+
+        healthBar.SetHealthBarSize(currentHealth);
     }
 }
