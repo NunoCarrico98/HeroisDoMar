@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ public class CharacterMovement : MonoBehaviour
     private int pNumber;
 
     public bool IsMovementAllowed { get; set; }
+    public bool IsSlowed { get; set; }
     public float MovementSpeed
     {
         get => movementSpeed;
@@ -36,6 +38,7 @@ public class CharacterMovement : MonoBehaviour
         charAnimator = GetComponentInChildren<Animator>();
         pNumber = GetComponent<Hero>().PlayerNumber;
         IsMovementAllowed = true;
+        IsSlowed = false;
     }
 
     public void Move()
@@ -59,13 +62,12 @@ public class CharacterMovement : MonoBehaviour
                 CalculateRotationAngle();
                 UpdateRotation(new Vector3(rotationInput.x, 0, rotationInput.y));
             }
+
             UpdateVerticalPosition();
         }
 
         velocity = Vector3.Distance(lastPosition, transform.position) / Time.deltaTime;
         PlayRunningAnimation();
-
-        //UpdateVerticalPosition();
     }
 
     private void CalculateRotationAngle()
@@ -81,7 +83,9 @@ public class CharacterMovement : MonoBehaviour
 
     private void UpdatePosition(Vector3 moveInput)
     {
-        charController.Move(moveInput * movementSpeed * Time.deltaTime);
+        Debug.Log(IsSlowed);
+        float movement = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
+        charController.Move(moveInput * movement * Time.deltaTime);
     }
 
     private void UpdateVerticalPosition()

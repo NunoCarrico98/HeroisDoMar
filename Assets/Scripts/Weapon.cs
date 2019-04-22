@@ -2,11 +2,6 @@
 
 public class Weapon : MonoBehaviour
 {
-    private bool extraDamageBA;
-    private bool extraDamageMA;
-    private bool extraDamageOA;
-    private bool extraDamageUA;
-
     [SerializeField] private float damage;
 
     public float Damage => damage;
@@ -16,11 +11,6 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        extraDamageBA = false;
-        extraDamageMA = false;
-        extraDamageOA = false;
-        extraDamageUA = false;
-
         ExtraDamage = 0;
 
         WeaponHolder = GetComponentInParent<Hero>();
@@ -30,7 +20,9 @@ public class Weapon : MonoBehaviour
     {
         if (IsAttacking)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && other.gameObject.transform != WeaponHolder.transform)
+            if (other.gameObject.layer == LayerMask.NameToLayer("Arena"))
+                WeaponHolder.ResetWeapon();
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && other.gameObject.transform != WeaponHolder.transform)
             {
                 float damageApplied = (ExtraDamage != 0) ? damage + ExtraDamage : damage;
 

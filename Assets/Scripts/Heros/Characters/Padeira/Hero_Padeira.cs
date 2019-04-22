@@ -5,13 +5,21 @@ using UnityEngine;
 public class Hero_Padeira : Hero
 {
     [Header("Basic Ability")]
+    [SerializeField] private GameObject chargeFlamesEffect;
+    [SerializeField] private float flamesDuration;
+    [SerializeField] private float flamesDamageInterval;
+    [SerializeField] private float flamesDamage;
     [SerializeField] private float chargeTimeRequired;
     [SerializeField] private float chargeExtraDamage;
     [Header("Movement Ability")]
+    [SerializeField] private GameObject landEffectMA;
     [SerializeField] private float jumpDistance;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float gravity;
     [SerializeField] [Range(20f, 70f)] private float angle;
+    [SerializeField] private float damageRadiusMA;
+    [SerializeField] private float damageMA;
+    [SerializeField] private float slowDownTimeMA;
     [Header("Other Ability")]
     [SerializeField] private float healValue;
 
@@ -111,10 +119,44 @@ public class Hero_Padeira : Hero
         }
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
+        ApplyAOEDamage();
+        GameObject landFX = Instantiate(landEffectMA, transform.position, transform.rotation);
+        landFX.transform.localScale = new Vector3(damageRadiusMA * 2, 0.01f, damageRadiusMA * 2);
+
         yield return new WaitForSeconds(1.1f);
+        Destroy(landFX);
         charMovement.IsMovementAllowed = true;
         attackFlagMA = false;
         movementAbility = false;
+    }
+
+    private void ApplyAOEDamage()
+    {
+        Collider[] affectedEnemies = Physics.OverlapSphere(transform.position, damageRadiusMA, LayerMask.GetMask("Hitbox"));
+
+        foreach (Collider c in affectedEnemies)
+        {
+            if (c.name != $"Player {PlayerNumber}" && c.transform != transform)
+            {
+                c.SendMessageUpwards("TakeDamage", damageMA);
+                StartCoroutine(SlowEnemy(c));
+            }
+        }
+    }
+
+    private IEnumerator SlowEnemy(Collider c)
+    {
+        float timeElapsed = 0;
+        Hero enemy = c.GetComponent<Hero>();
+        enemy.CharMovement.IsSlowed = true;
+
+        while (timeElapsed < slowDownTimeMA)
+        {
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        enemy.CharMovement.IsSlowed = false;
     }
 
     public override void ResetWeapon()

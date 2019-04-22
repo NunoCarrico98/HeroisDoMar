@@ -51,6 +51,7 @@ public abstract class Hero : MonoBehaviour
     protected Animator charAnimator;
     protected CharacterMovement charMovement;
 
+    public CharacterMovement CharMovement => charMovement;
     public int PlayerNumber => pNumber;
 
     protected abstract void MovementAbility();
