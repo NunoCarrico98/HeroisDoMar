@@ -723,7 +723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2011,6 +2011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  isResetAfterHit: 0
 --- !u!23 &716966889
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7505,6 +7506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  isResetAfterHit: 1
 --- !u!136 &1183167007
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8540,6 +8542,10 @@ MonoBehaviour:
   damageMA: 25
   slowDownTimeMA: 5
   healValue: 15
+  rollingPin: {fileID: 7146815878227867884, guid: e4331086da3aaff448debefb3c42e759,
+    type: 3}
+  rollDistance: 20
+  rollSpeed: 8.5
 --- !u!143 &1538009787
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9439,10 +9445,10 @@ GameObject:
   - component: {fileID: 1910070258}
   - component: {fileID: 1910070257}
   - component: {fileID: 1910070256}
-  - component: {fileID: 1910070260}
   - component: {fileID: 1910070259}
+  - component: {fileID: 1910070260}
   m_Layer: 0
-  m_Name: Pan
+  m_Name: Oven Peel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9533,6 +9539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 15
+  isResetAfterHit: 1
 --- !u!54 &1910070260
 Rigidbody:
   m_ObjectHideFlags: 0

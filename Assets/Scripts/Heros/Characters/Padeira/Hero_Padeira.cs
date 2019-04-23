@@ -22,6 +22,10 @@ public class Hero_Padeira : Hero
     [SerializeField] private float slowDownTimeMA;
     [Header("Other Ability")]
     [SerializeField] private float healValue;
+    [Header("Ultimate Ability")]
+    [SerializeField] private GameObject rollingPin;
+    [SerializeField] private float rollDistance;
+    [SerializeField] private float rollSpeed;
 
     // Basic Ability
     private bool attackflagBA;
@@ -30,11 +34,20 @@ public class Hero_Padeira : Hero
     // Movement Ability
     private bool attackFlagMA;
 
+    // Ultimate Ability
+    private bool attackFlagUA;
+    private float timeElapsedUA;
+    private float rollDuration;
+    private GameObject rollPin;
+    private Vector3 targetPosUA;
+    private Vector3 startPosUA;
+
     new void Start()
     {
         base.Start();
 
         attackFlagMA = false;
+        attackFlagUA = false;
     }
 
     protected override void BasicAbility()
@@ -92,7 +105,34 @@ public class Hero_Padeira : Hero
 
     protected override void UltimateAbility()
     {
-        throw new System.NotImplementedException();
+        if (!attackFlagUA)
+        {
+            timeElapsedUA = 0;
+            Vector3 rollingPinSpawn = new Vector3(transform.position.x, 0.5f, transform.position.z) + transform.forward * 2;
+            rollPin = Instantiate(rollingPin, rollingPinSpawn, transform.rotation, transform);
+            rollPin.transform.SetParent(null);
+
+            rollPin.GetComponent<Weapon>().IsAttacking = true;
+
+            targetPosUA = rollPin.transform.position + rollPin.transform.forward * rollDistance;
+            startPosUA = rollPin.transform.position;
+
+            rollDuration = (rollDistance / rollSpeed);
+            attackFlagUA = true;
+        }
+
+        if (timeElapsedUA <= rollDuration)
+        {
+            Debug.Log(timeElapsedUA);
+            rollPin.transform.position = Vector3.Lerp(startPosUA, targetPosUA, timeElapsedUA / rollDuration);
+            timeElapsedUA += Time.deltaTime;
+        }
+        else
+        {
+            attackFlagUA = false;
+            ultimateAbility = false;
+            Destroy(rollPin);
+        }
     }
 
     private IEnumerator LeapTowards()
@@ -104,7 +144,6 @@ public class Hero_Padeira : Hero
 
         float vX = Mathf.Sqrt(jumpVelocity) * Mathf.Cos(angle * Mathf.Deg2Rad);
         float vY = Mathf.Sqrt(jumpVelocity) * Mathf.Sin(angle * Mathf.Deg2Rad);
-        float vZ = Mathf.Sqrt(jumpVelocity) * Mathf.Tan(angle * Mathf.Deg2Rad);
 
         float flightDuration = jumpDistance / vX;
 

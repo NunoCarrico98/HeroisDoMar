@@ -83,7 +83,6 @@ public class CharacterMovement : MonoBehaviour
 
     private void UpdatePosition(Vector3 moveInput)
     {
-        Debug.Log(IsSlowed);
         float movement = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
         charController.Move(moveInput * movement * Time.deltaTime);
     }

@@ -3,6 +3,7 @@
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private float damage;
+    [SerializeField] private bool isResetAfterHit;
 
     public float Damage => damage;
     public float ExtraDamage { get; set; }
@@ -20,15 +21,18 @@ public class Weapon : MonoBehaviour
     {
         if (IsAttacking)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Arena"))
+            if (other.gameObject.layer == LayerMask.NameToLayer("Arena") && isResetAfterHit)
+            {
                 WeaponHolder.ResetWeapon();
+            }
             else if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && other.gameObject.transform != WeaponHolder.transform)
             {
                 float damageApplied = (ExtraDamage != 0) ? damage + ExtraDamage : damage;
 
                 Debug.Log($"I've hit the {other.gameObject.name}");
 
-                WeaponHolder.ResetWeapon();
+                if (isResetAfterHit)
+                    WeaponHolder.ResetWeapon();
 
                 if (other.gameObject.tag == "Player")
                     other.gameObject.GetComponent<Hero>().TakeDamage(damageApplied);

@@ -130,6 +130,9 @@ public abstract class Hero : MonoBehaviour
             if (InputManager.GetButtonDown(pNumber, "UA") && !lockedUltimateAbility)
             {
                 Debug.Log("Ultimate Ability");
+                ultimateAbility = true;
+                lockedUltimateAbility = true;
+                StartCoroutine(AbilityCooldown("UA", ultimateAbilityCooldown, ultimateUIText));
             }
         }
     }
