@@ -26,6 +26,10 @@ public class Hero_Padeira : Hero
     [SerializeField] private GameObject rollingPin;
     [SerializeField] private float rollDistance;
     [SerializeField] private float rollSpeed;
+    [SerializeField] private float stunDuration;
+    [SerializeField] private float floorDamage;
+    [SerializeField] private float floorDamageInterval;
+    [SerializeField] private float floorDamageDuration;
 
     // Basic Ability
     private bool attackflagBA;
@@ -50,6 +54,7 @@ public class Hero_Padeira : Hero
         attackFlagUA = false;
     }
 
+    // BASIC ABILITY METHODS
     protected override void BasicAbility()
     {
         if (!attackflagBA)
@@ -60,14 +65,13 @@ public class Hero_Padeira : Hero
 
         if (Input.GetButton($"P{PlayerNumber} BA"))
         {
-            Debug.Log("got here");
             timeElapsedBA += Time.deltaTime;
 
             if (timeElapsedBA > chargeTimeRequired)
             {
-                weapon1.GetComponent<Weapon>().IsAttacking = true;
-                weapon1.GetComponent<Weapon>().ExtraDamage = chargeExtraDamage;
-                Debug.Log(weapon1.GetComponent<Weapon>().ExtraDamage);
+                Weapon currentWeapon = weapon1.GetComponent<Weapon>();
+                currentWeapon.IsAttacking = true;
+                currentWeapon.Abilities[0] = true;
                 charAnimator.SetBool("Basic Ability", true);
                 basicAbility = false;
                 Debug.Log("CHAARGEEE!");
@@ -83,6 +87,43 @@ public class Hero_Padeira : Hero
         }
     }
 
+    public void AfterHitEffectBA(Transform other)
+    {
+        if (other != null)
+            other.gameObject.SendMessage("TakeDamage", new float[] { chargeExtraDamage, 0 });
+
+        StartCoroutine(SetOnFlames(other));
+    }
+
+    private IEnumerator SetOnFlames(Transform other)
+    {
+        float timeElapsed = 0;
+        float lastDamage = 0;
+        GameObject flames = null;
+
+        if (other != null)
+        {
+            flames = Instantiate(chargeFlamesEffect, other.transform);
+        }
+        while (timeElapsed < flamesDuration)
+        {
+            if (lastDamage >= flamesDamageInterval)
+            {
+                lastDamage = 0;
+                if (other != null)
+                    other.gameObject.SendMessage("TakeDamage", new float[] { flamesDamage, 0 });
+            }
+
+            lastDamage += Time.deltaTime;
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+        Destroy(flames);
+    }
+
+    // MOVEMENT ABILITY METHODS
+
     protected override void MovementAbility()
     {
         if (!attackFlagMA)
@@ -90,48 +131,6 @@ public class Hero_Padeira : Hero
             attackFlagMA = true;
             charAnimator.SetBool("Movement Ability", true);
             StartCoroutine(LeapTowards());
-        }
-    }
-
-    protected override void OtherAbility()
-    {
-        otherAbility = false;
-
-        currentHealth += healValue;
-        if (currentHealth > maximumHealth) currentHealth = maximumHealth;
-
-        healthBar.SetHealthBarSize(currentHealth);
-    }
-
-    protected override void UltimateAbility()
-    {
-        if (!attackFlagUA)
-        {
-            timeElapsedUA = 0;
-            Vector3 rollingPinSpawn = new Vector3(transform.position.x, 0.5f, transform.position.z) + transform.forward * 2;
-            rollPin = Instantiate(rollingPin, rollingPinSpawn, transform.rotation, transform);
-            rollPin.transform.SetParent(null);
-
-            rollPin.GetComponent<Weapon>().IsAttacking = true;
-
-            targetPosUA = rollPin.transform.position + rollPin.transform.forward * rollDistance;
-            startPosUA = rollPin.transform.position;
-
-            rollDuration = (rollDistance / rollSpeed);
-            attackFlagUA = true;
-        }
-
-        if (timeElapsedUA <= rollDuration)
-        {
-            Debug.Log(timeElapsedUA);
-            rollPin.transform.position = Vector3.Lerp(startPosUA, targetPosUA, timeElapsedUA / rollDuration);
-            timeElapsedUA += Time.deltaTime;
-        }
-        else
-        {
-            attackFlagUA = false;
-            ultimateAbility = false;
-            Destroy(rollPin);
         }
     }
 
@@ -177,7 +176,7 @@ public class Hero_Padeira : Hero
         {
             if (c.name != $"Player {PlayerNumber}" && c.transform != transform)
             {
-                c.SendMessageUpwards("TakeDamage", damageMA);
+                c.SendMessageUpwards("TakeDamage", new float[] { damageMA, 0 });
                 StartCoroutine(SlowEnemy(c));
             }
         }
@@ -196,6 +195,88 @@ public class Hero_Padeira : Hero
         }
 
         enemy.CharMovement.IsSlowed = false;
+    }
+
+    // OTHER ABILITY METHODS
+
+    protected override void OtherAbility()
+    {
+        otherAbility = false;
+
+        currentHealth += healValue;
+        if (currentHealth > maximumHealth) currentHealth = maximumHealth;
+
+        healthBar.SetHealthBarSize(currentHealth);
+    }
+
+    // ULTIMATE ABILITY METHODS
+
+    protected override void UltimateAbility()
+    {
+        if (!attackFlagUA)
+        {
+            timeElapsedUA = 0;
+            Vector3 rollingPinSpawn = new Vector3(transform.position.x, 0.5f, transform.position.z) + transform.forward * 2;
+            rollPin = Instantiate(rollingPin, rollingPinSpawn, transform.rotation, transform);
+            rollPin.transform.SetParent(null);
+
+            rollPin.GetComponent<Weapon>().IsAttacking = true;
+
+            targetPosUA = rollPin.transform.position + rollPin.transform.forward * rollDistance;
+            startPosUA = rollPin.transform.position;
+
+            rollDuration = (rollDistance / rollSpeed);
+            attackFlagUA = true;
+        }
+
+        if (timeElapsedUA <= rollDuration)
+        {
+            rollPin.GetComponent<Weapon>().Abilities[3] = true;
+            rollPin.transform.position = Vector3.Lerp(startPosUA, targetPosUA, timeElapsedUA / rollDuration);
+            timeElapsedUA += Time.deltaTime;
+        }
+        else
+        {
+            // Create damage zone
+            GameObject damagePlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            damagePlane.transform.rotation = rollPin.transform.rotation;
+            damagePlane.transform.position = (startPosUA + targetPosUA) / 2;
+            damagePlane.transform.position = new Vector3(damagePlane.transform.position.x, 0.01f, damagePlane.transform.position.z);
+            damagePlane.transform.localScale = new Vector3(1, 1, rollDistance / 10f);
+            Destroy(damagePlane.GetComponent<Collider>());
+            damagePlane.AddComponent<BoxCollider>().isTrigger = true;
+            damagePlane.GetComponent<BoxCollider>().size += new Vector3(0, 4, 0);
+            damagePlane.AddComponent<Rigidbody>().isKinematic = true;
+            damagePlane.AddComponent<DamageZone>().Initialize(floorDamage, floorDamageInterval, floorDamageDuration);
+
+            attackFlagUA = false;
+            ultimateAbility = false;
+            Destroy(rollPin);
+        }
+    }
+
+    public void AfterHitEffectUA(Transform other)
+    {
+        if (other != null)
+            StartCoroutine(Stun(other));
+    }
+
+    private IEnumerator Stun(Transform other)
+    {
+        float timeElapsed = 0;
+
+        while (timeElapsed < stunDuration)
+        {
+            if (other != null)
+                other.gameObject.SendMessage("AllowMovement", false);
+
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        if (other != null)
+            other.gameObject.SendMessage("AllowMovement", true);
     }
 
     public override void ResetWeapon()

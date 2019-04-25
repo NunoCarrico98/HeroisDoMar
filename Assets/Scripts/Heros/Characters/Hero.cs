@@ -173,8 +173,14 @@ public abstract class Hero : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void TakeDamage(float damage)
+    public void AllowMovement(bool movement)
     {
+        charMovement.IsMovementAllowed = movement;
+    }
+
+    public void TakeDamage(float[] weaponProperties)
+    {
+        float damage = weaponProperties[0];
         currentHealth -= damage;
 
         if (currentHealth < 0)

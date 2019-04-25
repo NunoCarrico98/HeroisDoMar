@@ -27,14 +27,17 @@ public class DecoyController : MonoBehaviour
     private List<GameObject> enemiesList;
     private GameObject nearestEnemy;
 
+    public bool IsMovementAllowed { get; set; }
+
     private void Awake()
     {
         charAnimator = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
         timeElapsed = 0;
+        IsMovementAllowed = true;
     }
 
-    public void Initialize(int pNumber, float decoyLifetime, float health, float movementSpeed, 
+    public void Initialize(int pNumber, float decoyLifetime, float health, float movementSpeed,
         float targetRadius, float explosionRadius, float explosionDamage, float secondsForTarget)
     {
         this.pNumber = pNumber;
@@ -58,8 +61,13 @@ public class DecoyController : MonoBehaviour
 
         if (timeElapsed <= secondsForTarget)
         {
-            PlayRunningAnimation(true);
-            agent.Move(transform.forward * movementSpeed * Time.deltaTime);
+            if (IsMovementAllowed)
+            {
+                PlayRunningAnimation(true);
+                agent.Move(transform.forward * movementSpeed * Time.deltaTime);
+            }
+            else
+                PlayRunningAnimation(false);
         }
         else
         {
@@ -84,8 +92,13 @@ public class DecoyController : MonoBehaviour
             }
             else
             {
-                PlayRunningAnimation(true);
-                agent.SetDestination(nearestEnemy.transform.position);
+                if (IsMovementAllowed)
+                {
+                    PlayRunningAnimation(true);
+                    agent.SetDestination(nearestEnemy.transform.position);
+                }
+                else
+                    PlayRunningAnimation(false);
             }
         }
 
@@ -112,8 +125,8 @@ public class DecoyController : MonoBehaviour
 
     public void TakeDamage(float[] weaponProperties)
     {
-        int weaponHolderNum = (int)weaponProperties[0];
-        float weaponDamage = weaponProperties[1];
+        float weaponDamage = weaponProperties[0];
+        int weaponHolderNum = (int)weaponProperties[1];
 
         if (weaponHolderNum == pNumber)
         {
@@ -139,7 +152,7 @@ public class DecoyController : MonoBehaviour
         {
             if (c.name != $"Player {pNumber}" && c.transform != transform)
             {
-                c.SendMessageUpwards("TakeDamage", explosionDamage);
+                c.SendMessageUpwards("TakeDamage", new float[] { explosionDamage, 0 });
             }
         }
     }
@@ -170,5 +183,10 @@ public class DecoyController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void AllowMovement(bool movement)
+    {
+        IsMovementAllowed = movement;
     }
 }

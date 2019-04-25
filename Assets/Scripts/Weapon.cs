@@ -5,15 +5,20 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private bool isResetAfterHit;
 
+    public bool BasicAbility { get; set; }
+    public bool MovementAbility { get; set; }
+    public bool OtherAbility { get; set; }
+    public bool UltimateAbility { get; set; }
+
+    public bool[] Abilities { get; set; }
+
     public float Damage => damage;
-    public float ExtraDamage { get; set; }
     public bool IsAttacking { get; set; }
     public Hero WeaponHolder { get; private set; }
 
     private void Awake()
     {
-        ExtraDamage = 0;
-
+        Abilities = new bool[4];
         WeaponHolder = GetComponentInParent<Hero>();
     }
 
@@ -27,20 +32,26 @@ public class Weapon : MonoBehaviour
             }
             else if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && other.gameObject.transform != WeaponHolder.transform)
             {
-                float damageApplied = (ExtraDamage != 0) ? damage + ExtraDamage : damage;
-
                 Debug.Log($"I've hit the {other.gameObject.name}");
 
                 if (isResetAfterHit)
                     WeaponHolder.ResetWeapon();
 
                 if (other.gameObject.tag == "Player")
-                    other.gameObject.GetComponent<Hero>().TakeDamage(damageApplied);
+                    other.gameObject.GetComponent<Hero>().TakeDamage(new float[] { damage, 0 });
 
                 else if (other.gameObject.tag == "Decoy")
-                    other.gameObject.SendMessage("TakeDamage", new float[] { WeaponHolder.PlayerNumber, damageApplied });
+                    other.gameObject.SendMessage("TakeDamage", new float[] { damage, WeaponHolder.PlayerNumber });
 
-                ExtraDamage = 0;
+                if (Abilities[0]) WeaponHolder.SendMessage("AfterHitEffectBA", other.transform);
+                if (Abilities[1]) WeaponHolder.SendMessage("AfterHitEffectMA", other.transform);
+                if (Abilities[2]) WeaponHolder.SendMessage("AfterHitEffectOA", other.transform);
+                if (Abilities[3]) WeaponHolder.SendMessage("AfterHitEffectUA", other.transform);
+
+                for (int i = 0; i < Abilities.Length; i++)
+                {
+                    Abilities[i] = false;
+                }
             }
         }
     }
