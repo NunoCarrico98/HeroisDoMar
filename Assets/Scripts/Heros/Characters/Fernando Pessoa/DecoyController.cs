@@ -28,6 +28,7 @@ public class DecoyController : MonoBehaviour
     private GameObject nearestEnemy;
 
     public bool IsMovementAllowed { get; set; }
+    public bool IsSlowed { get; set; }
 
     private void Awake()
     {
@@ -63,6 +64,7 @@ public class DecoyController : MonoBehaviour
         {
             if (IsMovementAllowed)
             {
+                float movement = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
                 PlayRunningAnimation(true);
                 agent.Move(transform.forward * movementSpeed * Time.deltaTime);
             }
@@ -94,6 +96,7 @@ public class DecoyController : MonoBehaviour
             {
                 if (IsMovementAllowed)
                 {
+                    agent.speed = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
                     PlayRunningAnimation(true);
                     agent.SetDestination(nearestEnemy.transform.position);
                 }
@@ -135,6 +138,7 @@ public class DecoyController : MonoBehaviour
         }
         else
         {
+            Debug.Log(health);
             health -= weaponDamage;
 
             if (health <= 0)
@@ -163,30 +167,13 @@ public class DecoyController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        Weapon weapon = other.transform.GetComponent<Weapon>();
-
-        if (weapon != null)
-        {
-            if (weapon.IsAttacking)
-            {
-                if (weapon.GetWeaponHolderPlayerNumber() == pNumber)
-                {
-                    Instantiate(explosionEffect, transform.position, transform.rotation);
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    Instantiate(vanishEffect, transform.position, transform.rotation);
-                    Destroy(gameObject);
-                }
-            }
-        }
-    }
-
     public void AllowMovement(bool movement)
     {
         IsMovementAllowed = movement;
+    }
+
+    public void SlowDown(bool condition)
+    {
+        IsSlowed = condition;
     }
 }

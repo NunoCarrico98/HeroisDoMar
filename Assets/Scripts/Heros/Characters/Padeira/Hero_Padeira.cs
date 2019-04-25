@@ -176,7 +176,7 @@ public class Hero_Padeira : Hero
         {
             if (c.name != $"Player {PlayerNumber}" && c.transform != transform)
             {
-                c.SendMessageUpwards("TakeDamage", new float[] { damageMA, 0 });
+                c.SendMessage("TakeDamage", new float[] { damageMA, 0 });
                 StartCoroutine(SlowEnemy(c));
             }
         }
@@ -185,8 +185,9 @@ public class Hero_Padeira : Hero
     private IEnumerator SlowEnemy(Collider c)
     {
         float timeElapsed = 0;
-        Hero enemy = c.GetComponent<Hero>();
-        enemy.CharMovement.IsSlowed = true;
+
+        if (c != null)
+            c.SendMessage("SlowDown", true);
 
         while (timeElapsed < slowDownTimeMA)
         {
@@ -194,7 +195,8 @@ public class Hero_Padeira : Hero
             yield return null;
         }
 
-        enemy.CharMovement.IsSlowed = false;
+        if (c != null)
+            c.SendMessage("SlowDown", false);
     }
 
     // OTHER ABILITY METHODS

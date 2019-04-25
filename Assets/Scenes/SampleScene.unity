@@ -447,7 +447,7 @@ MonoBehaviour:
   maximumHealth: 100
   maximumShield: 75
   basicAbilityCooldown: 3
-  movementAbilityCooldown: 30
+  movementAbilityCooldown: 2
   otherAbilityCooldown: 20
   ultimateAbilityCooldown: 0
   weapon1: {fileID: 1183167007}
@@ -462,7 +462,7 @@ MonoBehaviour:
   explosionRadius: 1.8
   explosionDamage: 15
   secondsUntilSeekingTargetMA: 3
-  timeForSwitch: 0.1
+  delayForSwitch: 0.1
   moveSpeedIncreaseOA: 1.5
   durationOA: 5
   particlesOA: {fileID: 1108530435311712590, guid: da1b2bd1f5e8b9f4399b940e119d57dc,

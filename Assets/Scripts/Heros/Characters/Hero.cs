@@ -178,6 +178,11 @@ public abstract class Hero : MonoBehaviour
         charMovement.IsMovementAllowed = movement;
     }
 
+    public void SlowDown(bool condition)
+    {
+        charMovement.IsSlowed = condition;
+    }
+
     public void TakeDamage(float[] weaponProperties)
     {
         float damage = weaponProperties[0];

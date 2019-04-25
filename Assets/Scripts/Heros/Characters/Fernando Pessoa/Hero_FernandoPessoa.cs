@@ -16,7 +16,7 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float explosionRadius;
     [SerializeField] private float explosionDamage;
     [SerializeField] private float secondsUntilSeekingTargetMA;
-    [SerializeField] private float timeForSwitch;
+    [SerializeField] private float delayForSwitch;
     [Header("Other Ability")]
     [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
@@ -95,7 +95,7 @@ public class Hero_FernandoPessoa : Hero
         {
             decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
             decoyCollider = decoy.GetComponent<CapsuleCollider>();
-            decoy.Initialize(PlayerNumber, decoyLifetime, maximumHealth, charMovement.MovementSpeed, 
+            decoy.Initialize(PlayerNumber, decoyLifetime, decoyHealthMA, charMovement.MovementSpeed, 
                 targetRadius, explosionRadius, explosionDamage, secondsUntilSeekingTargetMA);
             attackFlagMA = true;
         }
@@ -106,8 +106,11 @@ public class Hero_FernandoPessoa : Hero
                 decoyCollider.enabled = true;
 
         if (decoy != null)
-            if (InputManager.GetButtonDown(PlayerNumber, "MA") && !positionSwitched && timeElapsedMA > timeForSwitch)
+        {
+            if (InputManager.GetButtonDown(PlayerNumber, "MA") && !positionSwitched && timeElapsedMA > delayForSwitch)
             {
+                Debug.Log("entered here");
+
                 positionSwitched = true;
                 Vector3 tempPos = decoy.transform.position;
                 Quaternion tempRot = decoy.transform.rotation;
@@ -115,11 +118,21 @@ public class Hero_FernandoPessoa : Hero
                 Instantiate(switchPositionEffect, transform.position, transform.rotation);
                 Instantiate(switchPositionEffect, decoy.transform.position, decoy.transform.rotation);
 
+                decoy.AllowMovement(false);
+                AllowMovement(false);
+
                 decoy.transform.position = transform.position;
                 transform.position = tempPos;
                 decoy.transform.rotation = transform.rotation;
                 transform.rotation = tempRot;
             }
+            else if (positionSwitched)
+            {
+                decoy.AllowMovement(true);
+                AllowMovement(true);
+            }
+        }
+
 
         if (timeElapsedMA >= decoyLifetime)
         {
