@@ -16,8 +16,7 @@ public abstract class Hero : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ultimateUIText;
 
     [Header("Maximum Health and Shield")]
-    [SerializeField]
-    protected float maximumHealth;
+    [SerializeField] protected float maximumHealth;
     [SerializeField] private float maximumShield;
 
     [Header("Cooldowns")]
@@ -31,7 +30,7 @@ public abstract class Hero : MonoBehaviour
     [SerializeField]
     protected Collider weapon1;
 
-    protected HealthBar healthBar;
+    protected AttributeBars attributeBar;
 
     protected float currentHealth;
     protected float currentShield;
@@ -64,9 +63,11 @@ public abstract class Hero : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-        healthBar = GetComponent<HealthBar>();
-        healthBar.MaximumHealth = maximumHealth;
+        attributeBar = GetComponent<AttributeBars>();
+        attributeBar.MaximumHealth = maximumHealth;
+        attributeBar.MaximumShield = maximumShield;
         currentHealth = maximumHealth;
+        currentShield = maximumShield;
 
         charMovement = GetComponent<CharacterMovement>();
         charAnimator = GetComponent<Animator>();
@@ -186,7 +187,21 @@ public abstract class Hero : MonoBehaviour
     public void TakeDamage(float[] weaponProperties)
     {
         float damage = weaponProperties[0];
-        currentHealth -= damage;
+
+        if (currentShield > 0)
+        {
+            currentShield -= damage;
+            if (currentShield < 0)
+            {
+                float damageToHp = currentShield;
+                currentHealth += damageToHp;
+                currentShield = 0;
+            }
+        }
+        else
+        {
+            currentHealth -= damage;
+        }
 
         if (currentHealth < 0)
         {
@@ -194,6 +209,7 @@ public abstract class Hero : MonoBehaviour
             Die();
         }
 
-        healthBar.SetHealthBarSize(currentHealth);
+        attributeBar.SetHealthBarSize(currentHealth);
+        attributeBar.SetShieldBarSize(currentShield);
     }
 }

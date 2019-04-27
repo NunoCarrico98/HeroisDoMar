@@ -208,7 +208,7 @@ public class Hero_Padeira : Hero
         currentHealth += healValue;
         if (currentHealth > maximumHealth) currentHealth = maximumHealth;
 
-        healthBar.SetHealthBarSize(currentHealth);
+        attributeBar.SetHealthBarSize(currentHealth);
     }
 
     // ULTIMATE ABILITY METHODS
