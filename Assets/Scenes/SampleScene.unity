@@ -219,11 +219,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400132, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 400132, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400132, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
       propertyPath: m_Controller
@@ -297,7 +301,7 @@ GameObject:
   - component: {fileID: 123712515}
   - component: {fileID: 123712519}
   m_Layer: 9
-  m_Name: Player 2 (Fernando Pessoa)
+  m_Name: Player 2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,14 +315,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123712513}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.65, y: 0, z: 0}
+  m_LocalPosition: {x: 35, y: 0, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 627707269}
   - {fileID: 1183167005}
   - {fileID: 1515006760}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &123712515
 MonoBehaviour:
@@ -332,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25d6daf56af0c84abd5062d764f592d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  movementSpeed: 8
   turnSpeed: 15
 --- !u!143 &123712516
 CharacterController:
@@ -345,13 +349,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.8
+  m_Height: 4
+  m_Radius: 1
   m_SlopeLimit: 0
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &123712517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,24 +375,24 @@ MonoBehaviour:
   ultimateUIText: {fileID: 927531964}
   maximumHealth: 100
   maximumShield: 75
-  basicAbilityCooldown: 3
-  movementAbilityCooldown: 2
-  otherAbilityCooldown: 20
+  basicAbilityCooldown: 0
+  movementAbilityCooldown: 10
+  otherAbilityCooldown: 15
   ultimateAbilityCooldown: 0
   weapon1: {fileID: 1183167007}
-  distanceBA: 11
-  durationForwardBA: 0.5
+  distanceBA: 16
+  durationForwardBA: 0.7
   decoyMA: {fileID: 5976701139815356864, guid: bfc1fb17fdc7fc94da758dd5ab9158d2, type: 3}
   switchPositionEffect: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac,
     type: 3}
-  decoyLifetime: 10
+  decoyLifetime: 7.5
   decoyHealthMA: 30
   targetRadius: 10
-  explosionRadius: 1.8
+  explosionRadius: 5
   explosionDamage: 15
-  secondsUntilSeekingTargetMA: 3
+  secondsUntilSeekingTargetMA: 2
   delayForSwitch: 0.1
-  moveSpeedIncreaseOA: 1.5
+  moveSpeedIncreaseOA: 3
   durationOA: 5
   particlesOA: {fileID: 1108530435311712590, guid: da1b2bd1f5e8b9f4399b940e119d57dc,
     type: 3}
@@ -1773,13 +1777,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: 40, z: -33}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 0, y: 43.1, z: -26.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &534669906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1793,11 +1797,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
-  offset: {x: 0, y: 40, z: -33}
+  offset: {x: 0, y: 43.1, z: -26.1}
   smoothness: 0.5
-  minZoom: 40
-  maxZoom: 3
-  zoomLimiter: 30
+  minZoom: 95
+  maxZoom: 20
+  zoomLimiter: 100
 --- !u!1 &557766274
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,7 +2598,7 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4867322cf20d67b4793834ccb7537591, type: 2}
+      objectReference: {fileID: 2100000, guid: 8139c659f2fbdc84a974d5746387dec7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
 --- !u!4 &904075004 stripped
@@ -3114,8 +3118,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183167004}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.030000005, y: 1.678, z: 0.12399961}
-  m_LocalScale: {x: 0.29494172, y: 0.042326, z: 0.29494172}
+  m_LocalPosition: {x: 0.06500003, y: 3.35, z: 0.3500006}
+  m_LocalScale: {x: 1.2, y: 0.1, z: 1.2}
   m_Children: []
   m_Father: {fileID: 123712514}
   m_RootOrder: 1
@@ -3132,8 +3136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71af4b8020f54b448dce3f33cf74729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  isResetAfterHit: 1
+  damage: 15
+  isResetAfterHit: 0
 --- !u!136 &1183167007
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4216,11 +4220,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400132, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 400132, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400132, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
       propertyPath: m_Controller
@@ -4341,7 +4349,7 @@ GameObject:
   - component: {fileID: 1538009785}
   - component: {fileID: 1538009784}
   m_Layer: 9
-  m_Name: Player 1 (Padeira)
+  m_Name: Player 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4373,7 +4381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25d6daf56af0c84abd5062d764f592d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  movementSpeed: 8
   turnSpeed: 15
 --- !u!114 &1538009786
 MonoBehaviour:
@@ -4394,16 +4402,16 @@ MonoBehaviour:
   ultimateUIText: {fileID: 253475447}
   maximumHealth: 100
   maximumShield: 75
-  basicAbilityCooldown: 2
-  movementAbilityCooldown: 0
-  otherAbilityCooldown: 0
-  ultimateAbilityCooldown: 0
+  basicAbilityCooldown: 1
+  movementAbilityCooldown: 4.5
+  otherAbilityCooldown: 15
+  ultimateAbilityCooldown: 25
   weapon1: {fileID: 1910070256}
   chargeFlamesEffect: {fileID: 1000010823978654, guid: fcd44b5b5262bd84cb2788b021ca91d7,
     type: 3}
-  flamesDuration: 20
-  flamesDamageInterval: 5
-  flamesDamage: 5
+  flamesDuration: 5
+  flamesDamageInterval: 1
+  flamesDamage: 3
   chargeTimeRequired: 3
   chargeExtraDamage: 10
   landEffectMA: {fileID: 3930313402592066148, guid: c359e48398a8c3a4585094b8b8f7dec4,
@@ -4411,18 +4419,19 @@ MonoBehaviour:
   jumpDistance: 15
   jumpSpeed: 4
   gravity: 30
-  angle: 34.1
+  angle: 20
   damageRadiusMA: 4
-  damageMA: 25
-  slowDownTimeMA: 5
-  healValue: 15
+  damageMA: 5
+  slowDownTimeMA: 3
+  vfxDuration: 1
+  healValue: 20
   rollingPin: {fileID: 7146815878227867884, guid: e4331086da3aaff448debefb3c42e759,
     type: 3}
   rollDistance: 20
   rollSpeed: 8.5
-  stunDuration: 4
+  stunDuration: 1
   floorDamage: 3
-  floorDamageInterval: 1
+  floorDamageInterval: 0.5
   floorDamageDuration: 10
 --- !u!143 &1538009787
 CharacterController:
@@ -4435,13 +4444,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.8
+  m_Height: 4
+  m_Radius: 1
   m_SlopeLimit: 0
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!4 &1538009788
 Transform:
   m_ObjectHideFlags: 0
@@ -4450,13 +4459,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1538009783}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalPosition: {x: -35, y: 0, z: 35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 43436410}
   - {fileID: 904075004}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!95 &1538009789
 Animator:
@@ -5028,8 +5037,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71af4b8020f54b448dce3f33cf74729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 15
-  isResetAfterHit: 1
+  damage: 10
+  isResetAfterHit: 0
 --- !u!54 &1910070260
 Rigidbody:
   m_ObjectHideFlags: 0

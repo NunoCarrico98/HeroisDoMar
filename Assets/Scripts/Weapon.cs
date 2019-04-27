@@ -27,9 +27,8 @@ public class Weapon : MonoBehaviour
         if (IsAttacking)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Arena") && isResetAfterHit)
-            {
                 WeaponHolder.ResetWeapon();
-            }
+
             else if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && other.gameObject.transform != WeaponHolder.transform)
             {
                 Debug.Log($"I've hit the {other.gameObject.name}");

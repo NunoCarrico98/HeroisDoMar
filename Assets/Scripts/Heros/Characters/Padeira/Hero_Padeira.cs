@@ -20,6 +20,7 @@ public class Hero_Padeira : Hero
     [SerializeField] private float damageRadiusMA;
     [SerializeField] private float damageMA;
     [SerializeField] private float slowDownTimeMA;
+    [SerializeField] private float vfxDuration;
     [Header("Other Ability")]
     [SerializeField] private float healValue;
     [Header("Ultimate Ability")]
@@ -129,7 +130,7 @@ public class Hero_Padeira : Hero
         if (!attackFlagMA)
         {
             attackFlagMA = true;
-            charAnimator.SetBool("Movement Ability", true);
+            charAnimator.SetBool("Movement Ability", movementAbility);
             StartCoroutine(LeapTowards());
         }
     }
@@ -137,7 +138,6 @@ public class Hero_Padeira : Hero
     private IEnumerator LeapTowards()
     {
         charMovement.IsMovementAllowed = false;
-        yield return new WaitForSeconds(0.5f);
 
         float jumpVelocity = jumpDistance / (Mathf.Sin(2 * angle * Mathf.Deg2Rad) / gravity);
 
@@ -161,11 +161,12 @@ public class Hero_Padeira : Hero
         GameObject landFX = Instantiate(landEffectMA, transform.position, transform.rotation);
         landFX.transform.localScale = new Vector3(damageRadiusMA * 2, 0.01f, damageRadiusMA * 2);
 
-        yield return new WaitForSeconds(1.1f);
-        Destroy(landFX);
-        charMovement.IsMovementAllowed = true;
-        attackFlagMA = false;
         movementAbility = false;
+        charAnimator.SetBool("Movement Ability", movementAbility);
+        charMovement.IsMovementAllowed = true;
+        yield return new WaitForSeconds(vfxDuration);
+        Destroy(landFX);
+        attackFlagMA = false;
     }
 
     private void ApplyAOEDamage()
@@ -285,18 +286,5 @@ public class Hero_Padeira : Hero
     {
         weapon1.GetComponent<Weapon>().IsAttacking = false;
         charAnimator.SetBool("Basic Ability", false);
-    }
-
-    public void OnAnimationEnded(int n)
-    {
-        switch (n)
-        {
-            case 1:
-                charAnimator.SetBool("Basic Ability", false);
-                break;
-            case 2:
-                charAnimator.SetBool("Movement Ability", false);
-                break;
-        }
     }
 }

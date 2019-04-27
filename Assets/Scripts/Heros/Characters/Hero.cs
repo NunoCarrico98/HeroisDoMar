@@ -9,26 +9,23 @@ public abstract class Hero : MonoBehaviour
     private int pNumber;
 
     [Header("Abilities UI")]
-    [SerializeField]
-    private TextMeshProUGUI meleeUIText;
-    [SerializeField] private TextMeshProUGUI rangedUIText;
-    [SerializeField] private TextMeshProUGUI regularAbilityUIText;
-    [SerializeField] private TextMeshProUGUI ultimateUIText;
+    [SerializeField] protected TextMeshProUGUI meleeUIText;
+    [SerializeField] protected TextMeshProUGUI rangedUIText;
+    [SerializeField] protected TextMeshProUGUI regularAbilityUIText;
+    [SerializeField] protected TextMeshProUGUI ultimateUIText;
 
     [Header("Maximum Health and Shield")]
     [SerializeField] protected float maximumHealth;
     [SerializeField] private float maximumShield;
 
     [Header("Cooldowns")]
-    [SerializeField]
-    private float basicAbilityCooldown;
-    [SerializeField] private float movementAbilityCooldown;
-    [SerializeField] private float otherAbilityCooldown;
-    [SerializeField] private float ultimateAbilityCooldown;
+    [SerializeField] protected float basicAbilityCooldown;
+    [SerializeField] protected float movementAbilityCooldown;
+    [SerializeField] protected float otherAbilityCooldown;
+    [SerializeField] protected float ultimateAbilityCooldown;
 
     [Header("Weapon(s)")]
-    [SerializeField]
-    protected Collider weapon1;
+    [SerializeField] protected Collider weapon1;
 
     protected AttributeBars attributeBar;
 
@@ -167,6 +164,29 @@ public abstract class Hero : MonoBehaviour
                 abilityUI.text = temp;
                 break;
         }
+    }
+
+    public void OnAnimationEnded(int n)
+    {
+        switch (n)
+        {
+            case 1:
+                charAnimator.SetBool("Basic Ability", false);
+                ResetAttackMode();
+                break;
+            case 2:
+                charAnimator.SetBool("Movement Ability", false);
+                ResetAttackMode();
+                break;
+        }
+    }
+
+    public void ResetAttackMode()
+    {
+        Weapon currentWeapon = weapon1.GetComponent<Weapon>();
+
+        if (currentWeapon != null)
+            currentWeapon.IsAttacking = false;
     }
 
     private void Die()

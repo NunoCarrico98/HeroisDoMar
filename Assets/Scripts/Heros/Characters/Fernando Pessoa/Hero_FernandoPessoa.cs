@@ -74,7 +74,7 @@ public class Hero_FernandoPessoa : Hero
             startingPosition = boomerang.transform.position;
         }
 
-        if (timeElapsedBA >= durationForwardBA * 2 && isComingBack)
+        if (isComingBack && Vector3.Distance(boomerang.transform.position, weapon1.transform.position) < 0.2f)
         {
             ResetWeapon();
         }
@@ -113,7 +113,6 @@ public class Hero_FernandoPessoa : Hero
 
                 positionSwitched = true;
                 Vector3 tempPos = decoy.transform.position;
-                Quaternion tempRot = decoy.transform.rotation;
 
                 Instantiate(switchPositionEffect, transform.position, transform.rotation);
                 Instantiate(switchPositionEffect, decoy.transform.position, decoy.transform.rotation);
@@ -123,8 +122,6 @@ public class Hero_FernandoPessoa : Hero
 
                 decoy.transform.position = transform.position;
                 transform.position = tempPos;
-                decoy.transform.rotation = transform.rotation;
-                transform.rotation = tempRot;
             }
             else if (positionSwitched)
             {
@@ -132,8 +129,6 @@ public class Hero_FernandoPessoa : Hero
                 AllowMovement(true);
             }
         }
-
-
         if (timeElapsedMA >= decoyLifetime)
         {
             movementAbility = false;
@@ -155,6 +150,8 @@ public class Hero_FernandoPessoa : Hero
 
     private IEnumerator TimerOA()
     {
+        float timeElapsed = 0;
+
         float temp = charMovement.MovementSpeed;
         charMovement.MovementSpeed += moveSpeedIncreaseOA;
 
@@ -162,14 +159,14 @@ public class Hero_FernandoPessoa : Hero
         speedEffect.transform.SetParent(transform);
         speedEffect.Play();
 
-        for (float i = durationOA; i > 0; i -= 0.1f)
+        while (timeElapsed < durationOA)
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            timeElapsed += Time.deltaTime;
+            yield return null;
         }
 
         charMovement.MovementSpeed = temp;
-
-        Destroy(speedEffect);
+        Destroy(speedEffect.gameObject);
     }
 
     public override void ResetWeapon()
