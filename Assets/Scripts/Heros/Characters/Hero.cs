@@ -63,7 +63,7 @@ public abstract class Hero : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-		vfxManager = GameObject.FindObjectOfType<VFXManager>();
+		vfxManager = FindObjectOfType<VFXManager>();
 
         attributeBar = GetComponent<AttributeBars>();
         attributeBar.MaximumHealth = maximumHealth;
