@@ -7,7 +7,7 @@ using UnityEngine;
 public class DecoyController : MonoBehaviour
 {
     [SerializeField] private GameObject explosionVFX;
-	[SerializeField] private float explosionYOffset;
+    [SerializeField] private float explosionYOffset;
     [SerializeField] private GameObject vanishVFX;
 
     private int pNumber;
@@ -17,18 +17,22 @@ public class DecoyController : MonoBehaviour
     private float targetRadius;
     private float explosionRadius;
     private float explosionDamage;
-    private float secondsForTarget;
+    private float secondsForAction;
+    private float numberOfDecoys;
     private float timeElapsed;
     private Vector3 lastPosition;
     private Animator charAnimator;
     private NavMeshAgent agent;
 
     private bool enemyFound;
-    private List<GameObject> enemiesList;
-    private GameObject nearestEnemy;
+    private List<Hero> enemiesList;
+    private List<DecoyController> allyDecoys;
+    private Hero nearestEnemy;
 
-	private VFXManager vfxManager;
+    private VFXManager vfxManager;
 
+    public DecoyType type;
+    public int PlayerNumber => pNumber;
     public bool IsMovementAllowed { get; set; }
     public bool IsSlowed { get; set; }
 
@@ -40,9 +44,9 @@ public class DecoyController : MonoBehaviour
         IsMovementAllowed = true;
     }
 
-    public void Initialize(int pNumber, float decoyLifetime, float health, float movementSpeed,
-        float targetRadius, float explosionRadius, float explosionDamage, float secondsForTarget, 
-		VFXManager vfxManager)
+    public void InitializeDecoy(int pNumber, float decoyLifetime, float health, float movementSpeed,
+        float explosionRadius, float explosionDamage, VFXManager vfxManager, DecoyType type,
+        float secondsForTarget = 0, float targetRadius = 0, int numberOfDecoys = 0)
     {
         this.pNumber = pNumber;
         this.decoyLifetime = decoyLifetime;
@@ -51,28 +55,45 @@ public class DecoyController : MonoBehaviour
         this.targetRadius = targetRadius;
         this.explosionRadius = explosionRadius;
         this.explosionDamage = explosionDamage;
-        this.secondsForTarget = secondsForTarget;
-		this.vfxManager = vfxManager;
-        /*
-        enemiesList = FindObjectsOfType<Hero>().Where(p => p.PlayerNumber != pNumber).ToList(); */
+        this.secondsForAction = secondsForTarget;
+        this.numberOfDecoys = numberOfDecoys;
+        this.vfxManager = vfxManager;
 
-        enemiesList =
-            GameObject.FindGameObjectsWithTag("Player").Where(p => p.name != $"Player {pNumber}").ToList();
+        this.type = type;
+
+        if (type == DecoyType.MovementDecoy)
+            enemiesList = FindObjectsOfType<Hero>().Where(p => p.PlayerNumber != pNumber).ToList();
+
         agent.speed = movementSpeed;
+    }
+
+    // Gonna need this in the future for Domino Blow Up
+    public void FindAllyDecoys()
+    {
+        allyDecoys = FindObjectsOfType<DecoyController>().
+            Where(d => d.PlayerNumber == PlayerNumber && d.transform != transform).ToList();
     }
 
     private void Update()
     {
+        if (type == DecoyType.MovementDecoy)
+            MovementAbility();
+        else if (type == DecoyType.UltimateDecoy)
+            UltimateAbility();
+    }
+
+    private void MovementAbility()
+    {
         lastPosition = transform.position;
         timeElapsed += Time.deltaTime;
 
-        if (timeElapsed <= secondsForTarget)
+        if (timeElapsed <= secondsForAction)
         {
             if (IsMovementAllowed)
             {
                 float movement = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
                 PlayRunningAnimation(true);
-                agent.Move(transform.forward * movementSpeed * Time.deltaTime);
+                agent.Move(transform.forward * movement * Time.deltaTime);
             }
             else
                 PlayRunningAnimation(false);
@@ -82,9 +103,9 @@ public class DecoyController : MonoBehaviour
             if (!enemyFound)
             {
                 PlayRunningAnimation(false);
-                GameObject tempEnemy = null;
+                Hero tempEnemy = null;
 
-                foreach (GameObject enemy in enemiesList)
+                foreach (Hero enemy in enemiesList)
                 {
                     if (Vector3.Distance(transform.position, enemy.transform.position) <= targetRadius)
                     {
@@ -119,6 +140,97 @@ public class DecoyController : MonoBehaviour
             DestroyDecoy(vanishVFX);
     }
 
+    public void WarpTo(Vector3 position)
+    {
+        agent.Warp(position);
+    }
+
+    private void UltimateAbility()
+    {
+        if (timeElapsed < decoyLifetime)
+        {
+            if (IsMovementAllowed)
+            {
+                float movement = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
+                PlayRunningAnimation(true);
+                agent.Move(transform.forward * movement * Time.deltaTime);
+            }
+            else
+                PlayRunningAnimation(false);
+        }
+        else
+        {
+            ApplyAOEDamage();
+            DestroyDecoy(explosionVFX);
+        }
+
+        timeElapsed += Time.deltaTime;
+    }
+
+    public void TakeDamage(float[] weaponProperties)
+    {
+        float weaponDamage = weaponProperties[0];
+        int weaponHolderNum = (int)weaponProperties[1];
+
+        if (type == DecoyType.MovementDecoy)
+        {
+            if (weaponHolderNum == pNumber)
+            {
+                ApplyAOEDamage();
+                DestroyDecoy(explosionVFX);
+            }
+            else
+            {
+                health -= weaponDamage;
+
+                if (health <= 0)
+                {
+                    DestroyDecoy(vanishVFX);
+                }
+            }
+        }
+        else if (type == DecoyType.UltimateDecoy)
+        {
+            if (weaponHolderNum == pNumber)
+            {
+                ApplyAOEDamage();
+                DestroyDecoy(explosionVFX);
+            }
+            else
+            {
+                health -= weaponDamage;
+
+                if (health <= 0)
+                {
+                    ApplyAOEDamage();
+                    DestroyDecoy(explosionVFX);
+                }
+            }
+        }
+    }
+
+    public void Suicide()
+    {
+        ApplyAOEDamage();
+        DestroyDecoy(explosionVFX);
+    }
+
+    public void ApplyAOEDamage()
+    {
+        Collider[] affectedEnemies = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Hitbox"));
+
+        foreach (Collider c in affectedEnemies)
+        {
+            // THIS ONLY AFFECTS HEROES FOR NOW.
+            Hero enemy = c.GetComponent<Hero>();
+            if (enemy != null)
+                if (enemy.PlayerNumber != pNumber && c.transform != transform)
+                {
+                    c.SendMessageUpwards("TakeDamage", new float[] { explosionDamage, 0 });
+                }
+        }
+    }
+
     private void PlayRunningAnimation(bool isRunning)
     {
         switch (isRunning)
@@ -132,44 +244,9 @@ public class DecoyController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float[] weaponProperties)
+    public void DestroyDecoy(GameObject vfx)
     {
-        float weaponDamage = weaponProperties[0];
-        int weaponHolderNum = (int)weaponProperties[1];
-
-        if (weaponHolderNum == pNumber)
-        {
-            ApplyAOEDamage();
-            DestroyDecoy(explosionVFX);
-        }
-        else
-        {
-            Debug.Log(health);
-            health -= weaponDamage;
-
-            if (health <= 0)
-            {
-                DestroyDecoy(vanishVFX);
-            }
-        }
-    }
-
-    private void ApplyAOEDamage()
-    {
-        Collider[] affectedEnemies = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Hitbox"));
-
-        foreach (Collider c in affectedEnemies)
-        {
-            if (c.name != $"Player {pNumber}" && c.transform != transform)
-            {
-                c.SendMessageUpwards("TakeDamage", new float[] { explosionDamage, 0 });
-            }
-        }
-    }
-
-    private void DestroyDecoy(GameObject vfx)
-    {
-		vfxManager.InstantiateVFXWithYOffset(vfx, transform, 5f, explosionYOffset);
+        vfxManager.InstantiateVFXWithYOffset(vfx, transform, 5f, explosionYOffset);
         //Instantiate(vfx, transform.position, transform.rotation);
         Destroy(gameObject);
     }
@@ -182,5 +259,11 @@ public class DecoyController : MonoBehaviour
     public void SlowDown(bool condition)
     {
         IsSlowed = condition;
+    }
+
+    public enum DecoyType
+    {
+        MovementDecoy,
+        UltimateDecoy
     }
 }

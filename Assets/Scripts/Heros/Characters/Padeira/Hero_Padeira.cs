@@ -22,8 +22,8 @@ public class Hero_Padeira : Hero
     [SerializeField] private float damageMA;
     [SerializeField] private float slowDownTimeMA;
     [SerializeField] private float vfxDuration;
-	[Header("Other Ability")]
-	[SerializeField] private GameObject healVFX;
+    [Header("Other Ability")]
+    [SerializeField] private GameObject healVFX;
     [SerializeField] private float healValue;
     [Header("Ultimate Ability")]
     [SerializeField] private GameObject rollingPin;
@@ -40,6 +40,7 @@ public class Hero_Padeira : Hero
     // Basic Ability
     private bool attackflagBA;
     private float timeElapsedBA;
+    private bool canUseCharge;
 
     // Movement Ability
     private bool attackFlagMA;
@@ -52,11 +53,15 @@ public class Hero_Padeira : Hero
     private Vector3 targetPosUA;
     private Vector3 startPosUA;
 
-	new void Start()
+    new void Start()
     {
         base.Start();
 
+        attackflagBA = false;
+        canUseCharge = false;
+
         attackFlagMA = false;
+
         attackFlagUA = false;
     }
 
@@ -74,28 +79,39 @@ public class Hero_Padeira : Hero
             timeElapsedBA += Time.deltaTime;
 
             if (timeElapsedBA > chargeTimeRequired)
+                canUseCharge = true;
+        }
+        if (Input.GetButtonUp($"P{PlayerNumber} BA"))
+        {
+            if (canUseCharge)
             {
                 Weapon currentWeapon = weapon1.GetComponent<Weapon>();
-				vfxManager.ControlVFX(chargeFlamesVFX, true);
+                vfxManager.ControlVFX(chargeFlamesVFX, true);
                 currentWeapon.Abilities[0] = true;
-                charAnimator.SetBool("Basic Ability", true);
-                basicAbility = false;
                 Debug.Log("CHAARGEEE!");
-                timeElapsedBA = 0;
+                charAnimator.SetBool("Basic Ability", true);
+                ResetBA();
             }
-        }
-        else
-        {
-            charAnimator.SetBool("Basic Ability", true);
-            basicAbility = false;
-            Debug.Log("BASIC");
+            else
+            {
+                Debug.Log("BASIC");
+                charAnimator.SetBool("Basic Ability", true);
+                ResetBA();
+            }
         }
     }
 
-	public void ResetChargeFlamesEffect()
-	{
-		vfxManager.ControlVFX(chargeFlamesVFX, false);
-	}
+    private void ResetBA()
+    {
+        basicAbility = false;
+        timeElapsedBA = 0;
+        canUseCharge = false;
+    }
+
+    public void ResetChargeFlamesEffect()
+    {
+        vfxManager.ControlVFX(chargeFlamesVFX, false);
+    }
 
     public void AfterHitEffectBA(Transform other)
     {
@@ -167,8 +183,8 @@ public class Hero_Padeira : Hero
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
         ApplyAOEDamage();
-		//GameObject landFX = Instantiate(landEffectMA, transform.position, transform.rotation);
-		GameObject landFX = vfxManager.InstantiateVFX(MALandVFX, transform, vfxDuration);
+        //GameObject landFX = Instantiate(landEffectMA, transform.position, transform.rotation);
+        GameObject landFX = vfxManager.InstantiateVFX(MALandVFX, transform, vfxDuration);
         landFX.transform.localScale = new Vector3(damageRadiusMA * 2, 0.01f, damageRadiusMA * 2);
 
         movementAbility = false;
@@ -185,7 +201,7 @@ public class Hero_Padeira : Hero
 
         foreach (Collider c in affectedEnemies)
         {
-            if (c.name != $"Player {PlayerNumber}" && c.transform != transform)
+            if (c.transform != transform)
             {
                 c.SendMessage("TakeDamage", new float[] { damageMA, 0 });
                 StartCoroutine(SlowEnemy(c));
@@ -216,7 +232,7 @@ public class Hero_Padeira : Hero
     {
         otherAbility = false;
 
-		vfxManager.ControlVFX(healVFX, true);
+        vfxManager.ControlVFX(healVFX, true);
 
         currentHealth += healValue;
         if (currentHealth > maximumHealth) currentHealth = maximumHealth;
@@ -262,10 +278,10 @@ public class Hero_Padeira : Hero
             damagePlane.AddComponent<BoxCollider>().isTrigger = true;
             damagePlane.GetComponent<BoxCollider>().size += new Vector3(0, 4, 0);
             damagePlane.AddComponent<Rigidbody>().isKinematic = true;
-            damagePlane.AddComponent<DamageZone>().Initialize(floorDamage, floorDamageInterval, floorDamageDuration);
-			damagePlane.GetComponent<MeshRenderer>().enabled = false;
+            damagePlane.AddComponent<DamageZone>().Initialize(floorDamage, floorDamageInterval, floorDamageDuration, PlayerNumber);
+            damagePlane.GetComponent<MeshRenderer>().enabled = false;
 
-			vfxManager.InstantiateVFX(burningGroundVFX, damagePlane.transform, floorDamageDuration);
+            vfxManager.InstantiateVFX(burningGroundVFX, damagePlane.transform, floorDamageDuration);
 
             attackFlagUA = false;
             ultimateAbility = false;
@@ -283,19 +299,21 @@ public class Hero_Padeira : Hero
     {
         float timeElapsed = 0;
 
-		if (other != null)
-			vfxManager.InstantiateVFXWithYOffset(stunVFX, other, stunDuration, stunYOffset);
+        if (other != null)
+            vfxManager.InstantiateVFXWithYOffset(stunVFX, other, stunDuration, stunYOffset);
 
         while (timeElapsed < stunDuration)
         {
-            other?.gameObject.SendMessage("AllowMovement", false);
+            if (other != null)
+                other.gameObject.SendMessage("AllowMovement", false);
 
             timeElapsed += Time.deltaTime;
 
             yield return null;
         }
 
-		other?.gameObject.SendMessage("AllowMovement", true);
+        if (other != null)
+            other.gameObject.SendMessage("AllowMovement", true);
     }
 
     public override void ResetWeapon()

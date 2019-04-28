@@ -12,10 +12,10 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private GameObject switchPositionVFX;
     [SerializeField] private float decoyLifetimeMA;
     [SerializeField] private float decoyHealthMA;
-    [SerializeField] private float targetRadius;
     [SerializeField] private float explosionRadiusMA;
     [SerializeField] private float explosionDamageMA;
     [SerializeField] private float secondsUntilSeekingTargetMA;
+    [SerializeField] private float targetRadius;
     [SerializeField] private float delayForSwitch;
     [Header("Other Ability")]
     [SerializeField] private GameObject speedBuffVFX;
@@ -23,11 +23,11 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float durationOA;
     [Header("Ultimate Ability")]
     [SerializeField] private GameObject decoyUA;
-    [SerializeField] private float secondsForExplosion;
     [SerializeField] private float decoyLifetimeUA;
     [SerializeField] private float decoyHealthUA;
     [SerializeField] private float explosionRadiusUA;
     [SerializeField] private float explosionDamageUA;
+    [SerializeField] private int numberOfDecoys;
 
     // Basic Ability - Boomerang
     private Collider boomerang;
@@ -39,12 +39,16 @@ public class Hero_FernandoPessoa : Hero
 
     // Movement Ability
     private DecoyController decoy;
-    private CapsuleCollider decoyCollider;
+    private CapsuleCollider decoyColliderMA;
     private bool attackFlagMA;
     private bool positionSwitched;
     private float timeElapsedMA;
 
     // Ultimate Ability
+    private List<DecoyController> decoyList;
+    private CapsuleCollider decoyColliderUA;
+    private bool attackFlagUA;
+    private float timeElapsedUA;
 
 
     private new void Start()
@@ -57,6 +61,10 @@ public class Hero_FernandoPessoa : Hero
         timeElapsedMA = 0;
         attackFlagMA = false;
         positionSwitched = false;
+
+        timeElapsedUA = 0;
+        attackFlagUA = false;
+        decoyList = new List<DecoyController>();
     }
 
     protected override void BasicAbility()
@@ -104,22 +112,27 @@ public class Hero_FernandoPessoa : Hero
         if (!attackFlagMA)
         {
             decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
-            decoyCollider = decoy.GetComponent<CapsuleCollider>();
-            decoy.Initialize(PlayerNumber, decoyLifetimeMA, decoyHealthMA, charMovement.MovementSpeed, 
-                targetRadius, explosionRadiusMA, explosionDamageMA, secondsUntilSeekingTargetMA, vfxManager);
+            decoyColliderMA = decoy.GetComponent<CapsuleCollider>();
+
+            decoy.InitializeDecoy(pNumber: PlayerNumber, decoyLifetime: decoyLifetimeMA,
+                health: decoyHealthMA, movementSpeed: charMovement.MovementSpeed,
+                targetRadius: targetRadius, explosionRadius: explosionRadiusMA,
+                explosionDamage: explosionDamageMA, secondsForTarget: secondsUntilSeekingTargetMA,
+                vfxManager: vfxManager, type: DecoyController.DecoyType.MovementDecoy);
+
             attackFlagMA = true;
         }
         timeElapsedMA += Time.deltaTime;
 
         if (decoy != null)
-            if (Vector3.Distance(transform.position, decoy.transform.position) > decoyCollider.radius * 2)
-                decoyCollider.enabled = true;
+            if (Vector3.Distance(transform.position, decoy.transform.position) > decoyColliderMA.radius * 2)
+                decoyColliderMA.enabled = true;
 
         if (decoy != null)
         {
             if (InputManager.GetButtonDown(PlayerNumber, "MA") && !positionSwitched && timeElapsedMA > delayForSwitch)
             {
-                Debug.Log("entered here");
+                Debug.Log("Switched positions!");
 
                 positionSwitched = true;
                 Vector3 tempPos = decoy.transform.position;
@@ -130,7 +143,7 @@ public class Hero_FernandoPessoa : Hero
                 decoy.AllowMovement(false);
                 AllowMovement(false);
 
-                decoy.transform.position = transform.position;
+                decoy.WarpTo(transform.position);
                 transform.position = tempPos;
             }
             else if (positionSwitched)
@@ -156,6 +169,67 @@ public class Hero_FernandoPessoa : Hero
 
     protected override void UltimateAbility()
     {
+        if (!attackFlagUA)
+        {
+            float yRotation = 0;
+            float yRotationDegrees = 360 / numberOfDecoys;
+            decoyList.Clear();
+
+            for (int i = 0; i < numberOfDecoys; i++)
+            {
+                decoyList.Add(Instantiate(decoyUA, transform.position, Quaternion.Euler(0, yRotation, 0)).GetComponent<DecoyController>());
+                yRotation += yRotationDegrees;
+            }
+
+            foreach (DecoyController dc in decoyList)
+            {
+                if (dc != null)
+                    dc.InitializeDecoy(pNumber: PlayerNumber, decoyLifetime: decoyLifetimeUA,
+                        health: decoyHealthUA, movementSpeed: charMovement.MovementSpeed,
+                        explosionRadius: explosionRadiusUA, explosionDamage: explosionDamageUA,
+                        vfxManager: vfxManager, type: DecoyController.DecoyType.UltimateDecoy,
+                        numberOfDecoys: numberOfDecoys);
+            }
+
+            // Gonna need this in the future for Domino Blow Up
+            //foreach (DecoyController dc in decoyList)
+            //dc.FindAllyDecoys();
+
+            attackFlagUA = true;
+        }
+
+        foreach (DecoyController dc in decoyList)
+        {
+            if (dc != null)
+            {
+                CapsuleCollider decoyCollider = dc.GetComponent<CapsuleCollider>();
+                if (Vector3.Distance(transform.position, dc.transform.position) > decoyCollider.radius * 2)
+                    decoyCollider.enabled = true;
+            }
+        }
+
+        if (InputManager.GetButtonDown(PlayerNumber, "UA") && timeElapsedUA > 0.1f)
+        {
+            foreach (DecoyController dc in decoyList)
+                if (dc != null)
+                    dc.Suicide();
+
+            ResetUA();
+        }
+
+        if (timeElapsedUA > decoyLifetimeUA)
+        {
+            ResetUA();
+        }
+
+        timeElapsedUA += Time.deltaTime;
+    }
+
+    private void ResetUA()
+    {
+        ultimateAbility = false;
+        attackFlagUA = false;
+        timeElapsedUA = 0;
     }
 
     private IEnumerator TimerOA()
@@ -165,7 +239,7 @@ public class Hero_FernandoPessoa : Hero
         float temp = charMovement.MovementSpeed;
         charMovement.MovementSpeed += moveSpeedIncreaseOA;
 
-		GameObject speedEffect = vfxManager.InstantiateVFX(speedBuffVFX, transform, durationOA);
+        GameObject speedEffect = vfxManager.InstantiateVFX(speedBuffVFX, transform, durationOA);
         speedEffect.transform.SetParent(transform);
 
         while (timeElapsed < durationOA)

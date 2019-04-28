@@ -230,7 +230,7 @@ public abstract class Hero : MonoBehaviour
             currentHealth -= damage;
         }
 
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             Die();

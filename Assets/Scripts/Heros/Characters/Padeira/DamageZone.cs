@@ -10,6 +10,7 @@ public class DamageZone : MonoBehaviour
     private float damageInterval;
     private float damageDuration;
     private float lastDamage;
+    private int attackerNumber;
 
     private void Awake()
     {
@@ -17,11 +18,12 @@ public class DamageZone : MonoBehaviour
         timerStarted = false;
     }
 
-    public void Initialize(float damage, float damageInterval, float damageDuration)
+    public void Initialize(float damage, float damageInterval, float damageDuration, int attackerNumber)
     {
         this.damage = damage;
         this.damageInterval = damageInterval;
         this.damageDuration = damageDuration;
+        this.attackerNumber = attackerNumber;
         hasBeenInitialized = true;
         lastDamage = 0;
     }
@@ -46,7 +48,12 @@ public class DamageZone : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox"))
+        int enemyPlayerNumber = 0;
+        if (other.GetComponent<Hero>() != null)
+        {
+            enemyPlayerNumber = other.GetComponent<Hero>().PlayerNumber;
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && enemyPlayerNumber != attackerNumber)
         {
             if (lastDamage >= damageInterval)
             {
