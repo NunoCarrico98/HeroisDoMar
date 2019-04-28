@@ -396,7 +396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123712513}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 35, y: 0, z: -35}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 627707269}
@@ -464,7 +464,8 @@ MonoBehaviour:
   distanceBA: 16
   durationForwardBA: 0.7
   decoyMA: {fileID: 5976701139815356864, guid: bfc1fb17fdc7fc94da758dd5ab9158d2, type: 3}
-  switchPositionVFX: {fileID: 0}
+  switchPositionVFX: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac,
+    type: 3}
   decoyLifetime: 7.5
   decoyHealthMA: 30
   targetRadius: 10
@@ -3242,6 +3243,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 15
   isResetAfterHit: 0
+  hitVFX: {fileID: 5077566070216338563, guid: 8a34221fccb696942b1ab33238ba5796, type: 3}
+  hitYOffset: 1.2
 --- !u!136 &1183167007
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5274,6 +5277,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   isResetAfterHit: 0
+  hitVFX: {fileID: 5077566070216338563, guid: 6f874db6df5e7344e91b7afbc80f794e, type: 3}
+  hitYOffset: 1.2
 --- !u!54 &1910070260
 Rigidbody:
   m_ObjectHideFlags: 0
