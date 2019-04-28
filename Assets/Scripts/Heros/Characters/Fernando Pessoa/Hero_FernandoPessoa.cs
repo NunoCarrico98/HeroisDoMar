@@ -10,17 +10,24 @@ public class Hero_FernandoPessoa : Hero
     [Header("Movement Ability")]
     [SerializeField] private GameObject decoyMA;
     [SerializeField] private GameObject switchPositionVFX;
-    [SerializeField] private float decoyLifetime;
+    [SerializeField] private float decoyLifetimeMA;
     [SerializeField] private float decoyHealthMA;
     [SerializeField] private float targetRadius;
-    [SerializeField] private float explosionRadius;
-    [SerializeField] private float explosionDamage;
+    [SerializeField] private float explosionRadiusMA;
+    [SerializeField] private float explosionDamageMA;
     [SerializeField] private float secondsUntilSeekingTargetMA;
     [SerializeField] private float delayForSwitch;
     [Header("Other Ability")]
     [SerializeField] private GameObject speedBuffVFX;
     [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
+    [Header("Ultimate Ability")]
+    [SerializeField] private GameObject decoyUA;
+    [SerializeField] private float secondsForExplosion;
+    [SerializeField] private float decoyLifetimeUA;
+    [SerializeField] private float decoyHealthUA;
+    [SerializeField] private float explosionRadiusUA;
+    [SerializeField] private float explosionDamageUA;
 
     // Basic Ability - Boomerang
     private Collider boomerang;
@@ -36,6 +43,9 @@ public class Hero_FernandoPessoa : Hero
     private bool attackFlagMA;
     private bool positionSwitched;
     private float timeElapsedMA;
+
+    // Ultimate Ability
+
 
     private new void Start()
     {
@@ -95,8 +105,8 @@ public class Hero_FernandoPessoa : Hero
         {
             decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
             decoyCollider = decoy.GetComponent<CapsuleCollider>();
-            decoy.Initialize(PlayerNumber, decoyLifetime, decoyHealthMA, charMovement.MovementSpeed, 
-                targetRadius, explosionRadius, explosionDamage, secondsUntilSeekingTargetMA, vfxManager);
+            decoy.Initialize(PlayerNumber, decoyLifetimeMA, decoyHealthMA, charMovement.MovementSpeed, 
+                targetRadius, explosionRadiusMA, explosionDamageMA, secondsUntilSeekingTargetMA, vfxManager);
             attackFlagMA = true;
         }
         timeElapsedMA += Time.deltaTime;
@@ -129,7 +139,7 @@ public class Hero_FernandoPessoa : Hero
                 AllowMovement(true);
             }
         }
-        if (timeElapsedMA >= decoyLifetime)
+        if (timeElapsedMA >= decoyLifetimeMA)
         {
             movementAbility = false;
             attackFlagMA = false;

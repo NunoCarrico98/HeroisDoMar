@@ -140,6 +140,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   isResetAfterHit: 0
+  hitVFX: {fileID: 5077566070216338563, guid: 6f874db6df5e7344e91b7afbc80f794e, type: 3}
+  hitYOffset: 1.2
 --- !u!54 &7494404212963573838
 Rigidbody:
   m_ObjectHideFlags: 0

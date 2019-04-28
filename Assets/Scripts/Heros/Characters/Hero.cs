@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using System;
 
 public abstract class Hero : MonoBehaviour
 {
@@ -177,21 +178,22 @@ public abstract class Hero : MonoBehaviour
         {
             case 1:
                 charAnimator.SetBool("Basic Ability", false);
-                ResetAttackMode();
+                SetAttackMode(0);
                 break;
             case 2:
                 charAnimator.SetBool("Movement Ability", false);
-                ResetAttackMode();
+                SetAttackMode(0);
                 break;
         }
     }
 
-    public void ResetAttackMode()
+    public void SetAttackMode(int mode)
     {
+        bool condition = Convert.ToBoolean(mode);
         Weapon currentWeapon = weapon1.GetComponent<Weapon>();
 
         if (currentWeapon != null)
-            currentWeapon.IsAttacking = false;
+            currentWeapon.IsAttacking = condition;
     }
 
     private void Die()

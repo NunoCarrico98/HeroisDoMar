@@ -77,7 +77,6 @@ public class Hero_Padeira : Hero
             {
                 Weapon currentWeapon = weapon1.GetComponent<Weapon>();
 				vfxManager.ControlVFX(chargeFlamesVFX, true);
-				currentWeapon.IsAttacking = true;
                 currentWeapon.Abilities[0] = true;
                 charAnimator.SetBool("Basic Ability", true);
                 basicAbility = false;
@@ -87,7 +86,6 @@ public class Hero_Padeira : Hero
         }
         else
         {
-            weapon1.GetComponent<Weapon>().IsAttacking = true;
             charAnimator.SetBool("Basic Ability", true);
             basicAbility = false;
             Debug.Log("BASIC");

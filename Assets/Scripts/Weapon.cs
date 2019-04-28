@@ -1,12 +1,13 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private float damage;
     [SerializeField] private bool isResetAfterHit;
-	[Header("Hit VFX")]
-	[SerializeField] private GameObject hitVFX;
-	[SerializeField] private float hitYOffset;
+    [Header("Hit VFX")]
+    [SerializeField] private GameObject hitVFX;
+    [SerializeField] private float hitYOffset;
 
     public bool BasicAbility { get; set; }
     public bool MovementAbility { get; set; }
@@ -14,18 +15,17 @@ public class Weapon : MonoBehaviour
     public bool UltimateAbility { get; set; }
 
     public bool[] Abilities { get; set; }
-
     public float Damage => damage;
     public bool IsAttacking { get; set; }
     public Hero WeaponHolder { get; private set; }
 
-	private VFXManager vfxManager;
+    private VFXManager vfxManager;
 
     private void Awake()
     {
         Abilities = new bool[4];
         WeaponHolder = GetComponentInParent<Hero>();
-		vfxManager = FindObjectOfType<VFXManager>();
+        vfxManager = FindObjectOfType<VFXManager>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -42,14 +42,14 @@ public class Weapon : MonoBehaviour
                 if (isResetAfterHit)
                     WeaponHolder.ResetWeapon();
 
-				if (other.gameObject.tag == "Player")
-				{
-					other.gameObject.GetComponent<Hero>().TakeDamage(new float[] { damage, 0 });
-					vfxManager.InstantiateVFXWithYOffset(hitVFX, other.transform, 2f, hitYOffset);
-				}
+                if (other.gameObject.tag == "Player")
+                {
+                    other.gameObject.GetComponent<Hero>().TakeDamage(new float[] { damage, 0 });
+                    vfxManager.InstantiateVFXWithYOffset(hitVFX, other.transform, 2f, hitYOffset);
+                }
 
-				else if (other.gameObject.tag == "Decoy")
-					other.gameObject.SendMessage("TakeDamage", new float[] { damage, WeaponHolder.PlayerNumber });
+                else if (other.gameObject.tag == "Decoy")
+                    other.gameObject.SendMessage("TakeDamage", new float[] { damage, WeaponHolder.PlayerNumber });
 
                 if (Abilities[0]) WeaponHolder.SendMessage("AfterHitEffectBA", other.transform);
                 if (Abilities[1]) WeaponHolder.SendMessage("AfterHitEffectMA", other.transform);

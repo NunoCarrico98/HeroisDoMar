@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class DecoyController : MonoBehaviour
 {
-
     [SerializeField] private GameObject explosionVFX;
 	[SerializeField] private float explosionYOffset;
     [SerializeField] private GameObject vanishVFX;
@@ -54,6 +53,8 @@ public class DecoyController : MonoBehaviour
         this.explosionDamage = explosionDamage;
         this.secondsForTarget = secondsForTarget;
 		this.vfxManager = vfxManager;
+        /*
+        enemiesList = FindObjectsOfType<Hero>().Where(p => p.PlayerNumber != pNumber).ToList(); */
 
         enemiesList =
             GameObject.FindGameObjectsWithTag("Player").Where(p => p.name != $"Player {pNumber}").ToList();
