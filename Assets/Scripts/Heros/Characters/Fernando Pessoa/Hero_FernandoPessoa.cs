@@ -9,7 +9,7 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float durationForwardBA;
     [Header("Movement Ability")]
     [SerializeField] private GameObject decoyMA;
-    [SerializeField] private GameObject switchPositionEffect;
+    [SerializeField] private GameObject switchPositionVFX;
     [SerializeField] private float decoyLifetime;
     [SerializeField] private float decoyHealthMA;
     [SerializeField] private float targetRadius;
@@ -18,9 +18,9 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float secondsUntilSeekingTargetMA;
     [SerializeField] private float delayForSwitch;
     [Header("Other Ability")]
+    [SerializeField] private GameObject speedBuffVFX;
     [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
-    [SerializeField] private ParticleSystem particlesOA;
 
     // Basic Ability - Boomerang
     private Collider boomerang;
@@ -114,8 +114,8 @@ public class Hero_FernandoPessoa : Hero
                 positionSwitched = true;
                 Vector3 tempPos = decoy.transform.position;
 
-                Instantiate(switchPositionEffect, transform.position, transform.rotation);
-                Instantiate(switchPositionEffect, decoy.transform.position, decoy.transform.rotation);
+                Instantiate(switchPositionVFX, transform.position, transform.rotation);
+                Instantiate(switchPositionVFX, decoy.transform.position, decoy.transform.rotation);
 
                 decoy.AllowMovement(false);
                 AllowMovement(false);
@@ -155,9 +155,8 @@ public class Hero_FernandoPessoa : Hero
         float temp = charMovement.MovementSpeed;
         charMovement.MovementSpeed += moveSpeedIncreaseOA;
 
-        ParticleSystem speedEffect = Instantiate(particlesOA, transform.position, transform.rotation);
+		GameObject speedEffect = vfxManager.InstantiateVFX(speedBuffVFX, transform, durationOA);
         speedEffect.transform.SetParent(transform);
-        speedEffect.Play();
 
         while (timeElapsed < durationOA)
         {

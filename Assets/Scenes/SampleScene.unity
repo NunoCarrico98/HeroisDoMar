@@ -396,7 +396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123712513}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 35, y: 0, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 627707269}
@@ -464,8 +464,7 @@ MonoBehaviour:
   distanceBA: 16
   durationForwardBA: 0.7
   decoyMA: {fileID: 5976701139815356864, guid: bfc1fb17fdc7fc94da758dd5ab9158d2, type: 3}
-  switchPositionEffect: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac,
-    type: 3}
+  switchPositionVFX: {fileID: 0}
   decoyLifetime: 7.5
   decoyHealthMA: 30
   targetRadius: 10
@@ -473,10 +472,10 @@ MonoBehaviour:
   explosionDamage: 15
   secondsUntilSeekingTargetMA: 2
   delayForSwitch: 0.1
+  speedBuffVFX: {fileID: 3072713497587495567, guid: 5a1aa08e28ab42c459d5d6d6e9a5eb20,
+    type: 3}
   moveSpeedIncreaseOA: 3
   durationOA: 5
-  particlesOA: {fileID: 1108530435311712590, guid: da1b2bd1f5e8b9f4399b940e119d57dc,
-    type: 3}
 --- !u!95 &123712518
 Animator:
   serializedVersion: 3
