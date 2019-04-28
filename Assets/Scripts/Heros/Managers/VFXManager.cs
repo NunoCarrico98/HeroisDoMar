@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class VFXManager : MonoBehaviour
 {
-	[Header("Stun Effect")]
-	[SerializeField] private GameObject stunVFX;
-	[SerializeField] private float stunYOffset;
-
     public GameObject InstantiateVFX(GameObject vfx, Transform obj, float duration)
 	{
 		GameObject goVFX = Instantiate(vfx, obj.position, obj.rotation);
@@ -25,14 +21,14 @@ public class VFXManager : MonoBehaviour
 		return goVFX;
 	}
 
-	public void InstantiateStunVFX(Transform other, float stunDuration)
+	public void InstantiateVFXWithYOffset(GameObject vfx, Transform other, float duration, float YOffset)
 	{
-		Vector3 stunPos = new Vector3(other.position.x, other.position.y + stunYOffset, other.position.z);
+		Vector3 stunPos = new Vector3(other.position.x, other.position.y + YOffset, other.position.z);
 		GameObject newT = new GameObject();
 		newT.transform.position = stunPos;
 		newT.transform.rotation = other.rotation;
 		newT.transform.localScale = other.localScale;
-		InstantiateVFX(stunVFX, newT.transform, stunDuration);
+		InstantiateVFX(vfx, newT.transform, duration);
 	}
 
 	public void ControlVFX(GameObject vfx, bool flag) => vfx.SetActive(flag);

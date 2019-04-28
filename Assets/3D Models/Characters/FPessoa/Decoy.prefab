@@ -84,10 +84,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a6a2d0eabf7ad4aa44d5078183d672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionEffect: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9,
+  explosionVFX: {fileID: 2173982938156402733, guid: 6b84791d113a11e4f93cbd7734f5f526,
     type: 3}
-  vanishEffect: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac,
-    type: 3}
+  explosionYOffset: 1.2
+  vanishVFX: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac, type: 3}
 --- !u!54 &5413400232951929088
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.AI;
@@ -7,8 +7,9 @@ using UnityEngine;
 public class DecoyController : MonoBehaviour
 {
 
-    [SerializeField] private GameObject explosionEffect;
-    [SerializeField] private GameObject vanishEffect;
+    [SerializeField] private GameObject explosionVFX;
+	[SerializeField] private float explosionYOffset;
+    [SerializeField] private GameObject vanishVFX;
 
     private int pNumber;
     private float decoyLifetime;
@@ -27,6 +28,8 @@ public class DecoyController : MonoBehaviour
     private List<GameObject> enemiesList;
     private GameObject nearestEnemy;
 
+	private VFXManager vfxManager;
+
     public bool IsMovementAllowed { get; set; }
     public bool IsSlowed { get; set; }
 
@@ -39,7 +42,8 @@ public class DecoyController : MonoBehaviour
     }
 
     public void Initialize(int pNumber, float decoyLifetime, float health, float movementSpeed,
-        float targetRadius, float explosionRadius, float explosionDamage, float secondsForTarget)
+        float targetRadius, float explosionRadius, float explosionDamage, float secondsForTarget, 
+		VFXManager vfxManager)
     {
         this.pNumber = pNumber;
         this.decoyLifetime = decoyLifetime;
@@ -49,6 +53,7 @@ public class DecoyController : MonoBehaviour
         this.explosionRadius = explosionRadius;
         this.explosionDamage = explosionDamage;
         this.secondsForTarget = secondsForTarget;
+		this.vfxManager = vfxManager;
 
         enemiesList =
             GameObject.FindGameObjectsWithTag("Player").Where(p => p.name != $"Player {pNumber}").ToList();
@@ -110,7 +115,7 @@ public class DecoyController : MonoBehaviour
             PlayRunningAnimation(false);
 
         if (timeElapsed >= decoyLifetime)
-            DestroyDecoy(vanishEffect);
+            DestroyDecoy(vanishVFX);
     }
 
     private void PlayRunningAnimation(bool isRunning)
@@ -134,7 +139,7 @@ public class DecoyController : MonoBehaviour
         if (weaponHolderNum == pNumber)
         {
             ApplyAOEDamage();
-            DestroyDecoy(explosionEffect);
+            DestroyDecoy(explosionVFX);
         }
         else
         {
@@ -143,7 +148,7 @@ public class DecoyController : MonoBehaviour
 
             if (health <= 0)
             {
-                DestroyDecoy(vanishEffect);
+                DestroyDecoy(vanishVFX);
             }
         }
     }
@@ -161,9 +166,10 @@ public class DecoyController : MonoBehaviour
         }
     }
 
-    private void DestroyDecoy(GameObject effect)
+    private void DestroyDecoy(GameObject vfx)
     {
-        Instantiate(effect, transform.position, transform.rotation);
+		vfxManager.InstantiateVFXWithYOffset(vfx, transform, 5f, explosionYOffset);
+        //Instantiate(vfx, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

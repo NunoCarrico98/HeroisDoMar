@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -96,7 +96,7 @@ public class Hero_FernandoPessoa : Hero
             decoy = Instantiate(decoyMA, transform.position, transform.rotation).GetComponent<DecoyController>();
             decoyCollider = decoy.GetComponent<CapsuleCollider>();
             decoy.Initialize(PlayerNumber, decoyLifetime, decoyHealthMA, charMovement.MovementSpeed, 
-                targetRadius, explosionRadius, explosionDamage, secondsUntilSeekingTargetMA);
+                targetRadius, explosionRadius, explosionDamage, secondsUntilSeekingTargetMA, vfxManager);
             attackFlagMA = true;
         }
         timeElapsedMA += Time.deltaTime;

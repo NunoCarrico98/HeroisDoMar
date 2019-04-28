@@ -29,6 +29,7 @@ public class Hero_Padeira : Hero
     [SerializeField] private GameObject rollingPin;
     [SerializeField] private GameObject burningGroundVFX;
     [SerializeField] private GameObject stunVFX;
+    [SerializeField] private float stunYOffset;
     [SerializeField] private float rollDistance;
     [SerializeField] private float rollSpeed;
     [SerializeField] private float stunDuration;
@@ -285,7 +286,7 @@ public class Hero_Padeira : Hero
         float timeElapsed = 0;
 
 		if (other != null)
-			vfxManager.InstantiateStunVFX(other, stunDuration);
+			vfxManager.InstantiateVFXWithYOffset(stunVFX, other, stunDuration, stunYOffset);
 
         while (timeElapsed < stunDuration)
         {
