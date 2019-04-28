@@ -1,11 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero_Padeira : Hero
 {
     [Header("Basic Ability")]
-    [SerializeField] private GameObject chargeFlamesEffect;
+    [SerializeField] private GameObject burnVFX;
+    [SerializeField] private GameObject chargeFlamesVFX;
     [SerializeField] private float flamesDuration;
     [SerializeField] private float flamesDamageInterval;
     [SerializeField] private float flamesDamage;
@@ -21,10 +22,13 @@ public class Hero_Padeira : Hero
     [SerializeField] private float damageMA;
     [SerializeField] private float slowDownTimeMA;
     [SerializeField] private float vfxDuration;
-    [Header("Other Ability")]
+	[Header("Other Ability")]
+	[SerializeField] private GameObject healVFX;
     [SerializeField] private float healValue;
     [Header("Ultimate Ability")]
     [SerializeField] private GameObject rollingPin;
+    [SerializeField] private GameObject vfxBurningGround;
+	[SerializeField] private Material burningGroundMat;
     [SerializeField] private float rollDistance;
     [SerializeField] private float rollSpeed;
     [SerializeField] private float stunDuration;
@@ -71,6 +75,7 @@ public class Hero_Padeira : Hero
             if (timeElapsedBA > chargeTimeRequired)
             {
                 Weapon currentWeapon = weapon1.GetComponent<Weapon>();
+				chargeFlamesVFX.SetActive(true);
                 currentWeapon.IsAttacking = true;
                 currentWeapon.Abilities[0] = true;
                 charAnimator.SetBool("Basic Ability", true);
@@ -88,6 +93,11 @@ public class Hero_Padeira : Hero
         }
     }
 
+	public void ResetChargeFlamesEffect()
+	{
+		chargeFlamesVFX.SetActive(false);
+	}
+
     public void AfterHitEffectBA(Transform other)
     {
         if (other != null)
@@ -104,7 +114,7 @@ public class Hero_Padeira : Hero
 
         if (other != null)
         {
-            flames = Instantiate(chargeFlamesEffect, other.transform);
+            flames = Instantiate(burnVFX, other.transform);
         }
         while (timeElapsed < flamesDuration)
         {
@@ -206,6 +216,8 @@ public class Hero_Padeira : Hero
     {
         otherAbility = false;
 
+		healVFX.SetActive(true);	
+
         currentHealth += healValue;
         if (currentHealth > maximumHealth) currentHealth = maximumHealth;
 
@@ -244,13 +256,17 @@ public class Hero_Padeira : Hero
             GameObject damagePlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             damagePlane.transform.rotation = rollPin.transform.rotation;
             damagePlane.transform.position = (startPosUA + targetPosUA) / 2;
-            damagePlane.transform.position = new Vector3(damagePlane.transform.position.x, 0.01f, damagePlane.transform.position.z);
+            damagePlane.transform.position = new Vector3(damagePlane.transform.position.x, 0.2f, damagePlane.transform.position.z);
             damagePlane.transform.localScale = new Vector3(1, 1, rollDistance / 10f);
             Destroy(damagePlane.GetComponent<Collider>());
             damagePlane.AddComponent<BoxCollider>().isTrigger = true;
             damagePlane.GetComponent<BoxCollider>().size += new Vector3(0, 4, 0);
             damagePlane.AddComponent<Rigidbody>().isKinematic = true;
             damagePlane.AddComponent<DamageZone>().Initialize(floorDamage, floorDamageInterval, floorDamageDuration);
+			damagePlane.GetComponent<MeshRenderer>().enabled = false;
+
+			Quaternion vfxRot = damagePlane.transform.rotation * Quaternion.Euler(-90, 0, 0);
+			Instantiate(vfxBurningGround, damagePlane.transform.position, vfxRot);
 
             attackFlagUA = false;
             ultimateAbility = false;
