@@ -391,7 +391,7 @@ Transform:
   - {fileID: 1183167005}
   - {fileID: 1515006760}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &123712515
 MonoBehaviour:
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5539b58299a57f542977ca62875966ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pNumber: 2
+  pNumber: 1
   meleeUIText: {fileID: 1269397183}
   rangedUIText: {fileID: 1298831719}
   regularAbilityUIText: {fileID: 1303714465}
@@ -585,7 +585,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &174050370
 GameObject:
@@ -1863,7 +1863,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &534669906
 MonoBehaviour:
@@ -2211,7 +2211,7 @@ RectTransform:
   - {fileID: 1304473556}
   - {fileID: 2144609400}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3486,6 +3486,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1269397181}
   m_CullTransparentMesh: 0
+--- !u!1 &1294679693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1294679695}
+  - component: {fileID: 1294679694}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1294679694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294679693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae7fb494a222dd498941e8f6143f18c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunVFX: {fileID: 771163610006472643, guid: 21b1e3cc4f5d92c4f9e9cb5c74286db3, type: 3}
+  stunYOffset: 2
+--- !u!4 &1294679695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294679693}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.9376917, y: 4.162546, z: 7.9287286}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1298831717
 GameObject:
   m_ObjectHideFlags: 0
@@ -3947,7 +3992,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1337181716
 GameObject:
@@ -4447,7 +4492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1538009784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4507,7 +4552,7 @@ MonoBehaviour:
   flamesDamage: 3
   chargeTimeRequired: 3
   chargeExtraDamage: 10
-  landEffectMA: {fileID: 3930313402592066148, guid: c359e48398a8c3a4585094b8b8f7dec4,
+  MALandVFX: {fileID: 3930313402592066148, guid: c359e48398a8c3a4585094b8b8f7dec4,
     type: 3}
   jumpDistance: 15
   jumpSpeed: 4
@@ -4521,9 +4566,9 @@ MonoBehaviour:
   healValue: 20
   rollingPin: {fileID: 7146815878227867884, guid: e4331086da3aaff448debefb3c42e759,
     type: 3}
-  vfxBurningGround: {fileID: 7250513659164871983, guid: 6cd16add80d73a3458edcac8ee23ca23,
+  burningGroundVFX: {fileID: 7250513659164871983, guid: 6cd16add80d73a3458edcac8ee23ca23,
     type: 3}
-  burningGroundMat: {fileID: 2100000, guid: 0b019675a8064414b97862a02f644166, type: 2}
+  stunVFX: {fileID: 771163610006472643, guid: 21b1e3cc4f5d92c4f9e9cb5c74286db3, type: 3}
   rollDistance: 20
   rollSpeed: 8.5
   stunDuration: 1
@@ -4563,7 +4608,7 @@ Transform:
   - {fileID: 904075004}
   - {fileID: 721983831}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!95 &1538009789
 Animator:
@@ -5544,7 +5589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e2ebcab64bf6b6349bae2d9a28c2b029, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e2ebcab64bf6b6349bae2d9a28c2b029, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

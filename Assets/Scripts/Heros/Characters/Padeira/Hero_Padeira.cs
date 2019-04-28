@@ -13,7 +13,7 @@ public class Hero_Padeira : Hero
     [SerializeField] private float chargeTimeRequired;
     [SerializeField] private float chargeExtraDamage;
     [Header("Movement Ability")]
-    [SerializeField] private GameObject landEffectMA;
+    [SerializeField] private GameObject MALandVFX;
     [SerializeField] private float jumpDistance;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float gravity;
@@ -27,8 +27,8 @@ public class Hero_Padeira : Hero
     [SerializeField] private float healValue;
     [Header("Ultimate Ability")]
     [SerializeField] private GameObject rollingPin;
-    [SerializeField] private GameObject vfxBurningGround;
-	[SerializeField] private Material burningGroundMat;
+    [SerializeField] private GameObject burningGroundVFX;
+    [SerializeField] private GameObject stunVFX;
     [SerializeField] private float rollDistance;
     [SerializeField] private float rollSpeed;
     [SerializeField] private float stunDuration;
@@ -51,7 +51,7 @@ public class Hero_Padeira : Hero
     private Vector3 targetPosUA;
     private Vector3 startPosUA;
 
-    new void Start()
+	new void Start()
     {
         base.Start();
 
@@ -75,8 +75,8 @@ public class Hero_Padeira : Hero
             if (timeElapsedBA > chargeTimeRequired)
             {
                 Weapon currentWeapon = weapon1.GetComponent<Weapon>();
-				chargeFlamesVFX.SetActive(true);
-                currentWeapon.IsAttacking = true;
+				vfxManager.ControlVFX(chargeFlamesVFX, true);
+				currentWeapon.IsAttacking = true;
                 currentWeapon.Abilities[0] = true;
                 charAnimator.SetBool("Basic Ability", true);
                 basicAbility = false;
@@ -95,7 +95,7 @@ public class Hero_Padeira : Hero
 
 	public void ResetChargeFlamesEffect()
 	{
-		chargeFlamesVFX.SetActive(false);
+		vfxManager.ControlVFX(chargeFlamesVFX, false);
 	}
 
     public void AfterHitEffectBA(Transform other)
@@ -168,7 +168,8 @@ public class Hero_Padeira : Hero
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
         ApplyAOEDamage();
-        GameObject landFX = Instantiate(landEffectMA, transform.position, transform.rotation);
+		//GameObject landFX = Instantiate(landEffectMA, transform.position, transform.rotation);
+		GameObject landFX = vfxManager.InstantiateVFX(MALandVFX, transform, vfxDuration);
         landFX.transform.localScale = new Vector3(damageRadiusMA * 2, 0.01f, damageRadiusMA * 2);
 
         movementAbility = false;
@@ -216,7 +217,7 @@ public class Hero_Padeira : Hero
     {
         otherAbility = false;
 
-		healVFX.SetActive(true);	
+		vfxManager.ControlVFX(healVFX, true);
 
         currentHealth += healValue;
         if (currentHealth > maximumHealth) currentHealth = maximumHealth;
@@ -265,8 +266,7 @@ public class Hero_Padeira : Hero
             damagePlane.AddComponent<DamageZone>().Initialize(floorDamage, floorDamageInterval, floorDamageDuration);
 			damagePlane.GetComponent<MeshRenderer>().enabled = false;
 
-			Quaternion vfxRot = damagePlane.transform.rotation * Quaternion.Euler(-90, 0, 0);
-			Instantiate(vfxBurningGround, damagePlane.transform.position, vfxRot);
+			vfxManager.InstantiateVFX(burningGroundVFX, damagePlane.transform, floorDamageDuration);
 
             attackFlagUA = false;
             ultimateAbility = false;
@@ -284,18 +284,19 @@ public class Hero_Padeira : Hero
     {
         float timeElapsed = 0;
 
+		if (other != null)
+			vfxManager.InstantiateStunVFX(other, stunDuration);
+
         while (timeElapsed < stunDuration)
         {
-            if (other != null)
-                other.gameObject.SendMessage("AllowMovement", false);
+            other?.gameObject.SendMessage("AllowMovement", false);
 
             timeElapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        if (other != null)
-            other.gameObject.SendMessage("AllowMovement", true);
+		other?.gameObject.SendMessage("AllowMovement", true);
     }
 
     public override void ResetWeapon()

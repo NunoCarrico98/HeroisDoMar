@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -26,6 +26,9 @@ public abstract class Hero : MonoBehaviour
 
     [Header("Weapon(s)")]
     [SerializeField] protected Collider weapon1;
+
+	//VFX
+	protected VFXManager vfxManager;
 
     protected AttributeBars attributeBar;
 
@@ -60,6 +63,8 @@ public abstract class Hero : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
+		vfxManager = GameObject.FindObjectOfType<VFXManager>();
+
         attributeBar = GetComponent<AttributeBars>();
         attributeBar.MaximumHealth = maximumHealth;
         attributeBar.MaximumShield = maximumShield;
