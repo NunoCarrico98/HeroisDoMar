@@ -147,7 +147,7 @@ public abstract class Hero : MonoBehaviour
 
         for (float i = cooldown; i > 0; i -= 0.1f)
         {
-            abilityUI.text = $"{i,2:f}";
+            abilityUI.text = $"{i:f}";
             yield return new WaitForSecondsRealtime(0.1f);
         }
 

@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5539b58299a57f542977ca62875966ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pNumber: 1
+  pNumber: 2
   meleeUIText: {fileID: 1269397183}
   rangedUIText: {fileID: 1298831719}
   regularAbilityUIText: {fileID: 1303714465}
