@@ -36,6 +36,7 @@ public class MainMenu : MonoBehaviour
 	[SerializeField] private Button yesButton;
 
 	private UIManager uiManager;
+	private GameManager gameManager;
 
 	private bool playFlag;
 	private bool collectionFlag;
@@ -48,6 +49,7 @@ public class MainMenu : MonoBehaviour
 		settingsFlag = false;
 
 		uiManager = FindObjectOfType<UIManager>();
+		gameManager = FindObjectOfType<GameManager>();
 	}
 
 	private void Start()

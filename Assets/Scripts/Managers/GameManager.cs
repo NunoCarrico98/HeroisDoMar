@@ -5,6 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+	public GameState GameState
+	{
+		get
+		{
+			return GameState;
+		}
+		private set
+		{
+			GameState = value;
+		}
+	}
+
     // Update is called once per frame
     private void Update()
     {

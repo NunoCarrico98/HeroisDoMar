@@ -38,6 +38,11 @@ public class SettingsMenu : MonoBehaviour
 		CheckSelectedButton();
 	}
 
+	private void IsLeavingByButton()
+	{
+
+	}
+
 	private void CheckSelectedButton()
 	{
 		GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
@@ -57,19 +62,18 @@ public class SettingsMenu : MonoBehaviour
 			EnableSettingsOptionContent(false, false, true);
 		}
 		else if (currentSelected == backButton.gameObject && !backFlag)
+		{
 			ChangeTitleColors(Color.white, Color.white, Color.white, Color.black);
+			FlagsToFalse();
+		}
 		else if (currentSelected != generalButton.gameObject &&
 				currentSelected != graphicsButton.gameObject &&
 				currentSelected != soundButton.gameObject &&
 				currentSelected != backButton.gameObject)
 		{
 			ChangeTitleColors(Color.white, Color.white, Color.white, Color.white);
-			generalFlag = false;
-			graphicsFlag = false;
-			soundFlag = false;
+			FlagsToFalse();
 		}
-
-		Debug.Log(currentSelected.name);
 	}
 
 	private void ChangeTitleColors(Color generalColor, Color graphicsColor, Color soundColor, Color backColor)
@@ -89,6 +93,13 @@ public class SettingsMenu : MonoBehaviour
 		generalContent.SetActive(generalFlag0);
 		graphicsContent.SetActive(graphicsFlag0);
 		soundContent.SetActive(soundFlag0);
+	}
+
+	private void FlagsToFalse()
+	{
+		generalFlag = false;
+		graphicsFlag = false;
+		soundFlag = false;
 	}
 
 	public void ClickBack()
