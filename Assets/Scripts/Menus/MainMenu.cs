@@ -46,7 +46,7 @@ public class MainMenu : MonoBehaviour
 
 	private void Start()
 	{
-		DisableMouse();
+		//DisableMouse();
 	}
 
 	private void DisableMouse()
@@ -64,19 +64,16 @@ public class MainMenu : MonoBehaviour
 	{
 		if (EventSystem.current.currentSelectedGameObject == playButton.gameObject && !playFlag)
 		{
-			Debug.Log(EventSystem.current.currentSelectedGameObject.name);
 			EnableMenuContent(true, false, false);
 			//FadeUI(playContenttUIElements, false);
 		}
 		else if (EventSystem.current.currentSelectedGameObject == collectionButton.gameObject && !collectionFlag)
 		{
-			Debug.Log(EventSystem.current.currentSelectedGameObject.name);
 			EnableMenuContent(false, true, false);
 			//FadeUI(collectionContenttUIElements, false);
 		}
 		else if (EventSystem.current.currentSelectedGameObject == settingsButton.gameObject && !settingsFlag)
 		{
-			Debug.Log(EventSystem.current.currentSelectedGameObject.name);
 			EnableMenuContent(false, false, true);
 			//FadeUI(settingsContentUIElements, false);
 		}
