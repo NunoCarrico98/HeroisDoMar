@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-	[SerializeField] private float textFadeDuration;
-	[SerializeField] private float buttonFadeDuration;
-	[SerializeField] private float imageFadeDuration;
-
 	[Header("Play")]
 	[SerializeField] private Button playButton;
 	[SerializeField] private GameObject playContent;
@@ -23,7 +18,17 @@ public class MainMenu : MonoBehaviour
 
 	[Header("Settings")]
 	[SerializeField] private Button settingsButton;
+	[SerializeField] private Button settingsGeneralButton;
+	[SerializeField] private Button settingsGraphicsButton;
+	[SerializeField] private Button settingsSoundButton;
+	[SerializeField] private Button settingsGeneralButton2;
+	[SerializeField] private Button settingsGraphicsButton2;
+	[SerializeField] private Button settingsSoundButton2;
 	[SerializeField] private GameObject settingsContent;
+	[SerializeField] private GameObject settingsMenu;
+	[SerializeField] private GameObject settingsGeneralContent;
+	[SerializeField] private GameObject settingsGraphicsContent;
+	[SerializeField] private GameObject settingsSoundContent;
 	//[SerializeField] private Graphic[] settingsContentUIElements;
 
 	[Header("Quit")]
@@ -31,6 +36,7 @@ public class MainMenu : MonoBehaviour
 	[SerializeField] private Button yesButton;
 
 	private UIManager uiManager;
+
 	private bool playFlag;
 	private bool collectionFlag;
 	private bool settingsFlag;
@@ -46,7 +52,7 @@ public class MainMenu : MonoBehaviour
 
 	private void Start()
 	{
-		//DisableMouse();
+		DisableMouse();
 	}
 
 	private void DisableMouse()
@@ -89,6 +95,27 @@ public class MainMenu : MonoBehaviour
 		collectionContent.SetActive(collectionFlag0);
 		settingsContent.SetActive(settingsFlag0);
 	}
+
+	private void EnableSettingsMenuContent(bool settingsGeneralFlag0, bool settingsGraphicsFlag0, 
+		bool settingsSoundFlag0, Button button)
+	{
+		settingsMenu.SetActive(true);
+		settingsGeneralContent.SetActive(settingsGeneralFlag0);
+		settingsGraphicsContent.SetActive(settingsGraphicsFlag0);
+		settingsSoundContent.SetActive(settingsSoundFlag0);
+
+		button.Select();
+		button.OnSelect(null);
+	}
+
+	public void ClickGeneralSettings() 
+		=> EnableSettingsMenuContent(true, false, false, settingsGeneralButton2);
+
+	public void ClickGraphicsSettings()
+		=> EnableSettingsMenuContent(false, true, false, settingsGraphicsButton2);
+
+	public void ClickSoundSettings()
+		=> EnableSettingsMenuContent(false, false, true, settingsSoundButton2);
 
 	public void QuitGame()
 	{
