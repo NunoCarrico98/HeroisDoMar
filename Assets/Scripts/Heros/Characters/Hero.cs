@@ -6,8 +6,7 @@ using System;
 public abstract class Hero : MonoBehaviour
 {
     [Header("Player number")]
-    [SerializeField]
-    private int pNumber;
+    [SerializeField] private int pNumber;
 
     [Header("Abilities UI")]
     [SerializeField] protected TextMeshProUGUI meleeUIText;
