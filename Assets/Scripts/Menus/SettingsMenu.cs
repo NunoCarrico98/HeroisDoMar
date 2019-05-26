@@ -48,7 +48,7 @@ public class SettingsMenu : MonoBehaviour
 
 	private void IsLeavingByButton()
 	{
-		if (Input.GetButtonDown("Cancel"))
+		if (InputManager.GetButtonDown(1, "Cancel"))
 		{
 			if (gameManager.GameState == GameState.SettingsMenu)
 				ClickBack();
@@ -118,9 +118,9 @@ public class SettingsMenu : MonoBehaviour
 
 	public void ClickBack()
 	{
-		settingsMenu.SetActive(false);
-		gameManager.GameState = GameState.MainMenu;
 		SelectButton(selectAfterBack);
+		gameManager.GameState = GameState.MainMenu;
+		settingsMenu.SetActive(false);
 	}
 
 	public void ClickToggle(Toggle toggle)

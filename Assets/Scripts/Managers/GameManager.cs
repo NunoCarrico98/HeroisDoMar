@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
+	[Header("Pause Menu")]
+	[SerializeField] private GameObject pauseMenu;
+	[SerializeField] private Button resumeButton;
+
+	private StandaloneInputModule inputModule;
+
 	public GameState GameState { get; set; }
+	public int PNumberOnPause { get; private set; }
 
 	public static GameManager Instance { get; private set; }
 
@@ -15,22 +23,49 @@ public class GameManager : MonoBehaviour
 		else Instance = this;
 
 		DontDestroyOnLoad(gameObject);
+
+		inputModule = FindObjectOfType<StandaloneInputModule>();
 	}
 
 	private void Start()
 	{
-		GameState = GameState.MainMenu;
+		GameState = GameState.Match;
+		PNumberOnPause = 1;
 	}
 
 	// Update is called once per frame
 	private void Update()
     {
-		ResetGame();
+		if(GameState == GameState.Match) PauseGame();
     }
 
-	private void ResetGame()
+	private void PauseGame()
 	{
-		if (Input.GetKeyDown(KeyCode.Joystick1Button9))
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		CheckPauseForPlayer(1);
+		CheckPauseForPlayer(2);
+	}
+
+	private void CheckPauseForPlayer(int pNumber)
+	{
+		if (InputManager.GetButtonDown(pNumber, "Pause"))
+		{
+			if (GameState != GameState.PauseMenu)
+			{
+				GameState = GameState.PauseMenu;
+				pauseMenu.SetActive(true);
+				SetEventSystemInputModule(pNumber);
+				PNumberOnPause = pNumber;
+				resumeButton.Select();
+				resumeButton.OnSelect(null);
+			}
+		}
+	}
+
+	private void SetEventSystemInputModule(int pNumber)
+	{
+		inputModule.horizontalAxis = $"P{pNumber} Menu Control Horizontal";
+		inputModule.verticalAxis = $"P{pNumber} Menu Control Vertical";
+		inputModule.submitButton = $"P{pNumber} Submit";
+		inputModule.cancelButton = $"P{pNumber} Cancel";
 	}
 }

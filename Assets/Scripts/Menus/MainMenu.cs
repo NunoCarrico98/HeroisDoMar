@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour
 
 	private void Start()
 	{
-		//DisableMouse();
+		DisableMouse();
 	}
 
 	private void DisableMouse()
@@ -131,10 +131,7 @@ public class MainMenu : MonoBehaviour
 		yesButton.OnSelect(null);
 	}
 
-	public void QuitGameYes()
-	{
-		Application.Quit();
-	}
+	public void QuitGameYes() => Application.Quit();
 
 	public void QuitGameNo()
 	{
@@ -146,7 +143,7 @@ public class MainMenu : MonoBehaviour
 
 	private void QuitGameNoByButton()
 	{
-		if (Input.GetButtonDown("Cancel"))
+		if (InputManager.GetButtonDown(1, "Cancel"))
 		{
 			if (gameManager.GameState == GameState.QuitCheck)
 				QuitGameNo();
