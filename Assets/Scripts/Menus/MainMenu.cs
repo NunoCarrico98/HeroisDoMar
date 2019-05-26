@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
 	[Header("Play")]
 	[SerializeField] private Button playButton;
 	[SerializeField] private GameObject playContent;
-	//[SerializeField] private Graphic[] playContentUIElements;
 
 	[Header("Collection")]
 	[SerializeField] private Button collectionButton;
 	[SerializeField] private GameObject collectionContent;
-	//[SerializeField] private Graphic[] collectionContenttUIElements;
 
 	[Header("Settings")]
 	[SerializeField] private Button settingsButton;
@@ -29,7 +28,6 @@ public class MainMenu : MonoBehaviour
 	[SerializeField] private GameObject settingsGeneralContent;
 	[SerializeField] private GameObject settingsGraphicsContent;
 	[SerializeField] private GameObject settingsSoundContent;
-	//[SerializeField] private Graphic[] settingsContentUIElements;
 
 	[Header("Quit")]
 	[SerializeField] private GameObject quitCheck;
@@ -100,6 +98,11 @@ public class MainMenu : MonoBehaviour
 
 		button.Select();
 		button.OnSelect(null);
+	}
+
+	public void ClickFreeForAll()
+	{
+		SceneManager.LoadScene("CharacterSelect");
 	}
 
 	public void ClickGeneralSettings()

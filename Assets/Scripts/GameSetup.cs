@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -68,7 +68,7 @@ public class GameSetup : MonoBehaviour
 
     private void StartGame()
     {
-        if (pControllerNumbers.Count >= 2 && Input.GetButton("PS Button") && !hasGameStarted)
+        if (pControllerNumbers.Count >= 1 && Input.GetButton("PS Button") && !hasGameStarted)
         {
             hasGameStarted = true;
             Debug.Log("Game Started!");
