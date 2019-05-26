@@ -47,7 +47,8 @@ public class GameManager : MonoBehaviour
 
 	private void CheckPauseForPlayer(int pNumber)
 	{
-		if (InputManager.GetButtonDown(pNumber, "Pause"))
+
+		if (InputManager.GetButtonDown(pNumber, "Pause") && GameState == GameState.Match)
 		{
 			if (GameState != GameState.PauseMenu)
 			{
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour
 	{
 		inputModule.horizontalAxis = $"P{pNumber} Menu Control Horizontal";
 		inputModule.verticalAxis = $"P{pNumber} Menu Control Vertical";
-		inputModule.submitButton = $"P{pNumber} Submit";
+		inputModule.submitButton = $"P{pNumber} Choose";
 		inputModule.cancelButton = $"P{pNumber} Cancel";
 	}
 }

@@ -469,6 +469,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'PLAYER 2
 
+
     PRESS X'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c7b9d5e63bd022843ab370fbf0ab6005, type: 2}
@@ -516,7 +517,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 9
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -536,15 +537,15 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -200, y: -100, z: -200, w: -100}
   m_textInfo:
     textComponent: {fileID: 258460627}
-    characterCount: 16
+    characterCount: 17
     spriteCount: 0
-    spaceCount: 3
+    spaceCount: 4
     wordCount: 4
     linkCount: 0
-    lineCount: 2
+    lineCount: 3
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -995,6 +996,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'PLAYER 4
 
+
     PRESS X'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c7b9d5e63bd022843ab370fbf0ab6005, type: 2}
@@ -1042,7 +1044,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 9
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1062,15 +1064,15 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -200, y: -100, z: -200, w: -100}
   m_textInfo:
     textComponent: {fileID: 481620131}
-    characterCount: 16
+    characterCount: 17
     spriteCount: 0
-    spaceCount: 3
+    spaceCount: 4
     wordCount: 4
     linkCount: 0
-    lineCount: 2
+    lineCount: 3
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -1597,6 +1599,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'PLAYER 3
 
+
     PRESS X'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c7b9d5e63bd022843ab370fbf0ab6005, type: 2}
@@ -1644,7 +1647,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 9
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1664,15 +1667,15 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -200, y: -100, z: -200, w: -100}
   m_textInfo:
     textComponent: {fileID: 838511449}
-    characterCount: 16
+    characterCount: 17
     spriteCount: 0
-    spaceCount: 3
+    spaceCount: 4
     wordCount: 4
     linkCount: 0
-    lineCount: 2
+    lineCount: 3
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -1866,7 +1869,7 @@ MonoBehaviour:
   m_HorizontalAxis: P2 Menu Control Horizontal
   m_VerticalAxis: P2 Menu Control Vertical
   m_SubmitButton: P2 Choose
-  m_CancelButton: Cancel
+  m_CancelButton: P2 Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
@@ -2080,7 +2083,7 @@ MonoBehaviour:
   m_HorizontalAxis: P1 Menu Control Horizontal
   m_VerticalAxis: P1 Menu Control Vertical
   m_SubmitButton: P1 Choose
-  m_CancelButton: Cancel
+  m_CancelButton: P1 Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
@@ -3075,6 +3078,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'PLAYER 1
 
+
     PRESS X'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c7b9d5e63bd022843ab370fbf0ab6005, type: 2}
@@ -3122,7 +3126,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 9
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -3142,15 +3146,15 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -200, y: -100, z: -200, w: -100}
   m_textInfo:
     textComponent: {fileID: 1870111559}
-    characterCount: 16
+    characterCount: 17
     spriteCount: 0
-    spaceCount: 3
+    spaceCount: 4
     wordCount: 4
     linkCount: 0
-    lineCount: 2
+    lineCount: 3
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0

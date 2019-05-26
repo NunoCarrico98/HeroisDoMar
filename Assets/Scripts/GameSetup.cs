@@ -135,6 +135,6 @@ public class GameSetup : MonoBehaviour
         }
 
         selectedHeroes[choosingPlayer - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text 
-            = $"PLAYER {choosingPlayer} SELECTED {heroName}";
+            = $"PLAYER {choosingPlayer} \n\n {heroName}";
     }
 }
