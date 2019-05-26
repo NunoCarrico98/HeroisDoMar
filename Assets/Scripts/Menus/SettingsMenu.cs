@@ -48,9 +48,13 @@ public class SettingsMenu : MonoBehaviour
 
 	private void IsLeavingByButton()
 	{
-		if (gameManager.GameState == GameState.SettingsMenu)
-			if (Input.GetButtonDown("Cancel"))
+		if (Input.GetButtonDown("Cancel"))
+		{
+			if (gameManager.GameState == GameState.SettingsMenu)
 				ClickBack();
+			if (gameManager.GameState == GameState.DropdownMenu)
+				EventSystem.current.currentSelectedGameObject.GetComponentInParent<TMP_Dropdown>().Hide();
+		}
 	}
 
 	private void CheckSelectedButton()
@@ -116,7 +120,23 @@ public class SettingsMenu : MonoBehaviour
 	{
 		settingsMenu.SetActive(false);
 		gameManager.GameState = GameState.MainMenu;
-		selectAfterBack.Select();
-		selectAfterBack.OnSelect(null);
+		SelectButton(selectAfterBack);
+	}
+
+	public void ClickToggle(Toggle toggle)
+	{
+		toggle.isOn = !toggle.isOn;
+	}
+
+	public void ClickDropdownMenu(TMP_Dropdown dropdown)
+	{
+		gameManager.GameState = GameState.DropdownMenu;
+		dropdown.Show();
+	}
+
+	public void SelectButton(Button button)
+	{
+		button.Select();
+		button.OnSelect(null);
 	}
 }

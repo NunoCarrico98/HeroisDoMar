@@ -12,8 +12,8 @@ public class MainMenu : MonoBehaviour
 	[SerializeField] private GameObject playContent;
 
 	[Header("Collection")]
-	[SerializeField] private Button collectionButton;
-	[SerializeField] private GameObject collectionContent;
+	[SerializeField] private Button informationButton;
+	[SerializeField] private GameObject informationContent;
 
 	[Header("Settings")]
 	[SerializeField] private Button settingsButton;
@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour
 
 	private void Start()
 	{
-		DisableMouse();
+		//DisableMouse();
 	}
 
 	private void DisableMouse()
@@ -71,7 +71,7 @@ public class MainMenu : MonoBehaviour
 	{
 		if (EventSystem.current.currentSelectedGameObject == playButton.gameObject && !playFlag)
 			EnableMenuContent(true, false, false);
-		else if (EventSystem.current.currentSelectedGameObject == collectionButton.gameObject && !collectionFlag)
+		else if (EventSystem.current.currentSelectedGameObject == informationButton.gameObject && !collectionFlag)
 			EnableMenuContent(false, true, false);
 		else if (EventSystem.current.currentSelectedGameObject == settingsButton.gameObject && !settingsFlag)
 			EnableMenuContent(false, false, true);
@@ -84,7 +84,7 @@ public class MainMenu : MonoBehaviour
 		settingsFlag = settingsFlag0;
 
 		playContent.SetActive(playFlag0);
-		collectionContent.SetActive(collectionFlag0);
+		informationContent.SetActive(collectionFlag0);
 		settingsContent.SetActive(settingsFlag0);
 	}
 
@@ -146,8 +146,12 @@ public class MainMenu : MonoBehaviour
 
 	private void QuitGameNoByButton()
 	{
-		if (gameManager.GameState == GameState.QuitCheck)
-			if (Input.GetButtonDown("Cancel"))
+		if (Input.GetButtonDown("Cancel"))
+		{
+			if (gameManager.GameState == GameState.QuitCheck)
 				QuitGameNo();
+			if (gameManager.GameState == GameState.MainMenu)
+				QuitGame();
+		}
 	}
 }
