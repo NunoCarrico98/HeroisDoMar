@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour
 		settingsFlag = false;
 
 		uiManager = FindObjectOfType<UIManager>();
-		gameManager = FindObjectOfType<GameManager>();
+		gameManager = GameManager.Instance;
 	}
 
 	private void Start()
@@ -66,25 +66,17 @@ public class MainMenu : MonoBehaviour
 	void Update()
 	{
 		CheckSelectedButton();
+		QuitGameNoByButton();
 	}
 
 	private void CheckSelectedButton()
 	{
 		if (EventSystem.current.currentSelectedGameObject == playButton.gameObject && !playFlag)
-		{
 			EnableMenuContent(true, false, false);
-			//FadeUI(playContenttUIElements, false);
-		}
 		else if (EventSystem.current.currentSelectedGameObject == collectionButton.gameObject && !collectionFlag)
-		{
 			EnableMenuContent(false, true, false);
-			//FadeUI(collectionContenttUIElements, false);
-		}
 		else if (EventSystem.current.currentSelectedGameObject == settingsButton.gameObject && !settingsFlag)
-		{
 			EnableMenuContent(false, false, true);
-			//FadeUI(settingsContentUIElements, false);
-		}
 	}
 
 	private void EnableMenuContent(bool playFlag0, bool collectionFlag0, bool settingsFlag0)
@@ -110,18 +102,27 @@ public class MainMenu : MonoBehaviour
 		button.OnSelect(null);
 	}
 
-	public void ClickGeneralSettings() 
-		=> EnableSettingsMenuContent(true, false, false, settingsGeneralButton2);
+	public void ClickGeneralSettings()
+	{
+		gameManager.GameState = GameState.SettingsMenu;
+		EnableSettingsMenuContent(true, false, false, settingsGeneralButton2);
+	}
 
 	public void ClickGraphicsSettings()
-		=> EnableSettingsMenuContent(false, true, false, settingsGraphicsButton2);
+	{
+		gameManager.GameState = GameState.SettingsMenu;
+		EnableSettingsMenuContent(false, true, false, settingsGraphicsButton2);
+	}
 
 	public void ClickSoundSettings()
-		=> EnableSettingsMenuContent(false, false, true, settingsSoundButton2);
+	{
+		gameManager.GameState = GameState.SettingsMenu;
+		EnableSettingsMenuContent(false, false, true, settingsSoundButton2);
+	}
 
 	public void QuitGame()
 	{
-		Debug.Log("Clicked");
+		gameManager.GameState = GameState.QuitCheck;
 		quitCheck.SetActive(true);
 		yesButton.Select();
 		yesButton.OnSelect(null);
@@ -134,15 +135,16 @@ public class MainMenu : MonoBehaviour
 
 	public void QuitGameNo()
 	{
+		gameManager.GameState = GameState.MainMenu;
 		quitCheck.SetActive(false);
 		playButton.Select();
 		playButton.OnSelect(null);
 	}
 
-	/*private void FadeUI(Graphic[] uiElements, bool fadeOut)
+	private void QuitGameNoByButton()
 	{
-		foreach (Graphic ui in uiElements)
-			uiManager.FadeUiElement(ui, fadeOut, buttonFadeDuration);
-	}*/
-
+		if (gameManager.GameState == GameState.QuitCheck)
+			if (Input.GetButtonDown("Cancel"))
+				QuitGameNo();
+	}
 }

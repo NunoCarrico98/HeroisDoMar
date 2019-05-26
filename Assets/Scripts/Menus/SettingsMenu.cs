@@ -28,19 +28,29 @@ public class SettingsMenu : MonoBehaviour
 	[SerializeField] private GameObject settingsMenu;
 	[SerializeField] private TextMeshProUGUI backText;
 
+	private GameManager gameManager;
+	
 	private bool generalFlag;
 	private bool graphicsFlag;
 	private bool soundFlag;
 	private bool backFlag;
 
+	private void Awake()
+	{
+		gameManager = GameManager.Instance;
+	}
+
 	private void Update()
 	{
 		CheckSelectedButton();
+		IsLeavingByButton();
 	}
 
 	private void IsLeavingByButton()
 	{
-
+		if (gameManager.GameState == GameState.SettingsMenu)
+			if (Input.GetButtonDown("Cancel"))
+				ClickBack();
 	}
 
 	private void CheckSelectedButton()
@@ -105,6 +115,7 @@ public class SettingsMenu : MonoBehaviour
 	public void ClickBack()
 	{
 		settingsMenu.SetActive(false);
+		gameManager.GameState = GameState.MainMenu;
 		selectAfterBack.Select();
 		selectAfterBack.OnSelect(null);
 	}

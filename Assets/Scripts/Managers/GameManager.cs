@@ -5,20 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	public GameState GameState
+	public GameState GameState { get; set; }
+
+	public static GameManager Instance { get; private set; }
+
+	private void Awake()
 	{
-		get
-		{
-			return GameState;
-		}
-		private set
-		{
-			GameState = value;
-		}
+		if (Instance == null) Instance = this;
+		else if (Instance != this) Destroy(gameObject);
+
+		DontDestroyOnLoad(gameObject);
 	}
 
-    // Update is called once per frame
-    private void Update()
+	private void Start()
+	{
+		GameState = GameState.MainMenu;
+	}
+
+	// Update is called once per frame
+	private void Update()
     {
 		ResetGame();
     }
