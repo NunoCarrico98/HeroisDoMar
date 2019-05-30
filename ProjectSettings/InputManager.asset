@@ -12,7 +12,7 @@ InputManager:
     negativeButton: 
     positiveButton: joystick button 12
     altNegativeButton: 
-    altPositiveButton: 
+    altPositiveButton: p
     gravity: 3
     dead: 0.001
     sensitivity: 3
@@ -44,7 +44,7 @@ InputManager:
     negativeButton: 
     positiveButton: joystick 2 button 1
     altNegativeButton: 
-    altPositiveButton: mouse 0
+    altPositiveButton: p
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -361,8 +361,8 @@ InputManager:
     m_Name: P2 Menu Control Vertical
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
+    negativeButton: s
+    positiveButton: w
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

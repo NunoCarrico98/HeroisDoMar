@@ -102,6 +102,7 @@ public class MainMenu : MonoBehaviour
 
 	public void ClickFreeForAll()
 	{
+		gameManager.GameState = GameState.CharacterSelect;
 		SceneManager.LoadScene("CharacterSelect");
 	}
 

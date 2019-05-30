@@ -20,10 +20,12 @@ public class PauseMenu : MonoBehaviour
 	[SerializeField] private Button leaveGameButton;
 
 	private GameManager gameManager;
+	private PauseManager pauseManager;
 
 	private void Awake()
 	{
 		gameManager = GameManager.Instance;
+		pauseManager = FindObjectOfType<PauseManager>();
 	}
 
 	private void Update()
@@ -33,7 +35,7 @@ public class PauseMenu : MonoBehaviour
 
 	private void IsLeavingByButton()
 	{
-		if (InputManager.GetButtonDown(gameManager.PNumberOnPause, "Pause"))
+		if (InputManager.GetButtonDown(pauseManager.PNumberOnPause, "Pause"))
 		{
 			if (gameManager.GameState == GameState.PauseMenu)
 				ClickResume();

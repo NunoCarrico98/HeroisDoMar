@@ -53,7 +53,10 @@ public class SettingsMenu : MonoBehaviour
 			if (gameManager.GameState == GameState.SettingsMenu)
 				ClickBack();
 			if (gameManager.GameState == GameState.DropdownMenu)
+			{
+				gameManager.GameState = GameState.SettingsMenu;
 				EventSystem.current.currentSelectedGameObject.GetComponentInParent<TMP_Dropdown>().Hide();
+			}
 		}
 	}
 
