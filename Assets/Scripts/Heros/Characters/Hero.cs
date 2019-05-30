@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using System;
+using UnityEngine.UI;
 
 public abstract class Hero : MonoBehaviour
 {
@@ -9,14 +10,18 @@ public abstract class Hero : MonoBehaviour
     [SerializeField] private int pNumber;
 
     [Header("Abilities UI")]
-    [SerializeField] protected TextMeshProUGUI meleeUIText;
-    [SerializeField] protected TextMeshProUGUI rangedUIText;
-    [SerializeField] protected TextMeshProUGUI regularAbilityUIText;
-    [SerializeField] protected TextMeshProUGUI ultimateUIText;
+    [SerializeField] protected Image meleeUICooldownPanel;
+    [SerializeField] protected Image rangedUICooldownPanel;
+    [SerializeField] protected Image regularAbilityUICooldownPanel;
+    [SerializeField] protected Image ultimateUICooldownPanel;
+
+	[Header("Hero Stats")]
+	[SerializeField] protected Image healthBar;
+	[SerializeField] protected Image shieldBar;
 
     [Header("Maximum Health and Shield")]
     [SerializeField] protected float maximumHealth;
-    [SerializeField] private float maximumShield;
+    [SerializeField] protected float maximumShield;
 
     [Header("Cooldowns")]
     [SerializeField] protected float basicAbilityCooldown;
@@ -30,9 +35,9 @@ public abstract class Hero : MonoBehaviour
 	//VFX
 	protected VFXManager vfxManager;
 
-    protected AttributeBars attributeBar;
+	protected UIManager uiManager;
 
-    protected float currentHealth;
+	protected float currentHealth;
     protected float currentShield;
 
     // Cooldowns
@@ -64,10 +69,8 @@ public abstract class Hero : MonoBehaviour
     protected void Start()
     {
 		vfxManager = FindObjectOfType<VFXManager>();
+		uiManager = FindObjectOfType<UIManager>();
 
-        attributeBar = GetComponent<AttributeBars>();
-        attributeBar.MaximumHealth = maximumHealth;
-        attributeBar.MaximumShield = maximumShield;
         currentHealth = maximumHealth;
         currentShield = maximumShield;
 
@@ -102,51 +105,45 @@ public abstract class Hero : MonoBehaviour
         {
             if (InputManager.GetButtonDown(pNumber, "BA"))
             {
-                Debug.Log("Basic Ability");
                 basicAbility = true;
                 lockedBasicAbility = true;
-                StartCoroutine(AbilityCooldown("BA", basicAbilityCooldown, meleeUIText));
+                StartCoroutine(AbilityCooldown("BA", basicAbilityCooldown, meleeUICooldownPanel));
             }
         }
         if (!lockedMovementAbility)
         {
             if (InputManager.GetButtonDown(pNumber, "MA"))
             {
-                Debug.Log("Movement Ability");
                 movementAbility = true;
                 lockedMovementAbility = true;
-                StartCoroutine(AbilityCooldown("MA", movementAbilityCooldown, rangedUIText));
+                StartCoroutine(AbilityCooldown("MA", movementAbilityCooldown, rangedUICooldownPanel));
             }
         }
         if (!lockedOtherAbility)
         {
             if (InputManager.GetButtonDown(pNumber, "OA") && !lockedOtherAbility)
             {
-                Debug.Log("Other Ability");
                 otherAbility = true;
                 lockedOtherAbility = true;
-                StartCoroutine(AbilityCooldown("OA", otherAbilityCooldown, regularAbilityUIText));
+                StartCoroutine(AbilityCooldown("OA", otherAbilityCooldown, regularAbilityUICooldownPanel));
             }
         }
         if (!lockedUltimateAbility)
         {
             if (InputManager.GetButtonDown(pNumber, "UA") && !lockedUltimateAbility)
             {
-                Debug.Log("Ultimate Ability");
                 ultimateAbility = true;
                 lockedUltimateAbility = true;
-                StartCoroutine(AbilityCooldown("UA", ultimateAbilityCooldown, ultimateUIText));
+                StartCoroutine(AbilityCooldown("UA", ultimateAbilityCooldown, ultimateUICooldownPanel));
             }
         }
     }
 
-    private IEnumerator AbilityCooldown(string abilityName, float cooldown, TextMeshProUGUI abilityUI)
+    private IEnumerator AbilityCooldown(string abilityName, float cooldown, Image cooldownPanel)
     {
-        string temp = abilityUI.text;
-
         for (float i = cooldown; i > 0; i -= 0.1f)
         {
-            abilityUI.text = $"{i:f}";
+			uiManager.SetYBarSize(cooldownPanel, i, cooldown);
             yield return new WaitForSecondsRealtime(0.1f);
         }
 
@@ -154,19 +151,15 @@ public abstract class Hero : MonoBehaviour
         {
             case "BA":
                 lockedBasicAbility = false;
-                abilityUI.text = temp;
                 break;
             case "MA":
                 lockedMovementAbility = false;
-                abilityUI.text = temp;
                 break;
             case "OA":
                 lockedOtherAbility = false;
-                abilityUI.text = temp;
                 break;
             case "UA":
                 lockedUltimateAbility = false;
-                abilityUI.text = temp;
                 break;
         }
     }
@@ -214,8 +207,10 @@ public abstract class Hero : MonoBehaviour
     {
         float damage = weaponProperties[0];
 
+		// If hero has shield
         if (currentShield > 0)
         {
+			// Remove hitpoints from shield
             currentShield -= damage;
             if (currentShield < 0)
             {
@@ -224,18 +219,22 @@ public abstract class Hero : MonoBehaviour
                 currentShield = 0;
             }
         }
+		// If hero does not have shields
         else
         {
             currentHealth -= damage;
         }
 
+		// Die
         if (currentHealth <= 0)
         {
             currentHealth = 0;
             Die();
         }
 
-        attributeBar.SetHealthBarSize(currentHealth);
-        attributeBar.SetShieldBarSize(currentShield);
+		// Set Health Bar
+        uiManager.SetXBarSize(healthBar, currentHealth, maximumHealth);
+		// Set Shield Bar
+        uiManager.SetXBarSize(shieldBar, currentShield, maximumShield);
     }
 }

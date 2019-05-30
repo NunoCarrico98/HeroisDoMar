@@ -6,6 +6,20 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+	public void SetYBarSize(Image bar, float currentStat, float maxStat)
+	{
+		float ratio = currentStat / maxStat;
+		bar.rectTransform.localScale = new Vector3(1, ratio, 1);
+	}
+
+	public void SetXBarSize(Image bar, float currentStat, float maxStat)
+	{
+		float ratio = currentStat / maxStat;
+		bar.rectTransform.localScale = new Vector3(ratio, 1, 1);
+	}
+
+	public void ResetBar(Image bar) => bar.rectTransform.localScale = new Vector3(1, 1, 1);
+
 	public void FadeText(TextMeshProUGUI text, bool fadeOut, float _fadeDuration)
 	{
 		// If not to fade in

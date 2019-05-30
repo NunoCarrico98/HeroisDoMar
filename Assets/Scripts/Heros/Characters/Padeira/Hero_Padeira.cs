@@ -12,6 +12,7 @@ public class Hero_Padeira : Hero
     [SerializeField] private float flamesDamage;
     [SerializeField] private float chargeTimeRequired;
     [SerializeField] private float chargeExtraDamage;
+
     [Header("Movement Ability")]
     [SerializeField] private GameObject MALandVFX;
     [SerializeField] private float jumpDistance;
@@ -22,9 +23,11 @@ public class Hero_Padeira : Hero
     [SerializeField] private float damageMA;
     [SerializeField] private float slowDownTimeMA;
     [SerializeField] private float vfxDuration;
+
     [Header("Other Ability")]
     [SerializeField] private GameObject healVFX;
     [SerializeField] private float healValue;
+
     [Header("Ultimate Ability")]
     [SerializeField] private GameObject rollingPin;
     [SerializeField] private GameObject burningGroundVFX;
@@ -237,7 +240,7 @@ public class Hero_Padeira : Hero
         currentHealth += healValue;
         if (currentHealth > maximumHealth) currentHealth = maximumHealth;
 
-        attributeBar.SetHealthBarSize(currentHealth);
+        uiManager.SetXBarSize(healthBar, currentHealth, maximumHealth);
     }
 
     // ULTIMATE ABILITY METHODS
