@@ -22,6 +22,7 @@ public class PauseManager : MonoBehaviour
 	private void Start()
 	{
 		PNumberOnPause = 1;
+		gameManager.ActivateCameraController(true);
 	}
 
 	private void Update()

@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
+	private CameraSingleton cam;
+
 	public GameState GameState { get; set; }
 
 	public static GameManager Instance { get; private set; }
@@ -16,10 +16,17 @@ public class GameManager : MonoBehaviour
 		else Instance = this;
 
 		DontDestroyOnLoad(gameObject);
+
+		cam = FindObjectOfType<CameraSingleton>();
 	}
 
 	private void Start()
 	{
 		GameState = GameState.MainMenu;
+	}
+
+	public void ActivateCameraController(bool active)
+	{
+		cam.GetComponent<CameraController>().enabled = active;
 	}
 }

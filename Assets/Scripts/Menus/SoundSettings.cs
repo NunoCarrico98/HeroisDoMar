@@ -1,18 +1,21 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundSettings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public void SetMasterSound()
+	{
+		AudioListener.pause = !AudioListener.pause;
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void SetMusicSound()
+	{
+
+	}
+
+	public void SetVFXSound()
+	{
+
+	}
 }

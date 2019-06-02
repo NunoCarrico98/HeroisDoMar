@@ -84,7 +84,11 @@ public class PauseMenu : MonoBehaviour
 		yesButton.OnSelect(null);
 	}
 
-	public void ClickLeaveGameYes() => SceneManager.LoadScene("MainMenu");
+	public void ClickLeaveGameYes()
+	{
+		gameManager.ActivateCameraController(false);
+		SceneManager.LoadScene("MainMenu");
+	}
 
 	public void ClickLeaveGameNo()
 	{

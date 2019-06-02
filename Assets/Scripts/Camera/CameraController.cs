@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,9 +19,9 @@ public class CameraController : MonoBehaviour
 
     private Vector3 velocity;
 
-    private void Awake()
+	private void Awake()
     {
-        camera = GetComponent<Camera>();
+		camera = GetComponent<Camera>();
     }
 
     private void Start()
