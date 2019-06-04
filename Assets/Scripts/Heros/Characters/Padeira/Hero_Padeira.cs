@@ -81,15 +81,17 @@ public class Hero_Padeira : Hero
         {
             timeElapsedBA += Time.deltaTime;
 
-            if (timeElapsedBA > chargeTimeRequired)
-                canUseCharge = true;
+			if (timeElapsedBA > chargeTimeRequired)
+			{
+				canUseCharge = true;
+				vfxManager.EnableVFX(chargeFlamesVFX, true);
+			}
         }
         if (Input.GetButtonUp($"P{PlayerNumber} BA"))
         {
             if (canUseCharge)
             {
                 Weapon currentWeapon = weapon1.GetComponent<Weapon>();
-                vfxManager.ControlVFX(chargeFlamesVFX, true);
                 currentWeapon.Abilities[0] = true;
                 Debug.Log("CHAARGEEE!");
                 charAnimator.SetBool("Basic Ability", true);
@@ -113,13 +115,13 @@ public class Hero_Padeira : Hero
 
     public void ResetChargeFlamesEffect()
     {
-        vfxManager.ControlVFX(chargeFlamesVFX, false);
+        vfxManager.EnableVFX(chargeFlamesVFX, false);
     }
 
     public void AfterHitEffectBA(Transform other)
     {
         if (other != null)
-            other.gameObject.SendMessage("TakeDamage", new float[] { chargeExtraDamage, 0 });
+            other.gameObject.SendMessage("TakeDamage", new float[] { chargeExtraDamage * DamageMultiplier, 0 });
 
         StartCoroutine(SetOnFlames(other));
     }
@@ -140,7 +142,7 @@ public class Hero_Padeira : Hero
             {
                 lastDamage = 0;
                 if (other != null)
-                    other.gameObject.SendMessage("TakeDamage", new float[] { flamesDamage, 0 });
+                    other.gameObject.SendMessage("TakeDamage", new float[] { flamesDamage * DamageMultiplier, 0 });
             }
 
             lastDamage += Time.deltaTime;
@@ -206,7 +208,7 @@ public class Hero_Padeira : Hero
         {
             if (c.transform != transform)
             {
-                c.SendMessage("TakeDamage", new float[] { damageMA, 0 });
+                c.SendMessage("TakeDamage", new float[] { damageMA * DamageMultiplier, 0 });
                 StartCoroutine(SlowEnemy(c));
             }
         }
@@ -235,12 +237,12 @@ public class Hero_Padeira : Hero
     {
         otherAbility = false;
 
-        vfxManager.ControlVFX(healVFX, true);
+        vfxManager.EnableVFX(healVFX, true);
 
-        currentHealth += healValue;
-        if (currentHealth > maximumHealth) currentHealth = maximumHealth;
+        CurrentHealth += healValue;
+		VerifyMaxHealth();
 
-        uiManager.SetXBarSize(healthBar, currentHealth, maximumHealth);
+        uiManager.SetXBarSize(healthBar, CurrentHealth, maximumHealth);
     }
 
     // ULTIMATE ABILITY METHODS

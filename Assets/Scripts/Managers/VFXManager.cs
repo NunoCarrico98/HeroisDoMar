@@ -29,9 +29,10 @@ public class VFXManager : MonoBehaviour
 		newT.transform.rotation = other.rotation;
 		newT.transform.localScale = other.localScale;
 		InstantiateVFX(vfx, newT.transform, duration);
+		Destroy(newT);
 	}
 
-	public void ControlVFX(GameObject vfx, bool flag) => vfx.SetActive(flag);
+	public void EnableVFX(GameObject vfx, bool flag) => vfx.SetActive(flag);
 
 	private void SetVFXDuration(ParticleSystem ps, float duration)
 	{

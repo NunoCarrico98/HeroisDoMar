@@ -7,6 +7,7 @@ public class Hero_FernandoPessoa : Hero
     [Header("Basic Ability")]
     [SerializeField] private float distanceBA;
     [SerializeField] private float durationForwardBA;
+
     [Header("Movement Ability")]
     [SerializeField] private GameObject decoyMA;
     [SerializeField] private GameObject switchPositionVFX;
@@ -17,10 +18,12 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float secondsUntilSeekingTargetMA;
     [SerializeField] private float targetRadius;
     [SerializeField] private float delayForSwitch;
+
     [Header("Other Ability")]
     [SerializeField] private GameObject speedBuffVFX;
     [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
+
     [Header("Ultimate Ability")]
     [SerializeField] private GameObject decoyUA;
     [SerializeField] private float decoyLifetimeUA;

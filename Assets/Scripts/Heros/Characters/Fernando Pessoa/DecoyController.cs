@@ -226,7 +226,7 @@ public class DecoyController : MonoBehaviour
             if (enemy != null)
                 if (enemy.PlayerNumber != pNumber && c.transform != transform)
                 {
-                    c.SendMessageUpwards("TakeDamage", new float[] { explosionDamage, 0 });
+                    c.SendMessageUpwards("TakeDamage", new float[] { explosionDamage * enemy.DamageMultiplier, 0 });
                 }
         }
     }

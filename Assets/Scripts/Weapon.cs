@@ -42,14 +42,15 @@ public class Weapon : MonoBehaviour
                 if (isResetAfterHit)
                     WeaponHolder.ResetWeapon();
 
-                if (other.gameObject.tag == "Player")
+                if (other.gameObject.tag == "Player" || other.gameObject.tag == "Decoy")
                 {
-                    other.gameObject.GetComponent<Hero>().TakeDamage(new float[] { damage, 0 });
-                    vfxManager.InstantiateVFXWithYOffset(hitVFX, other.transform, 2f, hitYOffset);
+					float damageMultiplier = other.gameObject.GetComponent<Hero>().DamageMultiplier;
+					other.gameObject.SendMessage("TakeDamage", new float[] { damage * damageMultiplier, WeaponHolder.PlayerNumber });
+					vfxManager.InstantiateVFXWithYOffset(hitVFX, other.transform, 2f, hitYOffset);
                 }
 
-                else if (other.gameObject.tag == "Decoy")
-                    other.gameObject.SendMessage("TakeDamage", new float[] { damage, WeaponHolder.PlayerNumber });
+                //else if (other.gameObject.tag == "Decoy")
+                //    other.gameObject.SendMessage("TakeDamage", new float[] { damage, WeaponHolder.PlayerNumber });
 
                 if (Abilities[0]) WeaponHolder.SendMessage("AfterHitEffectBA", other.transform);
                 if (Abilities[1]) WeaponHolder.SendMessage("AfterHitEffectMA", other.transform);

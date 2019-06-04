@@ -37,9 +37,6 @@ public abstract class Hero : MonoBehaviour
 
 	protected UIManager uiManager;
 
-	protected float currentHealth;
-    protected float currentShield;
-
     // Cooldowns
     private bool lockedBasicAbility;
     private bool lockedMovementAbility;
@@ -57,8 +54,11 @@ public abstract class Hero : MonoBehaviour
 
     public CharacterMovement CharMovement => charMovement;
     public int PlayerNumber => pNumber;
+	public float CurrentHealth { get; set; }
+	public float CurrentShield { get; set; }
+	public float DamageMultiplier { get; set; } = 1;
 
-    protected abstract void MovementAbility();
+	protected abstract void MovementAbility();
     protected abstract void BasicAbility();
     protected abstract void OtherAbility();
     protected abstract void UltimateAbility();
@@ -71,8 +71,8 @@ public abstract class Hero : MonoBehaviour
 		vfxManager = FindObjectOfType<VFXManager>();
 		uiManager = FindObjectOfType<UIManager>();
 
-        currentHealth = maximumHealth;
-        currentShield = maximumShield;
+        CurrentHealth = maximumHealth;
+        CurrentShield = maximumShield;
 
         charMovement = GetComponent<CharacterMovement>();
         charAnimator = GetComponent<Animator>();
@@ -90,7 +90,7 @@ public abstract class Hero : MonoBehaviour
 
     private void Update()
     {
-        charMovement.Move();
+		charMovement.Move();
 
         ManageInput();
         if (basicAbility) BasicAbility();
@@ -164,6 +164,16 @@ public abstract class Hero : MonoBehaviour
         }
     }
 
+	public void VerifyMaxHealth()
+	{
+		if (CurrentHealth > maximumHealth) CurrentHealth = maximumHealth;
+	}
+
+	public void VerifyMaxShield()
+	{
+		if (CurrentShield > maximumShield) CurrentShield = maximumShield;
+	}
+
     public void OnAnimationEnded(int n)
     {
         switch (n)
@@ -208,33 +218,33 @@ public abstract class Hero : MonoBehaviour
         float damage = weaponProperties[0];
 
 		// If hero has shield
-        if (currentShield > 0)
+        if (CurrentShield > 0)
         {
 			// Remove hitpoints from shield
-            currentShield -= damage;
-            if (currentShield < 0)
+            CurrentShield -= damage;
+            if (CurrentShield < 0)
             {
-                float damageToHp = currentShield;
-                currentHealth += damageToHp;
-                currentShield = 0;
+                float damageToHp = CurrentShield;
+                CurrentHealth += damageToHp;
+                CurrentShield = 0;
             }
         }
 		// If hero does not have shields
         else
         {
-            currentHealth -= damage;
+            CurrentHealth -= damage;
         }
 
 		// Die
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
-            currentHealth = 0;
+            CurrentHealth = 0;
             Die();
         }
 
 		// Set Health Bar
-        uiManager.SetXBarSize(healthBar, currentHealth, maximumHealth);
+        uiManager.SetXBarSize(healthBar, CurrentHealth, maximumHealth);
 		// Set Shield Bar
-        uiManager.SetXBarSize(shieldBar, currentShield, maximumShield);
+        uiManager.SetXBarSize(shieldBar, CurrentShield, maximumShield);
     }
 }
