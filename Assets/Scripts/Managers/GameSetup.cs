@@ -81,6 +81,7 @@ public class GameSetup : MonoBehaviour
                         inputModule.horizontalAxis = $"P{i + 1} Menu Control Horizontal";
                         inputModule.verticalAxis = $"P{i + 1} Menu Control Vertical";
                         inputModule.submitButton = $"P{i + 1} Choose";
+                        inputModule.cancelButton = $"P{i + 1} Cancel";
 
                         switch (pNumb)
                         {
@@ -113,6 +114,7 @@ public class GameSetup : MonoBehaviour
     {
         choosingPlayer = player;
     }
+
     public void ChooseCharacter(int characterID)
     {
         int joystickNum = pControllerNumbers[choosingPlayer].Item1;
