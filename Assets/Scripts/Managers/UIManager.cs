@@ -6,6 +6,23 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+	[Header("Player Stats")]
+	[SerializeField] private Image[] healthBars;
+	[SerializeField] private Image[] shieldBars;
+
+	[Header("Player Cooldowns")]
+	[SerializeField] private Image[] basicUICooldownPanel;
+	[SerializeField] private Image[] movementUICooldownPanel;
+	[SerializeField] private Image[] secondaryAbilityUICooldownPanel;
+	[SerializeField] private Image[] ultimateUICooldownPanel;
+
+	public Image[] HealthBars => healthBars;
+	public Image[] ShieldBars => shieldBars;
+	public Image[] BasicUICooldownPanel => basicUICooldownPanel;
+	public Image[] MovementUICooldownPanel => movementUICooldownPanel;
+	public Image[] SecondaryAbilityUICooldownPanel => secondaryAbilityUICooldownPanel;
+	public Image[] UltimateUICooldownPanel => ultimateUICooldownPanel;
+
 	public void SetYBarSize(Image bar, float currentStat, float maxStat)
 	{
 		float ratio = currentStat / maxStat;

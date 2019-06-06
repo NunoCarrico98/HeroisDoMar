@@ -53,7 +53,9 @@ public abstract class Hero : MonoBehaviour
     protected CharacterMovement charMovement;
 
     public CharacterMovement CharMovement => charMovement;
-    public int PlayerNumber => pNumber;
+	public int PlayerNumber => pNumber;
+	public float MaxHealth => maximumHealth;
+	public float MaxShield => maximumShield;
 	public float CurrentHealth { get; set; }
 	public float CurrentShield { get; set; }
 	public float DamageMultiplier { get; set; } = 1;
@@ -64,6 +66,11 @@ public abstract class Hero : MonoBehaviour
     protected abstract void UltimateAbility();
 
     public abstract void ResetWeapon();
+
+	public void SetupHero(int pNumber)
+	{
+		this.pNumber = pNumber;
+	}
 
     // Start is called before the first frame update
     protected void Start()
@@ -107,7 +114,7 @@ public abstract class Hero : MonoBehaviour
             {
                 basicAbility = true;
                 lockedBasicAbility = true;
-                StartCoroutine(AbilityCooldown("BA", basicAbilityCooldown, meleeUICooldownPanel));
+                StartCoroutine(AbilityCooldown("BA", basicAbilityCooldown, uiManager.BasicUICooldownPanel[pNumber - 1]));
             }
         }
         if (!lockedMovementAbility)
@@ -116,7 +123,7 @@ public abstract class Hero : MonoBehaviour
             {
                 movementAbility = true;
                 lockedMovementAbility = true;
-                StartCoroutine(AbilityCooldown("MA", movementAbilityCooldown, rangedUICooldownPanel));
+                StartCoroutine(AbilityCooldown("MA", movementAbilityCooldown, uiManager.MovementUICooldownPanel[pNumber - 1]));
             }
         }
         if (!lockedOtherAbility)
@@ -125,7 +132,7 @@ public abstract class Hero : MonoBehaviour
             {
                 otherAbility = true;
                 lockedOtherAbility = true;
-                StartCoroutine(AbilityCooldown("OA", otherAbilityCooldown, regularAbilityUICooldownPanel));
+                StartCoroutine(AbilityCooldown("OA", otherAbilityCooldown, uiManager.SecondaryAbilityUICooldownPanel[pNumber - 1]));
             }
         }
         if (!lockedUltimateAbility)
@@ -134,7 +141,7 @@ public abstract class Hero : MonoBehaviour
             {
                 ultimateAbility = true;
                 lockedUltimateAbility = true;
-                StartCoroutine(AbilityCooldown("UA", ultimateAbilityCooldown, ultimateUICooldownPanel));
+                StartCoroutine(AbilityCooldown("UA", ultimateAbilityCooldown, uiManager.UltimateUICooldownPanel[pNumber - 1]));
             }
         }
     }
@@ -243,8 +250,8 @@ public abstract class Hero : MonoBehaviour
         }
 
 		// Set Health Bar
-        uiManager.SetXBarSize(healthBar, CurrentHealth, maximumHealth);
+        uiManager.SetXBarSize(uiManager.HealthBars[pNumber - 1], CurrentHealth, maximumHealth);
 		// Set Shield Bar
-        uiManager.SetXBarSize(shieldBar, CurrentShield, maximumShield);
+        uiManager.SetXBarSize(uiManager.ShieldBars[pNumber - 1], CurrentShield, maximumShield);
     }
 }

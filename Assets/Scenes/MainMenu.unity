@@ -5948,6 +5948,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d9b0c4febeb9a489d72efd7cdc58b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3340973545041763541, guid: 234a4955cb7801c48afb4cdd79ca05ba,
+    type: 3}
+  initialPositions:
+  - {x: -35, y: 0, z: 35}
+  - {x: 35, y: 0, z: -35}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  initialRotations:
+  - {x: 0, y: 135, z: 0, w: 0}
+  - {x: 0, y: -45, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &744071221
 Transform:
   m_ObjectHideFlags: 0
@@ -11486,8 +11498,6 @@ MonoBehaviour:
   - {x: 1920, y: 1080}
   dropdownResolutions: {fileID: 406329126}
   dropdownQuality: {fileID: 1779179620}
-  ppProfile: {fileID: 1617917522}
-  ppLayer: {fileID: 1617917523}
 --- !u!1 &1409706383
 GameObject:
   m_ObjectHideFlags: 0
@@ -13424,7 +13434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439639fe686911347bcab6a4a0df4d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
   offset: {x: 0, y: 43.1, z: -26.1}
   smoothness: 0.5
   minZoom: 95

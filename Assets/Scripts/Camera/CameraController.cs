@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private Camera camera;
+    private Camera cam;
 
-    [SerializeField] GameObject[] players;
+    private CharacterMovement[] Players;
 
     [Header("Camera Movement")]
     [SerializeField] private Vector3 offset;
@@ -21,17 +21,17 @@ public class CameraController : MonoBehaviour
 
 	private void Awake()
     {
-		camera = GetComponent<Camera>();
+		cam = GetComponent<Camera>();
     }
 
     private void Start()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
+		Players = FindObjectsOfType<CharacterMovement>();
     }
 
     private void LateUpdate()
     {
-        if (players.Length == 0)
+        if (Players.Length == 0)
             return;
 
         MoveCamera();
@@ -49,17 +49,17 @@ public class CameraController : MonoBehaviour
     private void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetPlayersGreatestDistance() / zoomLimiter);
-        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, newZoom, Time.deltaTime);
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
     }
 
     private Vector3 GetPlayersCenterPoint()
     {
-        if (players.Length == 1)
-            return players[0].transform.position;
+        if (Players.Length == 1)
+            return Players[0].transform.position;
 
-        Bounds bounds = new Bounds(players[0].transform.position, Vector3.zero);
+        Bounds bounds = new Bounds(Players[0].transform.position, Vector3.zero);
 
-        foreach (GameObject player in players)
+        foreach (CharacterMovement player in Players)
         {
             bounds.Encapsulate(player.transform.position);
         }
@@ -69,9 +69,9 @@ public class CameraController : MonoBehaviour
 
     private float GetPlayersGreatestDistance()
     {
-        Bounds bounds = new Bounds(players[0].transform.position, Vector3.zero);
+        Bounds bounds = new Bounds(Players[0].transform.position, Vector3.zero);
 
-        foreach (GameObject player in players)
+        foreach (CharacterMovement player in Players)
         {
             bounds.Encapsulate(player.transform.position);
         }

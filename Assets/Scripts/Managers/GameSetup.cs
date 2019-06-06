@@ -10,12 +10,15 @@ using UnityEngine.EventSystems;
 
 public class GameSetup : MonoBehaviour
 {
+	[Header("Player")]
     [SerializeField] private Image[] selectedHeroes;
     [SerializeField] private int maxPlayersNumb;
+	[SerializeField] private Color[] playerColors;
+	[SerializeField] private GameObject[] allHeroes;
 
+	[Header("Buttons")]
     [SerializeField] private Button initialP1Button;
     [SerializeField] private Button initialP2Button;
-
     [SerializeField] private EventSystem[] playersES;
 
     private static GameSetup instance;
@@ -23,33 +26,26 @@ public class GameSetup : MonoBehaviour
 
     private int choosingPlayer;
 
+    private bool[] playersActive;
     private bool[] playersChosen;
-    private string[] heroNames;
+    //private string[] heroNames;
     private bool hasGameStarted;
 
-    public Dictionary<int, Tuple<int, Characters>> pControllerNumbers { get; private set; }
-    //public Dictionary<int, int> pControllerNumbers { get; private set; }
+    //public Dictionary<int, Tuple<int, Characters>> pControllerNumbers { get; private set; }
     public static GameSetup Instance => instance;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-            Destroy(gameObject);
-        else
-            instance = this;
-
-        DontDestroyOnLoad(gameObject);
-
 		gameManager = GameManager.Instance;
     }
 
     private void Start()
     {
         playersChosen = new bool[maxPlayersNumb];
-        //pControllerNumbers = new Dictionary<int, int>();
-        pControllerNumbers = new Dictionary<int, Tuple<int, Characters>>();
+        playersActive = new bool[maxPlayersNumb];
+        //pControllerNumbers = new Dictionary<int, Tuple<int, Characters>>();
         hasGameStarted = false;
-        heroNames = new string[2] { "Fernando Pessoa", "Padeira de Aljubarrota" };
+        //heroNames = new string[2] { "Fernando Pessoa", "Padeira de Aljubarrota" };
     }
     // Update is called once per frame
     private void Update()
@@ -64,17 +60,18 @@ public class GameSetup : MonoBehaviour
         {
             for (int i = 0; i < maxPlayersNumb; i++)
             {
-                if (!playersChosen[i])
+                if (!playersActive[i])
                 {
                     if (Input.GetButtonDown($"P{i + 1} Choose"))
                     {
-                        int pNumb = pControllerNumbers.Count + 1;
+                        int pNumb = gameManager.Players.Count + 1;
 
-                        //pControllerNumbers.Add(pNumb, i + 1);
-                        pControllerNumbers.Add(pNumb, new Tuple<int, Characters>(i + 1, 0));
+                        //pControllerNumbers.Add(pNumb, new Tuple<int, Characters>(i + 1, 0));
+						//gameManager.Players.Add(new Player(pNumb, playerColors[i]));
+						gameManager.CreateNewPlayer(pNumb, playerColors[i]);
 
-                        Debug.Log($"{i} {pNumb}");
-                        playersChosen[i] = true;
+						Debug.Log($"{i} {pNumb}");
+                        playersActive[i] = true;
 
                         StandaloneInputModule inputModule = playersES[pNumb - 1].GetComponent<StandaloneInputModule>();
 
@@ -100,46 +97,47 @@ public class GameSetup : MonoBehaviour
 
     private void StartGame()
     {
-        if (pControllerNumbers.Count >= 2 && 
+        if (gameManager.Players.Count >= 2 && 
 			Input.GetButton("PS Button") && 
 			gameManager.GameState == GameState.CharacterSelect)
         {
 			gameManager.GameState = GameState.Match;
-			Debug.Log("Game Started!");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
-    public void SetChoosingPlayer(int player)
-    {
-        choosingPlayer = player;
-    }
+    public void SetChoosingPlayer(int player) => choosingPlayer = player;
 
     public void ChooseCharacter(int characterID)
     {
-        int joystickNum = pControllerNumbers[choosingPlayer].Item1;
-        pControllerNumbers[choosingPlayer] = new Tuple<int, Characters>(joystickNum, (Characters) characterID);
+		//int joystickNum = pControllerNumbers[choosingPlayer].Item1;
+		//pControllerNumbers[choosingPlayer] = new Tuple<int, Characters>(joystickNum, (Characters)characterID);
 
-        Debug.Log($"Player {choosingPlayer} with joystick {pControllerNumbers[choosingPlayer].Item1} has chosen " +
-            $"{pControllerNumbers[choosingPlayer].Item2}");
+		//Debug.Log($"Player {choosingPlayer} with joystick {pControllerNumbers[choosingPlayer].Item1} has chosen " +
+		//	$"{pControllerNumbers[choosingPlayer].Item2}");
 
-        UpdateText();
+		//if (!playersChosen[choosingPlayer - 1])
+		//{
+			//playersChosen[choosingPlayer - 1] = true;
+			gameManager.Players[choosingPlayer - 1].SetPlayerCharacter(allHeroes[characterID]);
+			UpdateText(characterID);
+		//}
     }
 
-    private void UpdateText()
+    private void UpdateText(int characterID)
     {
-        string heroName = null;
-        Characters characterChosen = pControllerNumbers[choosingPlayer].Item2;
+        string heroName = allHeroes[characterID].name;
+		//Characters characterChosen = pControllerNumbers[choosingPlayer].Item2;
 
-        switch (characterChosen)
-        {
-            case Characters.FernandoPessoa:
-                heroName = heroNames[0];
-                break;
-            case Characters.PadeiraDeAljubarrota:
-                heroName = heroNames[1];
-                break;
-        }
+  //      switch (characterChosen)
+  //      {
+  //          case Characters.FernandoPessoa:
+  //              heroName = heroNames[0];
+  //              break;
+  //          case Characters.PadeiraDeAljubarrota:
+  //              heroName = heroNames[1];
+  //              break;
+  //      }
 
         selectedHeroes[choosingPlayer - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text 
             = $"PLAYER {choosingPlayer} \n\n {heroName}";

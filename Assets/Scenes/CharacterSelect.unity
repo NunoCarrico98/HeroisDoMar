@@ -3264,6 +3264,15 @@ MonoBehaviour:
   - {fileID: 599648705}
   - {fileID: 701175695}
   maxPlayersNumb: 2
+  playerColors:
+  - {r: 0, g: 0.83137256, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0.93, g: 0.951, b: 0, a: 1}
+  allHeroes:
+  - {fileID: 0}
+  - {fileID: 6332050311335258667, guid: 79f254f18c369334e90a371939999860, type: 3}
+  - {fileID: 1664502146564979170, guid: d876281d4a8bba14f9f15bbf94972942, type: 3}
   initialP1Button: {fileID: 1652309625}
   initialP2Button: {fileID: 883883472}
   playersES:
