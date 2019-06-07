@@ -242,7 +242,7 @@ public class Hero_Padeira : Hero
         CurrentHealth += healValue;
 		VerifyMaxHealth();
 
-        uiManager.SetXBarSize(healthBar, CurrentHealth, maximumHealth);
+        uiManager.SetXBarSize(uiManager.HealthBars[PlayerNumber - 1], CurrentHealth, maximumHealth);
     }
 
     // ULTIMATE ABILITY METHODS

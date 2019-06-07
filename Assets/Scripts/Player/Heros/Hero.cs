@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,16 +7,6 @@ public abstract class Hero : MonoBehaviour
 {
     [Header("Player number")]
     [SerializeField] private int pNumber;
-
-    [Header("Abilities UI")]
-    [SerializeField] protected Image meleeUICooldownPanel;
-    [SerializeField] protected Image rangedUICooldownPanel;
-    [SerializeField] protected Image regularAbilityUICooldownPanel;
-    [SerializeField] protected Image ultimateUICooldownPanel;
-
-	[Header("Hero Stats")]
-	[SerializeField] protected Image healthBar;
-	[SerializeField] protected Image shieldBar;
 
     [Header("Maximum Health and Shield")]
     [SerializeField] protected float maximumHealth;
@@ -67,22 +56,26 @@ public abstract class Hero : MonoBehaviour
 
     public abstract void ResetWeapon();
 
-	public void SetupHero(int pNumber)
+	public void SetupHero(int pNumber, Color color)
 	{
 		this.pNumber = pNumber;
+		charAnimator = GetComponent<Animator>();
+		charMovement = GetComponent<CharacterMovement>();
+		CharMovement.SetupCharacterMovement(pNumber, charAnimator);
+		transform.Find("playerRing").GetComponent<MeshRenderer>().material.color = color;
 	}
 
-    // Start is called before the first frame update
-    protected void Start()
-    {
+	private void Awake()
+	{
 		vfxManager = FindObjectOfType<VFXManager>();
 		uiManager = FindObjectOfType<UIManager>();
+	}
 
+	// Start is called before the first frame update
+	protected void Start()
+    {
         CurrentHealth = maximumHealth;
         CurrentShield = maximumShield;
-
-        charMovement = GetComponent<CharacterMovement>();
-        charAnimator = GetComponent<Animator>();
 
         basicAbility = false;
         movementAbility = false;

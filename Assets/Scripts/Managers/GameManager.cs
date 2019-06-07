@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -35,13 +33,18 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		GameManagerSingleton();
+
+		cam = FindObjectOfType<CameraSingleton>();
+		Players = new List<Player>(4);
+	}
+
+	private void GameManagerSingleton()
+	{
 		if (Instance != null && Instance != this) Destroy(gameObject);
 		else Instance = this;
 
 		DontDestroyOnLoad(gameObject);
-
-		cam = FindObjectOfType<CameraSingleton>();
-		Players = new List<Player>(4);
 	}
 
 	private void Start()
@@ -51,26 +54,23 @@ public class GameManager : MonoBehaviour
 
 	private void SetupMatch()
 	{
-		if (GameState == GameState.Match)
+		uiManager = FindObjectOfType<UIManager>();
+
+		for (int i = 0; i < Players.Count; i++)
 		{
-			uiManager = FindObjectOfType<UIManager>();
+			Player p = Instantiate(playerPrefab, initialPositions[i], initialRotations[i]);
+			p.name = $"Player {i + 1}";
 
-			for (int i = 0; i < Players.Count; i++)
-			{
-				Player p = Instantiate(playerPrefab, initialPositions[i], initialRotations[i]);
-				p.name = $"Player {i + 1}";
+			GameObject hero = Instantiate(Players[i].PlayerHero, p.transform);
 
-				GameObject hero = Instantiate(Players[i].PlayerHero, p.transform);
-
-				p.SetupPlayer(Players[i].PlayerNumber, Players[i].PlayerHero, Players[i].Color);
-				hero.GetComponent<Hero>().SetupHero(p.PlayerNumber);
-			}
+			p.SetupPlayer(Players[i].PlayerNumber, Players[i].PlayerHero, Players[i].Color);
+			hero.GetComponent<Hero>().SetupHero(p.PlayerNumber, p.Color);
 		}
 	}
 
 	public void OnLevelLoaded(Scene scene, LoadSceneMode mode)
 	{
-		SetupMatch();
+		if (GameState == GameState.Match) SetupMatch();
 	}
 
 	public void ActivateCameraController(bool active) => cam.GetComponent<CameraController>().enabled = active;

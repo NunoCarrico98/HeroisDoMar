@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6332050311335258670}
   - component: {fileID: 6332050311335258671}
   - component: {fileID: 6332050311335258664}
-  - component: {fileID: 6332050311335258665}
+  - component: {fileID: 5044442356754547836}
   m_Layer: 9
   m_Name: Fernando Pessoa
   m_TagString: Player
@@ -87,12 +87,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pNumber: 1
-  meleeUICooldownPanel: {fileID: 0}
-  rangedUICooldownPanel: {fileID: 0}
-  regularAbilityUICooldownPanel: {fileID: 0}
-  ultimateUICooldownPanel: {fileID: 0}
-  healthBar: {fileID: 0}
-  shieldBar: {fileID: 0}
   maximumHealth: 100
   maximumShield: 75
   basicAbilityCooldown: 0
@@ -122,7 +116,7 @@ MonoBehaviour:
   explosionRadiusUA: 5
   explosionDamageUA: 15
   numberOfDecoys: 10
---- !u!114 &6332050311335258665
+--- !u!114 &5044442356754547836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,6 +266,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_Name
       value: playerRing
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
       propertyPath: m_LocalPosition.x

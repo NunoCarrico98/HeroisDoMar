@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -23,9 +20,9 @@ public class Player : MonoBehaviour
 
 	public void SetupPlayer(int playerNumber, GameObject Hero, Color color)
 	{
-		this.PlayerNumber = playerNumber;
-		this.Color = color;
-		this.PlayerHero = Hero;
+		PlayerNumber = playerNumber;
+		Color = color;
+		PlayerHero = Hero;
 		playerHealth = PlayerHero.GetComponent<Hero>().MaxHealth;
 		playerShield = PlayerHero.GetComponent<Hero>().MaxShield;
 	}
