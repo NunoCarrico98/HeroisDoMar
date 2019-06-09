@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -10,18 +12,27 @@ public class GameSetup : MonoBehaviour
 	[SerializeField] private Image[] selectedHeroes;
 	[SerializeField] private int maxPlayersNumb;
 	[SerializeField] private Color[] playerColors;
-	[SerializeField] private GameObject[] allHeroes;
+	[SerializeField] private GameObject[] playerControlsButtons;
+	[SerializeField] private GameObject[] playerReadyPanels;
+	[SerializeField] private GameObject[] playerReadyButtons;
 
-	[Header("Buttons")]
+	[Header("Event Systems")]
 	[SerializeField] private Button initialP1Button;
 	[SerializeField] private Button initialP2Button;
 	[SerializeField] private EventSystem[] playersES;
 
-	private GameManager gameManager;
+	[Header("Match Countdown")]
+	[SerializeField] private GameObject matchCountdown;
+	[SerializeField] private int waitTime;
+	[SerializeField] private TextMeshProUGUI waitTimeText;
+
 	private int choosingPlayer;
+	private GameObject[] lastCharacterSelected;
+	private CharacterSelectState[] playerState;
 	private bool[] playersActive;
-	private bool[] playersChosen;
 	private bool hasGameStarted;
+	private GameManager gameManager;
+	private int currentTime;
 
 	private void Awake()
 	{
@@ -30,9 +41,11 @@ public class GameSetup : MonoBehaviour
 
 	private void Start()
 	{
-		playersChosen = new bool[maxPlayersNumb];
+		playerState = new CharacterSelectState[maxPlayersNumb];
+		lastCharacterSelected = new GameObject[maxPlayersNumb];
 		playersActive = new bool[maxPlayersNumb];
 		hasGameStarted = false;
+		currentTime = waitTime;
 	}
 
 	// Update is called once per frame
@@ -43,6 +56,31 @@ public class GameSetup : MonoBehaviour
 			SetPlayers();
 			StartGame();
 		}
+		GoBackByButton(1);
+		GoBackByButton(2);
+		//GoBackByButton(3);
+		//GoBackByButton(4);
+	}
+
+	private void GoBackByButton(int playerNumber)
+	{
+		if (InputManager.GetButtonDown(playerNumber, "Cancel"))
+		{
+			int player = playerNumber - 1;
+			if (playerState[player] == CharacterSelectState.Chosen)
+			{
+				playerState[player] = CharacterSelectState.Choosing;
+				playersES[player].SetSelectedGameObject(lastCharacterSelected[player]);
+			}
+			if (playerState[player] == CharacterSelectState.Ready)
+			{
+				playerState[player] = CharacterSelectState.Chosen;
+				playerReadyPanels[player].SetActive(false);
+				playersES[player].SetSelectedGameObject(playerReadyButtons[player]);
+			}
+			if (gameManager.GameState == GameState.Match)
+				CancelMatch(player);
+		}
 	}
 
 	private void SetPlayers()
@@ -52,9 +90,10 @@ public class GameSetup : MonoBehaviour
 			int pNumb = i + 1;
 			if (!playersActive[i])
 			{
-				if (Input.GetButtonDown($"P{pNumb} Choose"))
+				if (InputManager.GetButtonDown(pNumb, "Choose"))
 				{
 					playersActive[i] = true;
+					playerState[i] = CharacterSelectState.Choosing;
 
 					gameManager.CreateNewPlayer(pNumb, playerColors[i]);
 
@@ -88,33 +127,68 @@ public class GameSetup : MonoBehaviour
 		}
 	}
 
+	public void SetChoosingPlayer(int player) => choosingPlayer = player;
+
+	public void ChooseCharacter(GameObject hero)
+	{
+		int player = choosingPlayer - 1;
+		playerState[player] = CharacterSelectState.Chosen;
+		gameManager.Players[player].SetPlayerCharacter(hero);
+		UpdateText(hero.name);
+		SetButtonAfterSelection(player);
+	}
+
+	private void SetButtonAfterSelection(int player)
+	{
+		lastCharacterSelected[player] = playersES[player].currentSelectedGameObject;
+		playersES[player].SetSelectedGameObject(playerControlsButtons[player]);
+	}
+
+	public void SetPlayerReady()
+	{
+		int player = choosingPlayer - 1;
+		playerState[player] = CharacterSelectState.Ready;
+		playersES[player].SetSelectedGameObject(null);
+		playerReadyPanels[player].SetActive(true);
+	}
+
+	private void UpdateText(string heroName)
+	{
+		selectedHeroes[choosingPlayer - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text
+			= $"PLAYER {choosingPlayer} \n\n {heroName}";
+	}
+
 	private void StartGame()
 	{
-		if (gameManager.Players.Count >= 2 &&
-			Input.GetButton("PS Button"))
+		if (playerState.All(pState => pState == CharacterSelectState.Ready))
 		{
 			gameManager.GameState = GameState.Match;
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			matchCountdown.SetActive(true);
+			Debug.Log("hey");
+			InvokeRepeating("CountdownToMatch", 0, 1);
 		}
 	}
 
-	public void SetChoosingPlayer(int player) => choosingPlayer = player;
-
-	public void ChooseCharacter(int characterID)
+	private void CountdownToMatch()
 	{
-		//if (!playersChosen[choosingPlayer - 1])
-		//{
-		//playersChosen[choosingPlayer - 1] = true;
-		gameManager.Players[choosingPlayer - 1].SetPlayerCharacter(allHeroes[characterID]);
-		UpdateText(characterID);
-		//}
+		if (currentTime == 0)
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		waitTimeText.text = currentTime.ToString();
+		currentTime--;
 	}
 
-	private void UpdateText(int characterID)
+	private void CancelMatch(int player)
 	{
-		string heroName = allHeroes[characterID].name;
+		gameManager.GameState = GameState.CharacterSelect;
+		CancelInvoke("CountdownToMatch");
+		matchCountdown.SetActive(false);
+		currentTime = waitTime;
 
-		selectedHeroes[choosingPlayer - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text
-			= $"PLAYER {choosingPlayer} \n\n {heroName}";
+		for (int i = 0; i < playerState.Length; i++)
+			playerState[i] = CharacterSelectState.Chosen;
+		for (int i = 0; i < playersES.Length; i++)
+			playersES[i].SetSelectedGameObject(playerReadyButtons[i]);
+		foreach (GameObject panel in playerReadyPanels)
+			panel.SetActive(false);
 	}
 }
