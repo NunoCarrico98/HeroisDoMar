@@ -8,6 +8,12 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Image[] healthBars;
 	[SerializeField] private Image[] shieldBars;
 
+	[Header("Abilities Images")]
+	[SerializeField] private Image[] basicAbilitySpot;
+	[SerializeField] private Image[] movementAbilitySpot;
+	[SerializeField] private Image[] secondaryAbilitySpot;
+	[SerializeField] private Image[] ultimateAbilitySpot;
+
 	[Header("Player Cooldowns")]
 	[SerializeField] private Image[] basicUICooldownPanel;
 	[SerializeField] private Image[] movementUICooldownPanel;
@@ -20,6 +26,14 @@ public class UIManager : MonoBehaviour
 	public Image[] MovementUICooldownPanel => movementUICooldownPanel;
 	public Image[] SecondaryAbilityUICooldownPanel => secondaryAbilityUICooldownPanel;
 	public Image[] UltimateUICooldownPanel => ultimateUICooldownPanel;
+
+	public void SetupCanvas(int pNumber, Sprite[] image)
+	{
+		basicAbilitySpot[pNumber].sprite = image[0];
+		movementAbilitySpot[pNumber].sprite = image[1];
+		secondaryAbilitySpot[pNumber].sprite = image[2];
+		ultimateAbilitySpot[pNumber].sprite = image[3];
+	}
 
 	public void SetYBarSize(Image bar, float currentStat, float maxStat)
 	{

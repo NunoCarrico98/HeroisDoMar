@@ -81,8 +81,8 @@ public class CharacterMovement : MonoBehaviour
 	private void UpdatePosition(Vector3 moveInput)
 	{
 		float movement = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
-        transform.position += moveInput * movement * Time.deltaTime;
-		//charController.Move(moveInput * movement * Time.deltaTime);
+        //transform.position += moveInput * movement * Time.deltaTime;
+		charController.Move(moveInput * movement * Time.deltaTime);
 	}
 
 	private void UpdateVerticalPosition()

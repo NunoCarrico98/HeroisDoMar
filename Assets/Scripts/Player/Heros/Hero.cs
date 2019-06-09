@@ -12,7 +12,10 @@ public abstract class Hero : MonoBehaviour
     [SerializeField] protected float maximumHealth;
     [SerializeField] protected float maximumShield;
 
-    [Header("Cooldowns")]
+	[Header("Abilities Images")]
+	[SerializeField] private Sprite[] abilityImages;
+
+	[Header("Cooldowns")]
     [SerializeField] protected float basicAbilityCooldown;
     [SerializeField] protected float movementAbilityCooldown;
     [SerializeField] protected float otherAbilityCooldown;
@@ -42,6 +45,7 @@ public abstract class Hero : MonoBehaviour
     protected CharacterMovement charMovement;
 
     public CharacterMovement CharMovement => charMovement;
+	public Sprite[] AbilityImages => abilityImages;
 	public int PlayerNumber => pNumber;
 	public float MaxHealth => maximumHealth;
 	public float MaxShield => maximumShield;
@@ -63,6 +67,7 @@ public abstract class Hero : MonoBehaviour
 		charMovement = GetComponent<CharacterMovement>();
 		CharMovement.SetupCharacterMovement(pNumber, charAnimator);
 		transform.Find("playerRing").GetComponent<MeshRenderer>().material.color = color;
+		uiManager.SetupCanvas(pNumber - 1, abilityImages);
 	}
 
 	private void Awake()

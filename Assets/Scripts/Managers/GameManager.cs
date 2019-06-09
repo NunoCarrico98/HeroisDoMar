@@ -60,7 +60,6 @@ public class GameManager : MonoBehaviour
 		{
 			Player p = Instantiate(playerPrefab, initialPositions[i], initialRotations[i]);
 			p.name = $"Player {i + 1}";
-
 			GameObject hero = Instantiate(Players[i].PlayerHero, p.transform);
 
 			p.SetupPlayer(Players[i].PlayerNumber, Players[i].PlayerHero, Players[i].Color);
