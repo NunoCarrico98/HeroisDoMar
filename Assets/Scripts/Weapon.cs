@@ -38,8 +38,6 @@ public class Weapon : MonoBehaviour
 
             else if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox") && other.gameObject.transform != WeaponHolder.transform)
             {
-                Debug.Log($"I've hit the {other.gameObject.name}");
-
                 if (isResetAfterHit)
                     WeaponHolder.ResetWeapon();
 
