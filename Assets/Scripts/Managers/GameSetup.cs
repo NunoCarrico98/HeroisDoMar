@@ -9,7 +9,8 @@ using UnityEngine.EventSystems;
 public class GameSetup : MonoBehaviour
 {
 	[Header("Player")]
-	[SerializeField] private Image[] selectedHeroes;
+	[SerializeField] private Image[] selectedHeroesImages;
+	[SerializeField] private TextMeshProUGUI[] selectedHeroesText;
 	[SerializeField] private int maxPlayersNumb;
 	[SerializeField] private Color[] playerColors;
 	[SerializeField] private GameObject[] playerControlsButtons;
@@ -134,7 +135,7 @@ public class GameSetup : MonoBehaviour
 		int player = choosingPlayer - 1;
 		playerState[player] = CharacterSelectState.Chosen;
 		gameManager.Players[player].SetPlayerCharacter(hero);
-		UpdateText(hero.name);
+		UpdateText(hero);
 		SetButtonAfterSelection(player);
 	}
 
@@ -152,10 +153,10 @@ public class GameSetup : MonoBehaviour
 		playerReadyPanels[player].SetActive(true);
 	}
 
-	private void UpdateText(string heroName)
+	private void UpdateText(GameObject hero)
 	{
-		selectedHeroes[choosingPlayer - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text
-			= $"PLAYER {choosingPlayer} \n\n {heroName}";
+		selectedHeroesImages[choosingPlayer - 1].sprite = hero.GetComponent<Hero>().SelectionScreenBackground;
+		selectedHeroesText[choosingPlayer - 1].text = $"PLAYER {choosingPlayer} \n\n {hero.name}";
 	}
 
 	private void StartGame()
@@ -164,7 +165,6 @@ public class GameSetup : MonoBehaviour
 		{
 			gameManager.GameState = GameState.Match;
 			matchCountdown.SetActive(true);
-			Debug.Log("hey");
 			InvokeRepeating("CountdownToMatch", 0, 1);
 		}
 	}

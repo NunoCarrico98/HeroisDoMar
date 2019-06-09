@@ -214,6 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pNumber: 1
+  selectionScreenBackground: {fileID: 21300000, guid: f2285a6dd17faee44abf77af911f5d35,
+    type: 3}
   maximumHealth: 100
   maximumShield: 75
   abilityImages:
