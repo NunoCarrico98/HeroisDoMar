@@ -6,28 +6,27 @@ public class Buff : MonoBehaviour
 {
 	[SerializeField] protected float power;
 	[SerializeField] protected float timeToRespawn;
+	[SerializeField] private GameObject catchVFX;
+	[SerializeField] private GameObject spawnVFX;
+	[SerializeField] private GameObject cooldownVFX;
+	[SerializeField] private GameObject idleVFX;
 
 	private bool used;
-	private float vfxDuration;
+	private float catchVFXDuration;
 
-	private GameObject vfx;
+	private MeshRenderer model;
 	private VFXManager vfxManager;
 
 	private void Awake()
 	{
+		model = transform.GetChild(0).GetComponent<MeshRenderer>();
 		vfxManager = FindObjectOfType<VFXManager>();
-		vfx = transform.GetChild(0).gameObject;
-		vfxDuration = vfx.GetComponent<ParticleSystem>().main.duration;
+		catchVFXDuration = catchVFX.GetComponent<ParticleSystem>().main.duration;
 	}
 
 	private void Start()
 	{
 		used = false;
-	}
-
-	private void SpawnCatchVFX()
-	{
-		vfxManager.EnableVFX(vfx, true);
 	}
 
 	private void ProduceSound()
@@ -37,14 +36,16 @@ public class Buff : MonoBehaviour
 
 	private IEnumerator DeactivateBuff()
 	{
-		yield return new WaitForSeconds(vfxDuration);
+		yield return new WaitForSeconds(catchVFXDuration);
+		vfxManager.EnableVFX(idleVFX, true);
 		StartCoroutine(ActivateBuff());
 	}
 
 	private IEnumerator ActivateBuff()
 	{
 		yield return new WaitForSeconds(timeToRespawn);
-		GetComponent<MeshRenderer>().enabled = true;
+		vfxManager.EnableVFX(idleVFX, false);
+		model.enabled = true;
 		used = false;
 	}
 
@@ -54,10 +55,10 @@ public class Buff : MonoBehaviour
 		{
 			used = true;
 
-			SpawnCatchVFX();
+			vfxManager.EnableVFX(catchVFX, true);
 			ProduceSound();
 
-			GetComponent<MeshRenderer>().enabled = false;
+			model.enabled = false;
 			StartCoroutine(DeactivateBuff());
 		}
 	}
