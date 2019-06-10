@@ -7,10 +7,7 @@ public class ShieldBuff : Buff
 	private new void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Player")
-		{
-			other.GetComponent<Hero>().CurrentShield += power;
-			other.GetComponent<Hero>().VerifyMaxShield();
-		}
+			other.GetComponent<Hero>().HealShield(power);
 		base.OnTriggerEnter(other);
 	}
 }

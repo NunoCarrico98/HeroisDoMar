@@ -173,14 +173,18 @@ public abstract class Hero : MonoBehaviour
         }
     }
 
-	public void VerifyMaxHealth()
+	public void HealHealth(float amount)
 	{
+		CurrentHealth += amount;
 		if (CurrentHealth > maximumHealth) CurrentHealth = maximumHealth;
+		uiManager.SetXBarSize(uiManager.HealthBars[PlayerNumber - 1], CurrentHealth, maximumHealth);
 	}
 
-	public void VerifyMaxShield()
+	public void HealShield(float amount)
 	{
+		CurrentShield += amount;
 		if (CurrentShield > maximumShield) CurrentShield = maximumShield;
+		uiManager.SetXBarSize(uiManager.ShieldBars[pNumber - 1], CurrentShield, maximumShield);
 	}
 
     public void OnAnimationEnded(int n)

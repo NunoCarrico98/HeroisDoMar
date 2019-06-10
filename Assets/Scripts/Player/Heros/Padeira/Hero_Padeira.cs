@@ -239,10 +239,7 @@ public class Hero_Padeira : Hero
 
         vfxManager.EnableVFX(healVFX, true);
 
-        CurrentHealth += healValue;
-		VerifyMaxHealth();
-
-        uiManager.SetXBarSize(uiManager.HealthBars[PlayerNumber - 1], CurrentHealth, maximumHealth);
+		HealHealth(healValue);
     }
 
     // ULTIMATE ABILITY METHODS
