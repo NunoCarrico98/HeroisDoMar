@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Buff : MonoBehaviour
 {
@@ -13,15 +14,18 @@ public class Buff : MonoBehaviour
 
 	private bool used;
 	private float catchVFXDuration;
-
-	private MeshRenderer model;
+	private float spawnVFXDuration;
+	private GameObject model;
+	private Animator modelAnim;
 	private VFXManager vfxManager;
 
 	private void Awake()
 	{
-		model = transform.GetChild(0).GetComponent<MeshRenderer>();
+		model = transform.GetChild(0).gameObject;
+		modelAnim = model.GetComponent<Animator>();
 		vfxManager = FindObjectOfType<VFXManager>();
 		catchVFXDuration = catchVFX.GetComponent<ParticleSystem>().main.duration;
+		spawnVFXDuration = spawnVFX.GetComponent<ParticleSystem>().main.duration;
 	}
 
 	private void Start()
@@ -34,18 +38,22 @@ public class Buff : MonoBehaviour
 		// Produce Sound
 	}
 
-	private IEnumerator DeactivateBuff()
+	private IEnumerator ManageBuff()
 	{
+		// Deactivate buff
 		yield return new WaitForSeconds(catchVFXDuration);
 		vfxManager.EnableVFX(idleVFX, true);
-		StartCoroutine(ActivateBuff());
-	}
 
-	private IEnumerator ActivateBuff()
-	{
+		// Spawn Buff
 		yield return new WaitForSeconds(timeToRespawn);
 		vfxManager.EnableVFX(idleVFX, false);
-		model.enabled = true;
+		vfxManager.EnableVFX(spawnVFX, spawnVFXDuration);
+		model.transform.DOLocalMoveY(0f, spawnVFXDuration);
+		model.SetActive(true);
+
+		// Activate Buff
+		yield return new WaitForSeconds(spawnVFXDuration);
+		modelAnim.enabled = true;
 		used = false;
 	}
 
@@ -58,9 +66,10 @@ public class Buff : MonoBehaviour
 			vfxManager.EnableVFX(catchVFX, true);
 			ProduceSound();
 
-			model.enabled = false;
-			StartCoroutine(DeactivateBuff());
+			model.transform.DOLocalMoveY(-1.5f, 0);
+			modelAnim.enabled = false;
+			model.SetActive(false);
+			StartCoroutine(ManageBuff());
 		}
 	}
-
 }

@@ -64,7 +64,7 @@ MonoBehaviour:
   power: 20
   timeToRespawn: 40
   catchVFX: {fileID: 2533985061937296117}
-  spawnVFX: {fileID: 0}
+  spawnVFX: {fileID: 6526006349516294312}
   cooldownVFX: {fileID: 0}
   idleVFX: {fileID: 5526799305266252694}
 --- !u!1 &7192817327109430386
@@ -262,6 +262,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_HealSpawn_01
       objectReference: {fileID: 0}
+    - target: {fileID: 760522543162773820, guid: 89d7de6d1166e644fbbc56f702d52eae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1551251175175784032, guid: 89d7de6d1166e644fbbc56f702d52eae,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -317,13 +322,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8314835043166442938, guid: 89d7de6d1166e644fbbc56f702d52eae,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5526296666587106477, guid: 89d7de6d1166e644fbbc56f702d52eae,
         type: 3}
       propertyPath: m_Name
       value: PS_Lines
       objectReference: {fileID: 0}
+    - target: {fileID: 3761371406350184483, guid: 89d7de6d1166e644fbbc56f702d52eae,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3761371406350184483, guid: 89d7de6d1166e644fbbc56f702d52eae,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3761371406350184483, guid: 89d7de6d1166e644fbbc56f702d52eae,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3761371406350184483, guid: 89d7de6d1166e644fbbc56f702d52eae,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3761371406350184483, guid: 89d7de6d1166e644fbbc56f702d52eae,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89d7de6d1166e644fbbc56f702d52eae, type: 3}
+--- !u!1 &6526006349516294312 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 760522543162773820, guid: 89d7de6d1166e644fbbc56f702d52eae,
+    type: 3}
+  m_PrefabInstance: {fileID: 5772738462595160468}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5015819980214280180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1551251175175784032, guid: 89d7de6d1166e644fbbc56f702d52eae,

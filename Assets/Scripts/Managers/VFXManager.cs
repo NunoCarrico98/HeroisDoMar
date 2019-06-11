@@ -34,6 +34,16 @@ public class VFXManager : MonoBehaviour
 
 	public void EnableVFX(GameObject vfx, bool flag) => vfx.SetActive(flag);
 
+	public void EnableVFX(GameObject vfx, float delay)
+		=> StartCoroutine(EnableAndDisableVFX(vfx, delay));
+
+	private IEnumerator EnableAndDisableVFX(GameObject vfx, float delay)
+	{
+		vfx.SetActive(true);
+		yield return new WaitForSeconds(delay);
+		vfx.SetActive(false);
+	}
+
 	private void SetVFXDuration(ParticleSystem ps, float duration)
 	{
 		ps.Stop();
