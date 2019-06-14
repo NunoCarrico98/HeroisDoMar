@@ -134588,7 +134588,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 2.3666666
+  - time: 2.3333333
     functionName: ResetChargeFlamesEffect
     data: 
     objectReferenceParameter: {fileID: 0}
