@@ -938,20 +938,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!64 &2795087325206118222
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826477761465187419}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300004, guid: 892a90a288bc604499bf9cf63302c6a3, type: 3}
 --- !u!1 &8619897986307369970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,6 +990,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1664502146564979177}
     m_Modifications:
+    - target: {fileID: 100002, guid: 1eb5d4ad85afd8f4d8f32e1ad11661f6, type: 3}
+      propertyPath: m_Name
+      value: padeira_cloth
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1eb5d4ad85afd8f4d8f32e1ad11661f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1eb5d4ad85afd8f4d8f32e1ad11661f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1048,14 +1042,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 1eb5d4ad85afd8f4d8f32e1ad11661f6, type: 3}
-      propertyPath: m_Name
-      value: padeira_cloth
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 1eb5d4ad85afd8f4d8f32e1ad11661f6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 1eb5d4ad85afd8f4d8f32e1ad11661f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1091,6 +1077,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1664502146703729784}
     m_Modifications:
+    - target: {fileID: 100000, guid: d2819d91ad66aa743b9dc66e9410cdaf, type: 3}
+      propertyPath: m_Name
+      value: ovenPeel
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d2819d91ad66aa743b9dc66e9410cdaf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1147,25 +1137,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.45
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: d2819d91ad66aa743b9dc66e9410cdaf, type: 3}
-      propertyPath: m_Name
-      value: ovenPeel
-      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: d2819d91ad66aa743b9dc66e9410cdaf, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 28db89710844b1a47898214b6a9c966e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2819d91ad66aa743b9dc66e9410cdaf, type: 3}
---- !u!1 &1314711082782995217 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: d2819d91ad66aa743b9dc66e9410cdaf,
-    type: 3}
-  m_PrefabInstance: {fileID: 1314711082783028657}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1314711082782895921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: d2819d91ad66aa743b9dc66e9410cdaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1314711082783028657}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1314711082782995217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: d2819d91ad66aa743b9dc66e9410cdaf,
     type: 3}
   m_PrefabInstance: {fileID: 1314711082783028657}
   m_PrefabAsset: {fileID: 0}
@@ -1413,6 +1399,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: padeira_body
       objectReference: {fileID: 0}
+    - target: {fileID: 100070, guid: 892a90a288bc604499bf9cf63302c6a3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: 892a90a288bc604499bf9cf63302c6a3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400068, guid: 892a90a288bc604499bf9cf63302c6a3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1476,6 +1470,12 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9500000, guid: 892a90a288bc604499bf9cf63302c6a3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 892a90a288bc604499bf9cf63302c6a3, type: 3}
+--- !u!4 &7826477761465671799 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400068, guid: 892a90a288bc604499bf9cf63302c6a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7826477761465285299}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7826477761465671723 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400024, guid: 892a90a288bc604499bf9cf63302c6a3,
@@ -1509,18 +1509,6 @@ Transform:
 --- !u!4 &7826477761465671695 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400060, guid: 892a90a288bc604499bf9cf63302c6a3,
-    type: 3}
-  m_PrefabInstance: {fileID: 7826477761465285299}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7826477761465187419 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100072, guid: 892a90a288bc604499bf9cf63302c6a3,
-    type: 3}
-  m_PrefabInstance: {fileID: 7826477761465285299}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7826477761465671799 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400068, guid: 892a90a288bc604499bf9cf63302c6a3,
     type: 3}
   m_PrefabInstance: {fileID: 7826477761465285299}
   m_PrefabAsset: {fileID: 0}
