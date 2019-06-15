@@ -39,6 +39,9 @@ ModelImporter:
     100066: pPlane3
     100068: pPlane4
     100070: Water
+    100072: barrel10
+    100074: barrel11
+    100076: barrel9
     400000: //RootNode
     400002: barrel
     400004: barrel1
@@ -75,6 +78,9 @@ ModelImporter:
     400066: pPlane3
     400068: pPlane4
     400070: Water
+    400072: barrel10
+    400074: barrel11
+    400076: barrel9
     2100000: lambert19
     2100002: lambert21
     2100004: lambert1
@@ -86,6 +92,7 @@ ModelImporter:
     2100016: RED
     2100018: lambert3
     2100020: lambert22
+    2100022: lambert23
     2300000: barrel
     2300002: barrel1
     2300004: barrel2
@@ -121,6 +128,9 @@ ModelImporter:
     2300064: pPlane3
     2300066: pPlane4
     2300068: Water
+    2300070: barrel10
+    2300072: barrel11
+    2300074: barrel9
     3300000: barrel
     3300002: barrel1
     3300004: barrel2
@@ -156,6 +166,9 @@ ModelImporter:
     3300064: pPlane3
     3300066: pPlane4
     3300068: Water
+    3300070: barrel10
+    3300072: barrel11
+    3300074: barrel9
     4300000: barrel2
     4300002: barrel1
     4300004: barrel4
@@ -191,6 +204,9 @@ ModelImporter:
     4300064: pCube32
     4300066: marco_2
     4300068: Water
+    4300070: barrel9
+    4300072: barrel10
+    4300074: barrel11
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
