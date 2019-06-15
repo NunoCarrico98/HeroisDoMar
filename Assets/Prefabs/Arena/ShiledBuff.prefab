@@ -144,7 +144,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.56619006
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6671103989816214245
 MonoBehaviour:
@@ -162,8 +162,8 @@ MonoBehaviour:
   timeToRespawn: 5
   catchVFX: {fileID: 2048017946885184854}
   spawnVFX: {fileID: 760522543162773820}
-  cooldownVFX: {fileID: 0}
-  idleVFX: {fileID: 1494735895806610492}
+  cooldownVFX: {fileID: 1494735895806610492}
+  idleVFX: {fileID: 0}
 --- !u!1001 &3622487133283871320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ PrefabInstance:
     - target: {fileID: 740048255737352485, guid: 31a310d770161214da310fa61d9c3cd1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 740048255737352485, guid: 31a310d770161214da310fa61d9c3cd1,
         type: 3}
@@ -236,6 +236,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1128874024207457316, guid: 31a310d770161214da310fa61d9c3cd1,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31a310d770161214da310fa61d9c3cd1, type: 3}
 --- !u!1 &1494735895806610492 stripped
@@ -257,16 +262,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6671103989816214242}
     m_Modifications:
-    - target: {fileID: 4681633388226900157, guid: 545a22faa4b70384f85bd975f8b88fc1,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_ShieldHealEffect_03
-      objectReference: {fileID: 0}
-    - target: {fileID: 4681633388226900157, guid: 545a22faa4b70384f85bd975f8b88fc1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6067719371644390508, guid: 545a22faa4b70384f85bd975f8b88fc1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -275,7 +270,7 @@ PrefabInstance:
     - target: {fileID: 6067719371644390508, guid: 545a22faa4b70384f85bd975f8b88fc1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6067719371644390508, guid: 545a22faa4b70384f85bd975f8b88fc1,
         type: 3}
@@ -322,6 +317,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4681633388226900157, guid: 545a22faa4b70384f85bd975f8b88fc1,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_ShieldHealEffect_03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 545a22faa4b70384f85bd975f8b88fc1, type: 3}
 --- !u!1 &2048017946885184854 stripped
@@ -361,7 +361,7 @@ PrefabInstance:
     - target: {fileID: 8369751244246528021, guid: 63d7290c34b4995468e03f677fef0157,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8369751244246528021, guid: 63d7290c34b4995468e03f677fef0157,
         type: 3}
@@ -407,6 +407,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166379574924953174, guid: 63d7290c34b4995468e03f677fef0157,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166379574924953174, guid: 63d7290c34b4995468e03f677fef0157,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6166379574924953174, guid: 63d7290c34b4995468e03f677fef0157,
+        type: 3}
+      propertyPath: VelocityModule.orbitalZ.scalar
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63d7290c34b4995468e03f677fef0157, type: 3}
