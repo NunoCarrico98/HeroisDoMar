@@ -42,13 +42,13 @@ public class Buff : MonoBehaviour
 	{
 		// Deactivate buff
 		yield return new WaitForSeconds(catchVFXDuration);
-		vfxManager.EnableVFX(idleVFX, true);
+		vfxManager.EnableVFX(cooldownVFX, true);
 
 		// Spawn Buff
 		yield return new WaitForSeconds(timeToRespawn);
-		vfxManager.EnableVFX(idleVFX, false);
+		vfxManager.EnableVFX(cooldownVFX, false);
 		vfxManager.EnableVFX(spawnVFX, spawnVFXDuration);
-		model.transform.DOLocalMoveY(0f, spawnVFXDuration);
+		model.transform.DOLocalMoveY(-0.5f, spawnVFXDuration);
 		model.SetActive(true);
 
 		// Activate Buff
@@ -66,7 +66,7 @@ public class Buff : MonoBehaviour
 			vfxManager.EnableVFX(catchVFX, true);
 			ProduceSound();
 
-			model.transform.DOLocalMoveY(-1.5f, 0);
+			model.transform.DOLocalMoveY(-4f, 0);
 			modelAnim.enabled = false;
 			model.SetActive(false);
 			StartCoroutine(ManageBuff());
