@@ -28,6 +28,8 @@ public class GameSetup : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI waitTimeText;
 
 	private int choosingPlayer;
+	private int playerSpotToUpdate;
+	private Sprite[] heroImage;
 	private GameObject[] lastCharacterSelected;
 	private CharacterSelectState[] playerState;
 	private bool[] playersActive;
@@ -135,7 +137,7 @@ public class GameSetup : MonoBehaviour
 		int player = choosingPlayer - 1;
 		playerState[player] = CharacterSelectState.Chosen;
 		gameManager.Players[player].SetPlayerCharacter(hero);
-		UpdateCharacterChoiceUI(hero);
+		//UpdateCharacterChoiceUI(hero);
 		SetButtonAfterSelection(player);
 	}
 
@@ -153,11 +155,13 @@ public class GameSetup : MonoBehaviour
 		playerReadyPanels[player].SetActive(true);
 	}
 
-	private void UpdateCharacterChoiceUI(GameObject hero)
+	public void UpdateCharacterChoiceUI(GameObject hero)
 	{
-		selectedHeroesImages[choosingPlayer - 1].sprite = hero.GetComponent<Hero>().SelectionScreenBackground;
-		selectedHeroesText[choosingPlayer - 1].text = $"PLAYER {choosingPlayer} \n\n {hero.name}";
+		selectedHeroesImages[playerSpotToUpdate - 1].sprite = hero.GetComponent<Hero>().SelectionScreenBackground;
+		selectedHeroesText[playerSpotToUpdate - 1].text = $"PLAYER {choosingPlayer} \n\n {hero.name}";
 	}
+
+	public void UpdateCharacterChoiceUI(int playerSpot) => playerSpotToUpdate = playerSpot;
 
 	private void StartGame()
 	{
