@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 10
-  timeToRespawn: 5
+  timeToRespawn: 30
   catchVFX: {fileID: 2048017946885184854}
   spawnVFX: {fileID: 760522543162773820}
   cooldownVFX: {fileID: 1494735895806610492}
@@ -271,7 +271,7 @@ PrefabInstance:
     - target: {fileID: 6067719371644390508, guid: 545a22faa4b70384f85bd975f8b88fc1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6067719371644390508, guid: 545a22faa4b70384f85bd975f8b88fc1,
         type: 3}
@@ -362,7 +362,7 @@ PrefabInstance:
     - target: {fileID: 8369751244246528021, guid: 63d7290c34b4995468e03f677fef0157,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8369751244246528021, guid: 63d7290c34b4995468e03f677fef0157,
         type: 3}

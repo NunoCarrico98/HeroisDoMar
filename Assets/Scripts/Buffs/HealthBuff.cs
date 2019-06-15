@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class HealthBuff : Buff
 {
-	private new void OnTriggerEnter(Collider other)
+	private new void OnTriggerStay(Collider other)
 	{
 		if (other.tag == "Player")
 			other.GetComponent<Hero>().HealHealth(power);			
-		base.OnTriggerEnter(other);
+		base.OnTriggerStay(other);
 	}
 }
