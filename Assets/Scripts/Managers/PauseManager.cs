@@ -46,6 +46,7 @@ public class PauseManager : MonoBehaviour
 			{
 				gameManager.GameState = GameState.PauseMenu;
 				pauseMenu.SetActive(true);
+				Time.timeScale = 0;
 				SetEventSystemInputModule(pNumber);
 				PNumberOnPause = pNumber;
 				resumeButton.Select();

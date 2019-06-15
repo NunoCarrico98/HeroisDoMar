@@ -73,6 +73,7 @@ public class PauseMenu : MonoBehaviour
 	public void ClickResume()
 	{
 		gameManager.GameState = GameState.Match;
+		Time.timeScale = 1;
 		gameObject.SetActive(false);
 	}
 
@@ -87,6 +88,7 @@ public class PauseMenu : MonoBehaviour
 	public void ClickLeaveGameYes()
 	{
 		gameManager.ActivateCameraController(false);
+		Time.timeScale = 1;
 		SceneManager.LoadScene("MainMenu");
 	}
 
