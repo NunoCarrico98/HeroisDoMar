@@ -6,6 +6,7 @@ public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource musicSource;
+    [SerializeField] private float fadeTime;
 
     public static SoundManager Instance { get; set; }
 
@@ -24,5 +25,17 @@ public class SoundManager : MonoBehaviour
         sfxSource.clip = clip;
 
         sfxSource.Play();
+    }
+
+    public IEnumerator MusicFadeOut()
+    {
+        float startVolume = musicSource.volume;
+        while (musicSource.volume > 0)
+        {
+            musicSource.volume -= startVolume * Time.deltaTime / fadeTime;
+            yield return null;
+        }
+        musicSource.Stop();
+        musicSource.volume = startVolume;
     }
 }

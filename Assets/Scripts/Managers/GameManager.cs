@@ -69,7 +69,11 @@ public class GameManager : MonoBehaviour
 
 	public void OnLevelLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if (GameState == GameState.Match) SetupMatch();
+        if (GameState == GameState.Match)
+        {
+            SetupMatch();
+            StartCoroutine(SoundManager.Instance.MusicFadeOut());
+        }
 	}
 
 	public void ActivateCameraController(bool active) => cam.GetComponent<CameraController>().enabled = active;
