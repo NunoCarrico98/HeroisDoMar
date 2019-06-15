@@ -4832,7 +4832,7 @@ MonoBehaviour:
   catchVFX: {fileID: 2533985061937296117}
   spawnVFX: {fileID: 6526006349516294312}
   cooldownVFX: {fileID: 5526799305266252694}
-  idleVFX: {fileID: 0}
+  idleVFX: {fileID: 6187674582114687768}
 --- !u!1 &7192817327109430386
 GameObject:
   m_ObjectHideFlags: 0
@@ -5033,11 +5033,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_HealIdle_01
       objectReference: {fileID: 0}
-    - target: {fileID: 7874419893275468027, guid: 6062c32f27a3bec42b394ac9d9045bca,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7074662134285269387, guid: 6062c32f27a3bec42b394ac9d9045bca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5140,6 +5135,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 123de7a50080892499dc51fa05a37324, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6062c32f27a3bec42b394ac9d9045bca, type: 3}
+--- !u!1 &6187674582114687768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874419893275468027, guid: 6062c32f27a3bec42b394ac9d9045bca,
+    type: 3}
+  m_PrefabInstance: {fileID: 4078156881067834339}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6536616048192782952 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7074662134285269387, guid: 6062c32f27a3bec42b394ac9d9045bca,
