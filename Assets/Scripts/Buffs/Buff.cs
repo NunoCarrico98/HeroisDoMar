@@ -53,6 +53,7 @@ public class Buff : MonoBehaviour
 
 		// Activate Buff
 		yield return new WaitForSeconds(spawnVFXDuration);
+		vfxManager.EnableVFX(idleVFX, true);
 		modelAnim.enabled = true;
 		used = false;
 	}
@@ -63,6 +64,7 @@ public class Buff : MonoBehaviour
 		{
 			used = true;
 
+			vfxManager.EnableVFX(idleVFX, false);
 			vfxManager.EnableVFX(catchVFX, true);
 			ProduceSound();
 
