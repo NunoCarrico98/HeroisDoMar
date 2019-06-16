@@ -364,6 +364,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4867322cf20d67b4793834ccb7537591, type: 2}
+    - target: {fileID: 2300000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1ee561b473dac40b5a6e7760cfd8c5, type: 3}
 --- !u!4 &6332050311093246334 stripped
