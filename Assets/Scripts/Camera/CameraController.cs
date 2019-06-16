@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     private Camera cam;
 
-    private CharacterMovement[] Players;
+    private Hero[] players;
+    private List<Hero> playerList;
 
     [Header("Camera Movement")]
     [SerializeField] private Vector3 offset;
@@ -26,12 +29,13 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-		Players = FindObjectsOfType<CharacterMovement>();
-    }
+		players = FindObjectsOfType<Hero>();
+		playerList = players.ToList();
+	}
 
     private void LateUpdate()
     {
-        if (Players.Length == 0)
+        if (playerList.Count == 0)
             return;
 
         MoveCamera();
@@ -54,27 +58,41 @@ public class CameraController : MonoBehaviour
 
     private Vector3 GetPlayersCenterPoint()
     {
-        if (Players.Length == 1)
-            return Players[0].transform.position;
+        if (playerList.Count == 1)
+            return playerList[0].transform.position;
 
-        Bounds bounds = new Bounds(Players[0].transform.position, Vector3.zero);
+        Bounds bounds = new Bounds(players[0].transform.position, Vector3.zero);
 
-        foreach (CharacterMovement player in Players)
-        {
-            bounds.Encapsulate(player.transform.position);
-        }
+		for(int i = 0; i < playerList.Count; i++)
+		{
+			if (playerList[i].Dead) playerList.Remove(playerList[i]);
+			bounds.Encapsulate(playerList[i].transform.position);
+		}
+
+   //     foreach (Hero player in playerList)
+   //     {
+			//if (!player.Dead)
+			//	bounds.Encapsulate(player.transform.position);
+   //     }
 
         return bounds.center;
     }
 
     private float GetPlayersGreatestDistance()
     {
-        Bounds bounds = new Bounds(Players[0].transform.position, Vector3.zero);
+        Bounds bounds = new Bounds(playerList[0].transform.position, Vector3.zero);
 
-        foreach (CharacterMovement player in Players)
-        {
-            bounds.Encapsulate(player.transform.position);
-        }
+		for (int i = 0; i < playerList.Count; i++)
+		{
+			if (playerList[i].Dead) playerList.Remove(playerList[i]);
+			bounds.Encapsulate(playerList[i].transform.position);
+		}
+
+		//foreach (Hero player in playerList)
+  //      {
+		//	if (!player.Dead)
+		//		bounds.Encapsulate(player.transform.position);
+  //      }
 
         return bounds.size.x + bounds.size.z;
     }

@@ -11,7 +11,6 @@ public class CharacterMovement : MonoBehaviour
 	private Vector2 positionInput;
 	private Vector2 rotationInput;
 	private Vector3 movement;
-	private CharacterController charController;
 	private Animator charAnimator;
 	private Vector3 lastPosition;
 	private float velocity;
@@ -21,6 +20,7 @@ public class CharacterMovement : MonoBehaviour
 
 	private int pNumber;
 
+	public CharacterController CharController { get; private set; }
 	public bool IsMovementAllowed { get; set; }
 	public bool IsSlowed { get; set; }
 	public float MovementSpeed
@@ -31,7 +31,7 @@ public class CharacterMovement : MonoBehaviour
 
 	public void SetupCharacterMovement(int pNumber, Animator charAnimator)
 	{
-		charController = GetComponent<CharacterController>();
+		CharController = GetComponent<CharacterController>();
 		this.charAnimator = charAnimator;
 		this.pNumber = pNumber;
 		IsMovementAllowed = true;
@@ -82,13 +82,13 @@ public class CharacterMovement : MonoBehaviour
 	{
 		float movement = (IsSlowed) ? movementSpeed / 2 : movementSpeed;
         //transform.position += moveInput * movement * Time.deltaTime;
-		charController.Move(moveInput * movement * Time.deltaTime);
+		CharController.Move(moveInput * movement * Time.deltaTime);
 	}
 
 	private void UpdateVerticalPosition()
 	{
 
-		if (charController.isGrounded)
+		if (CharController.isGrounded)
 		{
 			verticalVelocity = 0;
 		}
@@ -98,7 +98,7 @@ public class CharacterMovement : MonoBehaviour
 		}
 
 		verticalMove = new Vector3(0, verticalVelocity, 0);
-		charController.Move(verticalMove * Time.deltaTime);
+		CharController.Move(verticalMove * Time.deltaTime);
 	}
 
 	private void PlayRunningAnimation()

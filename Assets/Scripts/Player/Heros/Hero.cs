@@ -56,6 +56,7 @@ public abstract class Hero : MonoBehaviour
 	public float CurrentHealth { get; set; }
 	public float CurrentShield { get; set; }
 	public float DamageMultiplier { get; set; } = 1;
+	public bool Dead { get; private set; }
 
 	protected abstract void MovementAbility();
     protected abstract void BasicAbility();
@@ -85,6 +86,7 @@ public abstract class Hero : MonoBehaviour
     {
         CurrentHealth = maximumHealth;
         CurrentShield = maximumShield;
+		Dead = false;
 
         basicAbility = false;
         movementAbility = false;
@@ -213,6 +215,8 @@ public abstract class Hero : MonoBehaviour
 
     private void Die()
     {
+		Dead = true;
+		charMovement.CharController.enabled = false;
 		charAnimator.SetTrigger("Dead");
     }
 

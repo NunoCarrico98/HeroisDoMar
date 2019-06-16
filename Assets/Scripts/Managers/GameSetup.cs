@@ -137,7 +137,6 @@ public class GameSetup : MonoBehaviour
 		int player = choosingPlayer - 1;
 		playerState[player] = CharacterSelectState.Chosen;
 		gameManager.Players[player].SetPlayerCharacter(hero);
-		//UpdateCharacterChoiceUI(hero);
 		SetButtonAfterSelection(player);
 	}
 
