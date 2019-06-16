@@ -6420,10 +6420,10 @@ MonoBehaviour:
   playerPrefab: {fileID: 3340973545041763541, guid: 234a4955cb7801c48afb4cdd79ca05ba,
     type: 3}
   initialPositions:
-  - {x: -35, y: 0, z: 35}
-  - {x: 35, y: 0, z: -35}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - {x: -34, y: 1, z: 34}
+  - {x: 34, y: 1, z: -34}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
   initialRotations:
   - {x: 0, y: 135, z: 0, w: 0}
   - {x: 0, y: -45, z: 0, w: 0}

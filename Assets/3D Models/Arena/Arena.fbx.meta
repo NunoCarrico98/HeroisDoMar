@@ -42,6 +42,16 @@ ModelImporter:
     100072: barrel10
     100074: barrel11
     100076: barrel9
+    100078: buffs
+    100080: pCylinder13
+    100082: pCylinder14
+    100084: pCylinder15
+    100086: pCylinder16
+    100088: pCylinder17
+    100090: pCylinder18
+    100092: pCylinder19
+    100094: pCylinder20
+    100096: spawn
     400000: //RootNode
     400002: barrel
     400004: barrel1
@@ -81,6 +91,16 @@ ModelImporter:
     400072: barrel10
     400074: barrel11
     400076: barrel9
+    400078: buffs
+    400080: pCylinder13
+    400082: pCylinder14
+    400084: pCylinder15
+    400086: pCylinder16
+    400088: pCylinder17
+    400090: pCylinder18
+    400092: pCylinder19
+    400094: pCylinder20
+    400096: spawn
     2100000: lambert19
     2100002: lambert21
     2100004: lambert1
@@ -93,6 +113,14 @@ ModelImporter:
     2100018: lambert3
     2100020: lambert22
     2100022: lambert23
+    2100024: lambert24
+    2100026: GREEN1
+    2100028: SAND1
+    2100030: lambert25
+    2100032: LIGHTBROWN1
+    2100034: DARKGREY1
+    2100036: lambert26
+    2100038: lambert27
     2300000: barrel
     2300002: barrel1
     2300004: barrel2
@@ -131,6 +159,14 @@ ModelImporter:
     2300070: barrel10
     2300072: barrel11
     2300074: barrel9
+    2300076: pCylinder13
+    2300078: pCylinder14
+    2300080: pCylinder15
+    2300082: pCylinder16
+    2300084: pCylinder17
+    2300086: pCylinder18
+    2300088: pCylinder19
+    2300090: pCylinder20
     3300000: barrel
     3300002: barrel1
     3300004: barrel2
@@ -169,6 +205,14 @@ ModelImporter:
     3300070: barrel10
     3300072: barrel11
     3300074: barrel9
+    3300076: pCylinder13
+    3300078: pCylinder14
+    3300080: pCylinder15
+    3300082: pCylinder16
+    3300084: pCylinder17
+    3300086: pCylinder18
+    3300088: pCylinder19
+    3300090: pCylinder20
     4300000: barrel2
     4300002: barrel1
     4300004: barrel4
@@ -207,6 +251,14 @@ ModelImporter:
     4300070: barrel9
     4300072: barrel10
     4300074: barrel11
+    4300076: pCylinder19
+    4300078: pCylinder20
+    4300080: pCylinder17
+    4300082: pCylinder18
+    4300084: pCylinder15
+    4300086: pCylinder14
+    4300088: pCylinder13
+    4300090: pCylinder16
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
