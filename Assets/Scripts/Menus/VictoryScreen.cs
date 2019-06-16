@@ -72,6 +72,6 @@ public class VictoryScreen : MonoBehaviour
 	public void ClickMainMenu()
 	{
 		gameManager.GameState = GameState.MainMenu;
-		SceneManager.LoadScene("Main Menu");
+		SceneManager.LoadScene("MainMenu");
 	}
 }

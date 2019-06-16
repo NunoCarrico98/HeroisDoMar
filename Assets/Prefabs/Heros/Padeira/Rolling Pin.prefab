@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7146815878227867884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6342609819761104298}
@@ -45,10 +45,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 10
+  m_Radius: 1.2769036
+  m_Height: 10.0061035
   m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.09239197, y: 0, z: -0.18823361}
 --- !u!114 &3935964482709486471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 40ca9aba580993b4bba8c6fe730de7bd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c806c27c86282334ca6fff84e95a99d0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40ca9aba580993b4bba8c6fe730de7bd, type: 3}
 --- !u!4 &2768590875187923090 stripped
@@ -164,7 +168,7 @@ PrefabInstance:
     - target: {fileID: 9202880186529919943, guid: 3e2a2b32dede1274c9c636eb5f8caebf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1.82
       objectReference: {fileID: 0}
     - target: {fileID: 9202880186529919943, guid: 3e2a2b32dede1274c9c636eb5f8caebf,
         type: 3}
