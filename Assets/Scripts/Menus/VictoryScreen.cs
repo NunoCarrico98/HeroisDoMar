@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,12 +43,14 @@ public class VictoryScreen : MonoBehaviour
 		for (int i = 0; i < players.Count; i++)
 		{
 			if (players[i].Dead) players.RemoveAt(i);
-			if (players.Count == 1) ShowWinScreen(players[0]);
+			if (players.Count == 1) StartCoroutine(ShowWinScreen(players[0]));
 		}
 	}
 
-	private void ShowWinScreen(Hero p)
+	private IEnumerator ShowWinScreen(Hero p)
 	{
+		yield return new WaitForSeconds(0.1f);
+
 		gameManager.GameState = GameState.VictoryScreen;
 		winnerText.text = $"Player {p.PlayerNumber}";
 		winnerImage.sprite = p.VictoryScreenImage;

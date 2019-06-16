@@ -65,8 +65,8 @@ public class CameraController : MonoBehaviour
 
 		for(int i = 0; i < playerList.Count; i++)
 		{
-			if (playerList[i].Dead) playerList.Remove(playerList[i]);
 			bounds.Encapsulate(playerList[i].transform.position);
+			if (playerList[i].Dead) playerList.Remove(playerList[i]);
 		}
 
         return bounds.center;
@@ -78,8 +78,8 @@ public class CameraController : MonoBehaviour
 
 		for (int i = 0; i < playerList.Count; i++)
 		{
-			if (playerList[i].Dead) playerList.Remove(playerList[i]);
 			bounds.Encapsulate(playerList[i].transform.position);
+			if (playerList[i].Dead) playerList.Remove(playerList[i]);
 		}
 
         return bounds.size.x + bounds.size.z;
