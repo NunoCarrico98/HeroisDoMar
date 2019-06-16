@@ -27,12 +27,6 @@ public class CameraController : MonoBehaviour
 		cam = GetComponent<Camera>();
     }
 
-    private void Start()
-    {
-		players = FindObjectsOfType<Hero>();
-		playerList = players.ToList();
-	}
-
     private void LateUpdate()
     {
         if (playerList.Count == 0)
@@ -42,7 +36,13 @@ public class CameraController : MonoBehaviour
         Zoom();
     }
 
-    private void MoveCamera()
+	public void SetupCamera()
+	{
+		players = FindObjectsOfType<Hero>();
+		playerList = players.ToList();
+	}
+
+	private void MoveCamera()
     {
         Vector3 newPosition;
 
@@ -69,12 +69,6 @@ public class CameraController : MonoBehaviour
 			bounds.Encapsulate(playerList[i].transform.position);
 		}
 
-   //     foreach (Hero player in playerList)
-   //     {
-			//if (!player.Dead)
-			//	bounds.Encapsulate(player.transform.position);
-   //     }
-
         return bounds.center;
     }
 
@@ -87,12 +81,6 @@ public class CameraController : MonoBehaviour
 			if (playerList[i].Dead) playerList.Remove(playerList[i]);
 			bounds.Encapsulate(playerList[i].transform.position);
 		}
-
-		//foreach (Hero player in playerList)
-  //      {
-		//	if (!player.Dead)
-		//		bounds.Encapsulate(player.transform.position);
-  //      }
 
         return bounds.size.x + bounds.size.z;
     }

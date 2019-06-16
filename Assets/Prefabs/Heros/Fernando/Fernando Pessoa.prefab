@@ -120,6 +120,7 @@ MonoBehaviour:
   pNumber: 1
   selectionScreenBackground: {fileID: 21300000, guid: e04c73bda475bd84cb18654a3c10c1a9,
     type: 3}
+  victoryScreenImage: {fileID: 21300000, guid: adbe3be164c2b654a9c510b72560039c, type: 3}
   maximumHealth: 100
   maximumShield: 75
   abilityImages:

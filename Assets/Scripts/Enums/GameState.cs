@@ -6,5 +6,6 @@ public enum GameState
 	QuitCheck,
 	CharacterSelect,
 	DropdownMenu,
-	Match
+	Match,
+	VictoryScreen
 }

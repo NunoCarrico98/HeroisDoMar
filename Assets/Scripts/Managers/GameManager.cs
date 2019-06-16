@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +16,7 @@ public class GameManager : MonoBehaviour
 	[Header("Rotations")]
 	[SerializeField] private Quaternion[] initialRotations;
 
-	private CameraSingleton cam;
+	private CameraController cam;
 	private UIManager uiManager;
 
 	public GameState GameState { get; set; }
@@ -35,7 +38,7 @@ public class GameManager : MonoBehaviour
 	{
 		GameManagerSingleton();
 
-		cam = FindObjectOfType<CameraSingleton>();
+		cam = FindObjectOfType<CameraController>();
 		Players = new List<Player>(4);
 	}
 
@@ -69,14 +72,29 @@ public class GameManager : MonoBehaviour
 
 	public void OnLevelLoaded(Scene scene, LoadSceneMode mode)
 	{
-        if (GameState == GameState.Match)
+		if (scene.buildIndex == 2)
         {
             SetupMatch();
-            StartCoroutine(SoundManager.Instance.MusicFadeOut());
+			cam.SetupCamera();
+			ActivateCameraController(true);
+			StartCoroutine(SoundManager.Instance.MusicFadeOut());
+			Players = FindObjectsOfType<Player>().ToList();
         }
 	}
 
-	public void ActivateCameraController(bool active) => cam.GetComponent<CameraController>().enabled = active;
+	public void ReloadMatch()
+	{
+		Players = new List<Player>(4);
+		ActivateCameraController(false);
+		GameState = GameState.Match;
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		SetupMatch();
+		cam.SetupCamera();
+		ActivateCameraController(true);
+		Players = FindObjectsOfType<Player>().ToList();
+	}
+
+	public void ActivateCameraController(bool flag) => cam.enabled = flag;
 
 	public void CreateNewPlayer(int i, Color color) => Players.Add(new Player(i, color));
 }

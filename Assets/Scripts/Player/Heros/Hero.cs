@@ -10,6 +10,7 @@ public abstract class Hero : MonoBehaviour
 
 	[Header("Character Selection Screen Background")]
 	[SerializeField] private Sprite selectionScreenBackground;
+	[SerializeField] private Sprite victoryScreenImage;
 
     [Header("Maximum Health and Shield")]
     [SerializeField] protected float maximumHealth;
@@ -49,6 +50,7 @@ public abstract class Hero : MonoBehaviour
 
     public CharacterMovement CharMovement => charMovement;
 	public Sprite SelectionScreenBackground => selectionScreenBackground;
+	public Sprite VictoryScreenImage => victoryScreenImage;
 	public Sprite[] AbilityImages => abilityImages;
 	public int PlayerNumber => pNumber;
 	public float MaxHealth => maximumHealth;

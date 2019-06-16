@@ -93,13 +93,11 @@ public class Hero_Padeira : Hero
 			{
 				Weapon currentWeapon = weapon1.GetComponent<Weapon>();
 				currentWeapon.Abilities[0] = true;
-				Debug.Log("CHAARGEEE!");
 				charAnimator.SetTrigger("Basic Ability");
 				ResetBA();
 			}
 			else
 			{
-				Debug.Log("BASIC");
 				charAnimator.SetTrigger("Basic Ability");
 				ResetBA();
 			}
@@ -115,7 +113,6 @@ public class Hero_Padeira : Hero
 
 	public void ResetChargeFlamesEffect()
 	{
-		Debug.Log("afnangnoiagobaogiba");
 		vfxManager.EnableVFX(chargeFlamesVFX, false);
 	}
 
