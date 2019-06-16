@@ -213,7 +213,7 @@ public abstract class Hero : MonoBehaviour
 
     private void Die()
     {
-        Destroy(gameObject);
+		charAnimator.SetTrigger("Dead");
     }
 
     public void AllowMovement(bool movement)
