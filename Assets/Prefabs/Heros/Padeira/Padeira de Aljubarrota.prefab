@@ -302,7 +302,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b0a699ec1b0ac4243a5b5c4754772a9b, type: 3}
   - {fileID: 21300000, guid: f0fe2ad8c032db44aacbbef03f951800, type: 3}
   - {fileID: 21300000, guid: de6e6727ce0f45f45acc7e63cef18f81, type: 3}
-  basicAbilityCooldown: 1.1
+  basicAbilityCooldown: 1
   movementAbilityCooldown: 4.5
   otherAbilityCooldown: 15
   ultimateAbilityCooldown: 25
@@ -332,8 +332,8 @@ MonoBehaviour:
     type: 3}
   stunVFX: {fileID: 771163610006472643, guid: 21b1e3cc4f5d92c4f9e9cb5c74286db3, type: 3}
   stunYOffset: 1.2
-  rollDistance: 20
-  rollSpeed: 8.5
+  rollDistance: 25
+  rollSpeed: 11
   stunDuration: 1
   floorDamage: 3
   floorDamageInterval: 0.5
@@ -500,8 +500,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.0000000218497, y: 0, z: -0.000000037252903}
-    m_Extent: {x: 1.7183962, y: 0.96209717, z: 1.718374}
+    m_Center: {x: 0.022476738, y: -0.015726447, z: -0.0061067864}
+    m_Extent: {x: 1.6775489, y: 0.9778247, z: 1.6775264}
   m_DirtyAABB: 0
 --- !u!183 &222688128264749933
 Cloth:

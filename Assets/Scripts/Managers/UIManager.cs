@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
 	[Header("Player Stats")]
 	[SerializeField] private Image[] healthBars;
+	[SerializeField] private Image[] healthRedBars;
 	[SerializeField] private Image[] shieldBars;
+	[SerializeField] private Image[] shieldRedBars;
 
 	[Header("Player Character Image")]
 	[SerializeField] private Image[]  playerCharacterImage;
@@ -24,7 +27,9 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Image[] ultimateUICooldownPanel;
 
 	public Image[] HealthBars => healthBars;
+	public Image[] HealthRedBars => healthRedBars;
 	public Image[] ShieldBars => shieldBars;
+	public Image[] ShieldRedBars => shieldRedBars;
 	public Image[] BasicUICooldownPanel => basicUICooldownPanel;
 	public Image[] MovementUICooldownPanel => movementUICooldownPanel;
 	public Image[] SecondaryAbilityUICooldownPanel => secondaryAbilityUICooldownPanel;
@@ -45,10 +50,14 @@ public class UIManager : MonoBehaviour
 		bar.rectTransform.localScale = new Vector3(1, ratio, 1);
 	}
 
-	public void SetXBarSize(Image bar, float currentStat, float maxStat)
+	public void ResetYBarSize(Image bar) => bar.rectTransform.localScale = new Vector3(1, 1, 1);
+
+	public void SetXBarSize(Image bar, Image redBar, float currentStat, float maxStat)
 	{
 		float ratio = currentStat / maxStat;
-		bar.rectTransform.localScale = new Vector3(ratio, 1, 1);
+		Sequence reduceBars = DOTween.Sequence();
+		reduceBars.Append(bar.transform.DOScaleX(ratio, 0.2f))
+			.Append(redBar.transform.DOScaleX(ratio, 1f));
 	}
 
 	public void ResetBar(Image bar) => bar.rectTransform.localScale = new Vector3(1, 1, 1);

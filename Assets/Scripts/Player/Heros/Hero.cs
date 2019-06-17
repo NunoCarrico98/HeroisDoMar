@@ -155,6 +155,7 @@ public abstract class Hero : MonoBehaviour
 
     private IEnumerator AbilityCooldown(string abilityName, float cooldown, Image cooldownPanel)
     {
+		uiManager.ResetYBarSize(cooldownPanel);
         for (float i = cooldown; i > 0; i -= 0.1f)
         {
 			uiManager.SetYBarSize(cooldownPanel, i, cooldown);
@@ -182,14 +183,16 @@ public abstract class Hero : MonoBehaviour
 	{
 		CurrentHealth += amount;
 		if (CurrentHealth > maximumHealth) CurrentHealth = maximumHealth;
-		uiManager.SetXBarSize(uiManager.HealthBars[PlayerNumber - 1], CurrentHealth, maximumHealth);
+		uiManager.SetXBarSize(uiManager.HealthBars[PlayerNumber - 1], 
+			uiManager.HealthRedBars[PlayerNumber - 1], CurrentHealth, maximumHealth);
 	}
 
 	public void HealShield(float amount)
 	{
 		CurrentShield += amount;
 		if (CurrentShield > maximumShield) CurrentShield = maximumShield;
-		uiManager.SetXBarSize(uiManager.ShieldBars[pNumber - 1], CurrentShield, maximumShield);
+		uiManager.SetXBarSize(uiManager.ShieldBars[pNumber - 1],
+			uiManager.ShieldRedBars[PlayerNumber - 1], CurrentShield, maximumShield);
 	}
 
     public void OnAnimationEnded(int n)
@@ -263,8 +266,10 @@ public abstract class Hero : MonoBehaviour
         }
 
 		// Set Health Bar
-        uiManager.SetXBarSize(uiManager.HealthBars[pNumber - 1], CurrentHealth, maximumHealth);
+        uiManager.SetXBarSize(uiManager.HealthBars[pNumber - 1], 
+			uiManager.HealthRedBars[PlayerNumber - 1],CurrentHealth, maximumHealth);
 		// Set Shield Bar
-        uiManager.SetXBarSize(uiManager.ShieldBars[pNumber - 1], CurrentShield, maximumShield);
+        uiManager.SetXBarSize(uiManager.ShieldBars[pNumber - 1], 
+			uiManager.ShieldRedBars[PlayerNumber - 1], CurrentShield, maximumShield);
     }
 }
