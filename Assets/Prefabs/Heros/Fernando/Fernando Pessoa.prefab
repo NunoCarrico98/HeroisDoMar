@@ -129,7 +129,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e02137006ad00c247843176248dfcdfd, type: 3}
   - {fileID: 21300000, guid: 694bb7a787d31754f982e439a5753a91, type: 3}
   - {fileID: 21300000, guid: 58bc9039d4f71e74895a7ba7dfba9c47, type: 3}
-  basicAbilityCooldown: 0
+  basicAbilityCooldown: 0.3
   movementAbilityCooldown: 10
   otherAbilityCooldown: 15
   ultimateAbilityCooldown: 25

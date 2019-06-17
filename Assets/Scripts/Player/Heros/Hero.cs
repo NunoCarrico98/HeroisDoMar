@@ -156,6 +156,7 @@ public abstract class Hero : MonoBehaviour
     private IEnumerator AbilityCooldown(string abilityName, float cooldown, Image cooldownPanel)
     {
 		uiManager.ResetYBarSize(cooldownPanel);
+
         for (float i = cooldown; i > 0; i -= 0.1f)
         {
 			uiManager.SetYBarSize(cooldownPanel, i, cooldown);
