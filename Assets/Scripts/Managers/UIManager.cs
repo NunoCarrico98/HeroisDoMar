@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private Image[] healthBars;
 	[SerializeField] private Image[] shieldBars;
 
+	[Header("Player Character Image")]
+	[SerializeField] private Image[]  playerCharacterImage;
+
 	[Header("Abilities Images")]
 	[SerializeField] private Image[] basicAbilitySpot;
 	[SerializeField] private Image[] movementAbilitySpot;
@@ -27,8 +30,9 @@ public class UIManager : MonoBehaviour
 	public Image[] SecondaryAbilityUICooldownPanel => secondaryAbilityUICooldownPanel;
 	public Image[] UltimateUICooldownPanel => ultimateUICooldownPanel;
 
-	public void SetupCanvas(int pNumber, Sprite[] image)
+	public void SetupCanvas(int pNumber, Sprite characterImage, Sprite[] image)
 	{
+		playerCharacterImage[pNumber].sprite = characterImage;
 		basicAbilitySpot[pNumber].sprite = image[0];
 		movementAbilitySpot[pNumber].sprite = image[1];
 		secondaryAbilitySpot[pNumber].sprite = image[2];

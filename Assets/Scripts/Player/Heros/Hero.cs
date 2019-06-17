@@ -8,7 +8,8 @@ public abstract class Hero : MonoBehaviour
     [Header("Player number")]
     [SerializeField] private int pNumber;
 
-	[Header("Character Selection Screen Background")]
+	[Header("Character Images")]
+	[SerializeField] private Sprite characterImage;
 	[SerializeField] private Sprite selectionScreenBackground;
 	[SerializeField] private Sprite victoryScreenImage;
 
@@ -74,7 +75,7 @@ public abstract class Hero : MonoBehaviour
 		charMovement = GetComponent<CharacterMovement>();
 		CharMovement.SetupCharacterMovement(pNumber, charAnimator);
 		transform.Find("playerRing").GetComponent<MeshRenderer>().material.color = color;
-		uiManager.SetupCanvas(pNumber - 1, abilityImages);
+		uiManager.SetupCanvas(pNumber - 1, characterImage ,abilityImages);
 	}
 
 	private void Awake()
