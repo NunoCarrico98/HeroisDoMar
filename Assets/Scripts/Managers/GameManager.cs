@@ -55,6 +55,18 @@ public class GameManager : MonoBehaviour
 		GameState = GameState.MainMenu;
 	}
 
+	private void Update()
+	{
+		CheckForBackInput(1);
+	}
+
+	private void CheckForBackInput(int pNumber)
+	{
+		if (InputManager.GetButtonDown(pNumber, "Cancel"))
+			if(GameState == GameState.CharacterSelect)
+				SceneManager.LoadScene("MainMenu");
+	}
+
 	private void SetupMatch()
 	{
 		uiManager = FindObjectOfType<UIManager>();
