@@ -92,11 +92,12 @@ public class GameManager : MonoBehaviour
 			StartCoroutine(SoundManager.Instance.MusicPartialFadeOut(20f));
 			Players = FindObjectsOfType<Player>().ToList();
         }
+		else ResetPlayerList();
 	}
 
 	public void ReloadMatch()
 	{
-		Players = new List<Player>(4);
+		ResetPlayerList();
 		ActivateCameraController(false);
 		GameState = GameState.Match;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -105,6 +106,8 @@ public class GameManager : MonoBehaviour
 		ActivateCameraController(true);
 		Players = FindObjectsOfType<Player>().ToList();
 	}
+
+	private void ResetPlayerList() => Players = new List<Player>(4);
 
 	public void ActivateCameraController(bool flag) => cam.enabled = flag;
 
