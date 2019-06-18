@@ -5,6 +5,7 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private float damage;
     [SerializeField] private bool isResetAfterHit;
+    [SerializeField] private AudioClip hitSFX;
 
     [Header("Hit VFX")]
     [SerializeField] private GameObject hitVFX;
@@ -43,9 +44,11 @@ public class Weapon : MonoBehaviour
 
                 if (other.gameObject.tag == "Player" || other.gameObject.tag == "Decoy")
                 {
+                    if (hitSFX != null)
+                        SoundManager.Instance.PlaySFX(hitSFX);
                     float damageMultiplier = WeaponHolder.DamageMultiplier;
-					other.gameObject.SendMessage("TakeDamage", new float[] { damage * damageMultiplier, WeaponHolder.PlayerNumber });
-					vfxManager.InstantiateVFXWithYOffset(hitVFX, other.transform, 2f, hitYOffset);
+                    other.gameObject.SendMessage("TakeDamage", new float[] { damage * damageMultiplier, WeaponHolder.PlayerNumber });
+                    vfxManager.InstantiateVFXWithYOffset(hitVFX, other.transform, 2f, hitYOffset);
                 }
 
                 //else if (other.gameObject.tag == "Decoy")

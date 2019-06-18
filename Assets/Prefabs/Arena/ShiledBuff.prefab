@@ -165,6 +165,7 @@ MonoBehaviour:
   spawnVFX: {fileID: 760522543162773820}
   cooldownVFX: {fileID: 1494735895806610492}
   idleVFX: {fileID: 859457948681708639}
+  catchSFX: {fileID: 8300000, guid: 89acf16ab0be2b74392b2d9fc4ba9733, type: 3}
 --- !u!1001 &3622487133283871320
 PrefabInstance:
   m_ObjectHideFlags: 0

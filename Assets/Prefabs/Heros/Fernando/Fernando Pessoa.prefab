@@ -146,10 +146,12 @@ MonoBehaviour:
   secondsUntilSeekingTargetMA: 2
   targetRadius: 10
   delayForSwitch: 0.1
+  switchPositionSFX: {fileID: 8300000, guid: 76932bdfc017bcb4db0cc389d9cd6cf5, type: 3}
   speedBuffVFX: {fileID: 3072713497587495567, guid: 5a1aa08e28ab42c459d5d6d6e9a5eb20,
     type: 3}
   moveSpeedIncreaseOA: 3
   durationOA: 5
+  speedBoostVFX: {fileID: 8300000, guid: fdbd442c47bf97141884bd1b696f4cea, type: 3}
   decoyUA: {fileID: 5976701139815356864, guid: bfc1fb17fdc7fc94da758dd5ab9158d2, type: 3}
   decoyLifetimeUA: 10
   decoyHealthUA: 30
@@ -228,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 15
   isResetAfterHit: 0
+  hitSFX: {fileID: 8300000, guid: 4a465a22132f4bd4cb4b1549fbe8276e, type: 3}
   hitVFX: {fileID: 5077566070216338563, guid: 8a34221fccb696942b1ab33238ba5796, type: 3}
   hitYOffset: 1.2
 --- !u!1001 &5603483907985523165

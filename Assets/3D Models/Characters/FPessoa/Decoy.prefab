@@ -44,6 +44,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 15
   isResetAfterHit: 0
+  hitSFX: {fileID: 0}
   hitVFX: {fileID: 5077566070216338563, guid: 8a34221fccb696942b1ab33238ba5796, type: 3}
   hitYOffset: 1.2
 --- !u!95 &1177688892202549963
@@ -152,6 +153,8 @@ MonoBehaviour:
     type: 3}
   explosionYOffset: 1.2
   vanishVFX: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac, type: 3}
+  explosionSFX: {fileID: 8300000, guid: 44f1f553288b8b74aa4cbd034c09cccf, type: 3}
+  vanishSFX: {fileID: 8300000, guid: 76932bdfc017bcb4db0cc389d9cd6cf5, type: 3}
   type: 0
 --- !u!54 &5413400232951929088
 Rigidbody:

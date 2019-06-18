@@ -63,6 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   isResetAfterHit: 0
+  hitSFX: {fileID: 8300000, guid: c9fdbfc9fa367eb44b7f30900ef06052, type: 3}
   hitVFX: {fileID: 5077566070216338563, guid: 6f874db6df5e7344e91b7afbc80f794e, type: 3}
   hitYOffset: 1.2
 --- !u!54 &7494404212963573838

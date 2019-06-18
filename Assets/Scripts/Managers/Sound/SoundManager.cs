@@ -22,9 +22,16 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        sfxSource.clip = clip;
+        sfxSource.PlayOneShot(clip);
+    }
 
-        sfxSource.Play();
+    public void PlaySFX(AudioClip clip, float volume)
+    {
+        volume = Mathf.Clamp(volume, 0, 100);
+        volume /= 100;
+        sfxSource.volume = volume;
+
+        sfxSource.PlayOneShot(clip);
     }
 
     public IEnumerator MusicFadeOut()
@@ -37,5 +44,19 @@ public class SoundManager : MonoBehaviour
         }
         musicSource.Stop();
         musicSource.volume = startVolume;
+    }
+
+    public IEnumerator MusicPartialFadeOut(float finalVolume)
+    {
+        float startVolume = musicSource.volume;
+        finalVolume = Mathf.Clamp(finalVolume, 0, 100);
+        finalVolume /= 100;
+        Debug.Log(finalVolume);
+
+        while (musicSource.volume > finalVolume)
+        {
+            musicSource.volume -= startVolume * Time.deltaTime / fadeTime;
+            yield return null;
+        }
     }
 }

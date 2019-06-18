@@ -11,6 +11,7 @@ public class Buff : MonoBehaviour
 	[SerializeField] private GameObject spawnVFX;
 	[SerializeField] private GameObject cooldownVFX;
 	[SerializeField] private GameObject idleVFX;
+    [SerializeField] private AudioClip catchSFX;
 
 	private bool used;
 	private float catchVFXDuration;
@@ -35,7 +36,8 @@ public class Buff : MonoBehaviour
 
 	private void ProduceSound()
 	{
-		// Produce Sound
+        if (catchSFX != null)
+            SoundManager.Instance.PlaySFX(catchSFX, 50f);
 	}
 
 	private IEnumerator ManageBuff()

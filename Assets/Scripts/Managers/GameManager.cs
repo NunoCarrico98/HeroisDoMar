@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
             SetupMatch();
 			cam.SetupCamera();
 			ActivateCameraController(true);
-			StartCoroutine(SoundManager.Instance.MusicFadeOut());
+			StartCoroutine(SoundManager.Instance.MusicPartialFadeOut(20f));
 			Players = FindObjectsOfType<Player>().ToList();
         }
 	}

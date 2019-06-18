@@ -75,6 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   isResetAfterHit: 0
+  hitSFX: {fileID: 8300000, guid: c9fdbfc9fa367eb44b7f30900ef06052, type: 3}
   hitVFX: {fileID: 5077566070216338563, guid: 6f874db6df5e7344e91b7afbc80f794e, type: 3}
   hitYOffset: 1.2
 --- !u!1 &1664502146190805179
@@ -184,6 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   isResetAfterHit: 0
+  hitSFX: {fileID: 0}
   hitVFX: {fileID: 5077566070216338563, guid: 6f874db6df5e7344e91b7afbc80f794e, type: 3}
   hitYOffset: 1.2
 --- !u!54 &1664502146190805153
@@ -314,6 +316,7 @@ MonoBehaviour:
   flamesDamage: 3
   chargeTimeRequired: 3
   chargeExtraDamage: 10
+  chargeSFX: {fileID: 8300000, guid: 7de526c13196143418b2026fc9c05e96, type: 3}
   MALandVFX: {fileID: 3930313402592066148, guid: c359e48398a8c3a4585094b8b8f7dec4,
     type: 3}
   jumpDistance: 15
@@ -324,8 +327,10 @@ MonoBehaviour:
   damageMA: 5
   slowDownTimeMA: 3
   vfxDuration: 3
+  leapLandSFX: {fileID: 8300000, guid: 394714ab2a125444483edac3195e4239, type: 3}
   healVFX: {fileID: 6332623069803483944}
   healValue: 20
+  healSFX: {fileID: 8300000, guid: ac00e5a05a0d91049b866a54480d9627, type: 3}
   rollingPin: {fileID: 7146815878227867884, guid: e4331086da3aaff448debefb3c42e759,
     type: 3}
   burningGroundVFX: {fileID: 7250513659164871983, guid: 6cd16add80d73a3458edcac8ee23ca23,
@@ -500,8 +505,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.022476738, y: -0.015726447, z: -0.0061067864}
-    m_Extent: {x: 1.6775489, y: 0.9778247, z: 1.6775264}
+    m_Center: {x: 0.0000000218497, y: 0, z: -0.000000037252903}
+    m_Extent: {x: 1.7183962, y: 0.96209717, z: 1.718374}
   m_DirtyAABB: 0
 --- !u!183 &222688128264749933
 Cloth:

@@ -4833,6 +4833,7 @@ MonoBehaviour:
   spawnVFX: {fileID: 6526006349516294312}
   cooldownVFX: {fileID: 5526799305266252694}
   idleVFX: {fileID: 6187674582114687768}
+  catchSFX: {fileID: 8300000, guid: 89acf16ab0be2b74392b2d9fc4ba9733, type: 3}
 --- !u!1 &7192817327109430386
 GameObject:
   m_ObjectHideFlags: 0

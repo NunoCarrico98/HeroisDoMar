@@ -18,11 +18,13 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float secondsUntilSeekingTargetMA;
     [SerializeField] private float targetRadius;
     [SerializeField] private float delayForSwitch;
+    [SerializeField] private AudioClip switchPositionSFX;
 
     [Header("Other Ability")]
     [SerializeField] private GameObject speedBuffVFX;
     [SerializeField] private float moveSpeedIncreaseOA;
     [SerializeField] private float durationOA;
+    [SerializeField] private AudioClip speedBoostVFX;
 
     [Header("Ultimate Ability")]
     [SerializeField] private GameObject decoyUA;
@@ -143,6 +145,9 @@ public class Hero_FernandoPessoa : Hero
                 Instantiate(switchPositionVFX, transform.position, transform.rotation);
                 Instantiate(switchPositionVFX, decoy.transform.position, decoy.transform.rotation);
 
+                if (switchPositionSFX != null)
+                    SoundManager.Instance.PlaySFX(switchPositionSFX);
+
                 decoy.AllowMovement(false);
                 AllowMovement(false);
 
@@ -167,6 +172,8 @@ public class Hero_FernandoPessoa : Hero
     protected override void OtherAbility()
     {
         otherAbility = false;
+        if (speedBoostVFX != null)
+            SoundManager.Instance.PlaySFX(speedBoostVFX);
         StartCoroutine(TimerOA());
     }
 

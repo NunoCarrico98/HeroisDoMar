@@ -9,6 +9,8 @@ public class DecoyController : MonoBehaviour
     [SerializeField] private GameObject explosionVFX;
     [SerializeField] private float explosionYOffset;
     [SerializeField] private GameObject vanishVFX;
+    [SerializeField] private AudioClip explosionSFX;
+    [SerializeField] private AudioClip vanishSFX;
 
     private int pNumber;
     private float decoyLifetime;
@@ -137,7 +139,7 @@ public class DecoyController : MonoBehaviour
             PlayRunningAnimation(false);
 
         if (timeElapsed >= decoyLifetime)
-            DestroyDecoy(vanishVFX);
+            DestroyDecoy(vanishVFX, vanishSFX);
     }
 
     public void WarpTo(Vector3 position)
@@ -161,7 +163,7 @@ public class DecoyController : MonoBehaviour
         else
         {
             ApplyAOEDamage();
-            DestroyDecoy(explosionVFX);
+            DestroyDecoy(explosionVFX, explosionSFX);
         }
 
         timeElapsed += Time.deltaTime;
@@ -177,7 +179,7 @@ public class DecoyController : MonoBehaviour
             if (weaponHolderNum == pNumber)
             {
                 ApplyAOEDamage();
-                DestroyDecoy(explosionVFX);
+                DestroyDecoy(explosionVFX, explosionSFX);
             }
             else
             {
@@ -185,7 +187,7 @@ public class DecoyController : MonoBehaviour
 
                 if (health <= 0)
                 {
-                    DestroyDecoy(vanishVFX);
+                    DestroyDecoy(vanishVFX, vanishSFX);
                 }
             }
         }
@@ -194,7 +196,7 @@ public class DecoyController : MonoBehaviour
             if (weaponHolderNum == pNumber)
             {
                 ApplyAOEDamage();
-                DestroyDecoy(explosionVFX);
+                DestroyDecoy(explosionVFX, explosionSFX);
             }
             else
             {
@@ -203,7 +205,7 @@ public class DecoyController : MonoBehaviour
                 if (health <= 0)
                 {
                     ApplyAOEDamage();
-                    DestroyDecoy(explosionVFX);
+                    DestroyDecoy(explosionVFX, explosionSFX);
                 }
             }
         }
@@ -212,7 +214,7 @@ public class DecoyController : MonoBehaviour
     public void Suicide()
     {
         ApplyAOEDamage();
-        DestroyDecoy(explosionVFX);
+        DestroyDecoy(explosionVFX, explosionSFX);
     }
 
     public void ApplyAOEDamage()
@@ -244,8 +246,10 @@ public class DecoyController : MonoBehaviour
         }
     }
 
-    public void DestroyDecoy(GameObject vfx)
+    public void DestroyDecoy(GameObject vfx, AudioClip sfx)
     {
+        if (sfx != null)
+            SoundManager.Instance.PlaySFX(sfx);
         vfxManager.InstantiateVFXWithYOffset(vfx, transform, 5f, explosionYOffset);
         //Instantiate(vfx, transform.position, transform.rotation);
         Destroy(gameObject);
