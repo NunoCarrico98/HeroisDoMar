@@ -198,15 +198,18 @@ public abstract class Hero : MonoBehaviour
 
     public void OnAnimationEnded(int n)
     {
+        Weapon weapon = weapon1.GetComponent<Weapon>();
         switch (n)
         {
             case 1:
                 charAnimator.SetBool("Basic Ability", false);
                 SetAttackMode(0);
+                weapon.Abilities[0] = false;
                 break;
             case 2:
                 charAnimator.SetBool("Movement Ability", false);
                 SetAttackMode(0);
+                weapon.Abilities[1] = false;
                 break;
         }
     }

@@ -505,6 +505,8 @@ MonoBehaviour:
   floorDamage: 3
   floorDamageInterval: 0.5
   floorDamageDuration: 10
+  rollingPinSFX: {fileID: 8300000, guid: f2aa4f3f8e9168a4489305573c86726d, type: 3}
+  burningFloorSFX: {fileID: 0}
 --- !u!114 &1122469422037995428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,8 +669,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.000000029802322, y: 0, z: -0.00000010430813}
-    m_Extent: {x: 1.3183349, y: 1.1779258, z: 1.1411985}
+    m_Center: {x: 0.022403726, y: -0.016250134, z: -0.0051979274}
+    m_Extent: {x: 1.6754028, y: 0.9783485, z: 1.6753802}
   m_DirtyAABB: 0
 --- !u!183 &222688128264749933
 Cloth:

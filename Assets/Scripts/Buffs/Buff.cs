@@ -60,7 +60,7 @@ public class Buff : MonoBehaviour
 		used = false;
 	}
 
-	protected void OnTriggerStay(Collider other)
+	protected void OnTriggerEnter(Collider other)
 	{
 		if(other.tag == "Player" && !used)
 		{

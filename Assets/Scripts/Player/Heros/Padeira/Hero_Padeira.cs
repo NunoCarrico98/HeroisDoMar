@@ -42,6 +42,8 @@ public class Hero_Padeira : Hero
     [SerializeField] private float floorDamage;
     [SerializeField] private float floorDamageInterval;
     [SerializeField] private float floorDamageDuration;
+    [SerializeField] private AudioClip rollingPinSFX;
+    [SerializeField] private AudioClip burningFloorSFX;
 
     // Basic Ability
     private bool attackflagBA;
@@ -272,6 +274,9 @@ public class Hero_Padeira : Hero
             startPosUA = rollPin.transform.position;
 
             rollDuration = (rollDistance / rollSpeed);
+
+            if (rollingPinSFX != null)
+                SoundManager.Instance.PlaySFX(rollingPinSFX);
             attackFlagUA = true;
         }
 
