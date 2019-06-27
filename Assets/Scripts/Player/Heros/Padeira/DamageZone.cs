@@ -65,7 +65,7 @@ public class DamageZone : MonoBehaviour
     private IEnumerator Timer()
     {
         float timeElapsed = 0;
-
+    
         while (timeElapsed < damageDuration)
         {
             timeElapsed += Time.deltaTime;

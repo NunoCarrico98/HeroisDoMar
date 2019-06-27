@@ -7,6 +7,8 @@ public class Hero_FernandoPessoa : Hero
     [Header("Basic Ability")]
     [SerializeField] private float distanceBA;
     [SerializeField] private float durationForwardBA;
+    [SerializeField] private AudioClip boomerangForwardSFX;
+    [SerializeField] private AudioClip boomerangBackSFX;
 
     [Header("Movement Ability")]
     [SerializeField] private GameObject decoyMA;
@@ -76,6 +78,8 @@ public class Hero_FernandoPessoa : Hero
     {
         if (!attackFlagBA)
         {
+            if (boomerangForwardSFX != null)
+                SoundManager.Instance.PlaySFX(boomerangForwardSFX);
             isComingBack = false;
 
             boomerang = Instantiate(weapon1, weapon1.transform.position, weapon1.transform.rotation, transform);
@@ -95,6 +99,9 @@ public class Hero_FernandoPessoa : Hero
             isComingBack = true;
             timeElapsedBA = 0;
             startingPosition = boomerang.transform.position;
+            /*
+            if (boomerangBackSFX != null)
+                SoundManager.Instance.PlaySFX(boomerangBackSFX); */
         }
 
         if (isComingBack && Vector3.Distance(boomerang.transform.position, weapon1.transform.position) < 0.2f)

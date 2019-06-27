@@ -13,6 +13,8 @@ public class Hero_Padeira : Hero
     [SerializeField] private float chargeTimeRequired;
     [SerializeField] private float chargeExtraDamage;
     [SerializeField] private AudioClip chargeSFX;
+    [SerializeField] private AudioClip chargeFlamesSFX;
+    [SerializeField] private AudioClip battleGruntSFX;
 
     [Header("Movement Ability")]
     [SerializeField] private GameObject MALandVFX;
@@ -101,6 +103,8 @@ public class Hero_Padeira : Hero
         }
         if (Input.GetButtonUp($"P{PlayerNumber} BA"))
         {
+            if (battleGruntSFX != null)
+                SoundManager.Instance.PlaySFX(battleGruntSFX);
             if (canUseCharge)
             {
                 Weapon currentWeapon = weapon1.GetComponent<Weapon>();
@@ -139,6 +143,9 @@ public class Hero_Padeira : Hero
 
     private IEnumerator SetOnFlames(Transform other)
     {
+        if (chargeFlamesSFX != null)
+            SoundManager.Instance.PlaySFX(chargeFlamesSFX);
+
         float timeElapsed = 0;
         float lastDamage = 0;
         GameObject flames = null;
@@ -313,6 +320,9 @@ public class Hero_Padeira : Hero
     {
         if (other != null)
             StartCoroutine(Stun(other));
+
+        if (burningFloorSFX != null)
+            SoundManager.Instance.PlaySFX(burningFloorSFX);
     }
 
     private IEnumerator Stun(Transform other)

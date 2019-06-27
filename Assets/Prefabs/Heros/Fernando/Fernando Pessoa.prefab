@@ -136,6 +136,8 @@ MonoBehaviour:
   weapon1: {fileID: 4659039099434831791}
   distanceBA: 16
   durationForwardBA: 0.7
+  boomerangForwardSFX: {fileID: 8300000, guid: 4f5c7ad906af0da45b2b9c6a4d0451ab, type: 3}
+  boomerangBackSFX: {fileID: 8300000, guid: 463f058dee554b44ca7628fa1214c421, type: 3}
   decoyMA: {fileID: 5976701139815356864, guid: bfc1fb17fdc7fc94da758dd5ab9158d2, type: 3}
   switchPositionVFX: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac,
     type: 3}

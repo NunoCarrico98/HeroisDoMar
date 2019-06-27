@@ -479,6 +479,8 @@ MonoBehaviour:
   chargeTimeRequired: 3
   chargeExtraDamage: 10
   chargeSFX: {fileID: 8300000, guid: 7de526c13196143418b2026fc9c05e96, type: 3}
+  chargeFlamesSFX: {fileID: 8300000, guid: e4ca883d47eccae4fbf33d23f61247f4, type: 3}
+  battleGruntSFX: {fileID: 8300000, guid: 30f189f6860d2234ea3534248192eb34, type: 3}
   MALandVFX: {fileID: 3930313402592066148, guid: c359e48398a8c3a4585094b8b8f7dec4,
     type: 3}
   jumpDistance: 15
@@ -506,7 +508,7 @@ MonoBehaviour:
   floorDamageInterval: 0.5
   floorDamageDuration: 10
   rollingPinSFX: {fileID: 8300000, guid: f2aa4f3f8e9168a4489305573c86726d, type: 3}
-  burningFloorSFX: {fileID: 0}
+  burningFloorSFX: {fileID: 8300000, guid: 4195ddfe1a50b854786a85ee8805d39c, type: 3}
 --- !u!114 &1122469422037995428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,8 +671,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.022403726, y: -0.016250134, z: -0.0051979274}
-    m_Extent: {x: 1.6754028, y: 0.9783485, z: 1.6753802}
+    m_Center: {x: 0.0000000218497, y: 0, z: -0.000000037252903}
+    m_Extent: {x: 1.7183962, y: 0.96209717, z: 1.718374}
   m_DirtyAABB: 0
 --- !u!183 &222688128264749933
 Cloth:
