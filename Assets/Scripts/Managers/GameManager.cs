@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VR;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,7 +39,6 @@ public class GameManager : MonoBehaviour
 	{
 		GameManagerSingleton();
 
-		cam = FindObjectOfType<CameraController>();
 		Players = new List<Player>(4);
 	}
 
@@ -53,11 +53,18 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		GameState = GameState.MainMenu;
+		//DisableMouse();
 	}
 
 	private void Update()
 	{
 		CheckForBackInput(1);
+	}
+
+	private void DisableMouse()
+	{
+		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	private void CheckForBackInput(int pNumber)
@@ -80,17 +87,17 @@ public class GameManager : MonoBehaviour
 			p.SetupPlayer(Players[i].PlayerNumber, Players[i].PlayerHero, Players[i].Color);
 			hero.GetComponent<Hero>().SetupHero(p.PlayerNumber, p.Color);
 		}
+
+		Players = FindObjectsOfType<Player>().ToList();
 	}
 
 	public void OnLevelLoaded(Scene scene, LoadSceneMode mode)
 	{
 		if (scene.buildIndex == 2)
-        {
+        {	
             SetupMatch();
-			cam.SetupCamera();
-			ActivateCameraController(true);
+			SetupGameCamera();
 			StartCoroutine(SoundManager.Instance.MusicPartialFadeOut(20f));
-			Players = FindObjectsOfType<Player>().ToList();
         }
 		else ResetPlayerList();
 	}
@@ -102,9 +109,14 @@ public class GameManager : MonoBehaviour
 		GameState = GameState.Match;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		SetupMatch();
+		SetupGameCamera();
+	}
+
+	private void SetupGameCamera()
+	{
+		cam = Camera.main.GetComponent<CameraController>();
 		cam.SetupCamera();
 		ActivateCameraController(true);
-		Players = FindObjectsOfType<Player>().ToList();
 	}
 
 	private void ResetPlayerList() => Players = new List<Player>(4);

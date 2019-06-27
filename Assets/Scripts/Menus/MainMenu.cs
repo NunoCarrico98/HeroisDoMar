@@ -50,17 +50,6 @@ public class MainMenu : MonoBehaviour
 		gameManager = GameManager.Instance;
 	}
 
-	private void Start()
-	{
-		DisableMouse();
-	}
-
-	private void DisableMouse()
-	{
-		Cursor.visible = false;
-		Cursor.lockState = CursorLockMode.Locked;
-	}
-
 	void Update()
 	{
 		CheckSelectedButton();
