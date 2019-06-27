@@ -37,7 +37,7 @@ public class Buff : MonoBehaviour
 	private void ProduceSound()
 	{
         if (catchSFX != null)
-            SoundManager.Instance.PlaySFX(catchSFX, 50f);
+            SoundManager.Instance.PlaySFX(catchSFX, 70f);
 	}
 
 	private IEnumerator ManageBuff()

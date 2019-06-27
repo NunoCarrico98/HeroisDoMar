@@ -89,6 +89,7 @@ public class PauseMenu : MonoBehaviour
 	{
 		gameManager.ActivateCameraController(false);
 		Time.timeScale = 1;
+        gameManager.GameState = GameState.MainMenu;
 		SceneManager.LoadScene("MainMenu");
 	}
 
