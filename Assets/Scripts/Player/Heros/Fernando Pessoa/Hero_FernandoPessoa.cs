@@ -220,11 +220,13 @@ public class Hero_FernandoPessoa : Hero
 
         if (InputManager.GetButtonDown(PlayerNumber, "UA") && timeElapsedUA > 0.1f)
         {
+            StartCoroutine(DominoBlowUp());
+            /*
             foreach (DecoyController dc in decoyList)
                 if (dc != null)
                     dc.Suicide();
 
-            ResetUA();
+            ResetUA(); */
         }
 
         if (timeElapsedUA > decoyLifetimeUA)
@@ -240,6 +242,18 @@ public class Hero_FernandoPessoa : Hero
         ultimateAbility = false;
         attackFlagUA = false;
         timeElapsedUA = 0;
+    }
+
+    private IEnumerator DominoBlowUp()
+    {
+        foreach (DecoyController dc in decoyList)
+        {
+            if (dc != null)
+                dc.Suicide();
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        ResetUA();
     }
 
     private IEnumerator TimerOA()
