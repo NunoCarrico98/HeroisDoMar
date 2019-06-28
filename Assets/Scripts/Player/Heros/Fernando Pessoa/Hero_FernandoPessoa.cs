@@ -36,6 +36,9 @@ public class Hero_FernandoPessoa : Hero
     [SerializeField] private float explosionDamageUA;
     [SerializeField] private int numberOfDecoys;
 
+    [Header("Common to some habilities")]
+    [SerializeField] private AudioClip decoySpawnSFX;
+
     // Basic Ability - Boomerang
     private Collider boomerang;
     private Vector3 startingPosition;
@@ -132,6 +135,9 @@ public class Hero_FernandoPessoa : Hero
                 explosionDamage: explosionDamageMA, secondsForTarget: secondsUntilSeekingTargetMA,
                 vfxManager: vfxManager, type: DecoyController.DecoyType.MovementDecoy);
 
+            if (decoySpawnSFX != null)
+                SoundManager.Instance.PlaySFX(decoySpawnSFX);
+
             attackFlagMA = true;
         }
         timeElapsedMA += Time.deltaTime;
@@ -211,6 +217,9 @@ public class Hero_FernandoPessoa : Hero
             // Gonna need this in the future for Domino Blow Up
             //foreach (DecoyController dc in decoyList)
             //dc.FindAllyDecoys();
+
+            if (decoySpawnSFX != null)
+                SoundManager.Instance.PlaySFX(decoySpawnSFX);
 
             attackFlagUA = true;
         }

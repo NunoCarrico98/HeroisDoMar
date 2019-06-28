@@ -155,6 +155,7 @@ MonoBehaviour:
   vanishVFX: {fileID: 1000011128802252, guid: 5651f227caa787349ad7eb8359e7cbac, type: 3}
   explosionSFX: {fileID: 8300000, guid: 44f1f553288b8b74aa4cbd034c09cccf, type: 3}
   vanishSFX: {fileID: 8300000, guid: 76932bdfc017bcb4db0cc389d9cd6cf5, type: 3}
+  decoySpawnSFX: {fileID: 8300000, guid: 7b20353947dcee947acababa53e34272, type: 3}
   type: 0
 --- !u!54 &5413400232951929088
 Rigidbody:

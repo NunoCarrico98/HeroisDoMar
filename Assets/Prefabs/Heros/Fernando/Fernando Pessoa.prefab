@@ -160,6 +160,7 @@ MonoBehaviour:
   explosionRadiusUA: 5
   explosionDamageUA: 15
   numberOfDecoys: 10
+  decoySpawnSFX: {fileID: 8300000, guid: 7b20353947dcee947acababa53e34272, type: 3}
 --- !u!114 &5044442356754547836
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -480,7 +480,7 @@ MonoBehaviour:
   chargeExtraDamage: 10
   chargeSFX: {fileID: 8300000, guid: 7de526c13196143418b2026fc9c05e96, type: 3}
   chargeFlamesSFX: {fileID: 8300000, guid: e4ca883d47eccae4fbf33d23f61247f4, type: 3}
-  battleGruntSFX: {fileID: 8300000, guid: 30f189f6860d2234ea3534248192eb34, type: 3}
+  battleGruntBASFX: {fileID: 8300000, guid: 30f189f6860d2234ea3534248192eb34, type: 3}
   MALandVFX: {fileID: 3930313402592066148, guid: c359e48398a8c3a4585094b8b8f7dec4,
     type: 3}
   jumpDistance: 15
@@ -492,6 +492,7 @@ MonoBehaviour:
   slowDownTimeMA: 3
   vfxDuration: 3
   leapLandSFX: {fileID: 8300000, guid: 394714ab2a125444483edac3195e4239, type: 3}
+  battleGruntMASFX: {fileID: 8300000, guid: b25479ee4590d784d80b35fd44715484, type: 3}
   healVFX: {fileID: 6332623069803483944}
   healValue: 20
   healSFX: {fileID: 8300000, guid: ac00e5a05a0d91049b866a54480d9627, type: 3}
@@ -671,8 +672,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.0000000218497, y: 0, z: -0.000000037252903}
-    m_Extent: {x: 1.7183962, y: 0.96209717, z: 1.718374}
+    m_Center: {x: 0.022677684, y: -0.016116023, z: -0.005074188}
+    m_Extent: {x: 1.6763405, y: 0.9782142, z: 1.6763179}
   m_DirtyAABB: 0
 --- !u!183 &222688128264749933
 Cloth:

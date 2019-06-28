@@ -14,7 +14,7 @@ public class Hero_Padeira : Hero
     [SerializeField] private float chargeExtraDamage;
     [SerializeField] private AudioClip chargeSFX;
     [SerializeField] private AudioClip chargeFlamesSFX;
-    [SerializeField] private AudioClip battleGruntSFX;
+    [SerializeField] private AudioClip battleGruntBASFX;
 
     [Header("Movement Ability")]
     [SerializeField] private GameObject MALandVFX;
@@ -27,6 +27,7 @@ public class Hero_Padeira : Hero
     [SerializeField] private float slowDownTimeMA;
     [SerializeField] private float vfxDuration;
     [SerializeField] private AudioClip leapLandSFX;
+    [SerializeField] private AudioClip battleGruntMASFX;
 
     [Header("Other Ability")]
     [SerializeField] private GameObject healVFX;
@@ -103,8 +104,8 @@ public class Hero_Padeira : Hero
         }
         if (Input.GetButtonUp($"P{PlayerNumber} BA"))
         {
-            if (battleGruntSFX != null)
-                SoundManager.Instance.PlaySFX(battleGruntSFX);
+            if (battleGruntBASFX != null)
+                SoundManager.Instance.PlaySFX(battleGruntBASFX);
             if (canUseCharge)
             {
                 Weapon currentWeapon = weapon1.GetComponent<Weapon>();
@@ -177,6 +178,9 @@ public class Hero_Padeira : Hero
     {
         if (!attackFlagMA)
         {
+            if (battleGruntMASFX != null)
+                SoundManager.Instance.PlaySFX(battleGruntMASFX);
+
             attackFlagMA = true;
             charAnimator.SetBool("Movement Ability", movementAbility);
             StartCoroutine(LeapTowards());
